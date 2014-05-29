@@ -6,6 +6,7 @@
     <string name="action_bar_load">Load</string>
     <string name="action_bar_save">Save</string>
     <string name="action_bar_reset">Reset</string>
+    <string name="action_bar_share">Share to</string>
     <string name="action_bar_save_dialog_title">Name</string>
     <string name="action_bar_load_dialog_title">Select a file</string>
     <string name="ok">@android:string/ok</string>
@@ -16,5 +17,7 @@
     <string name="saved_data_list_item_confirm_dialog">Do you want to delete file </string>
     <string name="none_saved_data_hint">There are no data saved!</string>
     <string name="data_saved_success_hint">Data saved!</string>
+    <string name="share_text">Sharing my board from Coach board in Android!</string>
+    <string name="share_title">Coach board!</string>
 
 </resources>

@@ -1,4 +1,3 @@
-
 package com.bj4.yhh.coachboard;
 
 import org.json.JSONObject;
@@ -16,99 +15,118 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 
 public class PlayGroundFragment extends Fragment {
-    private PlayGround mPlayGround;
+	private PlayGround mPlayGround;
 
-    private RelativeLayout mContentView;
+	private RelativeLayout mContentView;
 
-    private int mPlayGroundResource;
+	private int mPlayGroundResource;
 
-    private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
+	private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
 
-    public PlayGroundFragment() {
-    }
+	public PlayGroundFragment() {
+	}
 
-    public PlayGroundFragment(Context context, int playGroundResource) {
-        LayoutInflater inflater = (LayoutInflater)context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        setPlayGround(playGroundResource);
-        mContentView = (RelativeLayout)inflater.inflate(R.layout.play_ground_fragment, null);
-        initComponents();
-    }
+	public PlayGroundFragment(Context context, int playGroundResource) {
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		setPlayGround(playGroundResource);
+		mContentView = (RelativeLayout) inflater.inflate(
+				R.layout.play_ground_fragment, null);
+		initComponents();
+	}
 
-    public void erasePen() {
-        if (mPlayGround != null) {
-            mPlayGround.erasePen();
-        }
-    }
+	public void sharePlayGround() {
+		if (mPlayGround != null) {
+			mPlayGround.sharePlayGround();
+		}
+	}
 
-    public void restoreData(JSONObject jObject) {
-        if (mPlayGround != null) {
-            mPlayGround.restoreData(jObject);
-        }
-    }
+	public void erasePen() {
+		if (mPlayGround != null) {
+			mPlayGround.erasePen();
+		}
+	}
 
-    public String saveData(String title) {
-        if (mPlayGround != null) {
-            mPlayGround.saveData(title);
-        }
-        return null;
-    }
+	public void restoreData(JSONObject jObject) {
+		if (mPlayGround != null) {
+			mPlayGround.restoreData(jObject);
+		}
+	}
 
-    public void resetAll() {
-        if (mPlayGround != null) {
-            mPlayGround.resetAll();
-        }
-    }
+	public String saveData(String title) {
+		if (mPlayGround != null) {
+			mPlayGround.saveData(title);
+		}
+		return null;
+	}
 
-    public void setPlayGround(int res) {
-        mPlayGroundResource = res;
-    }
+	public void resetAll() {
+		if (mPlayGround != null) {
+			mPlayGround.resetAll();
+		}
+	}
 
-    private void initComponents() {
-        if (mContentView != null) {
-            mPlayGround = (PlayGround)mContentView.findViewById(R.id.playground);
-            mPlayGround.setBackgroundResource(mPlayGroundResource);
-            mRedTeamCb = (CheckBox)mContentView.findViewById(R.id.playground_red_cb);
-            mBlueTeamCb = (CheckBox)mContentView.findViewById(R.id.playground_blue_cb);
-            mBallCb = (CheckBox)mContentView.findViewById(R.id.playground_ball_cb);
-            mPenCb = (CheckBox)mContentView.findViewById(R.id.playground_pen_cb);
-            mRedTeamCb.setChecked(true);
-            mBlueTeamCb.setChecked(true);
-            mBallCb.setChecked(true);
-            mPenCb.setChecked(true);
-            mRedTeamCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	public void setPlayGround(int res) {
+		mPlayGroundResource = res;
+	}
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setRedTeamVisiblity(isChecked);
-                }
-            });
-            mBlueTeamCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	private void initComponents() {
+		if (mContentView != null) {
+			mPlayGround = (PlayGround) mContentView
+					.findViewById(R.id.playground);
+			mPlayGround.setBackgroundResource(mPlayGroundResource);
+			mRedTeamCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_red_cb);
+			mBlueTeamCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_blue_cb);
+			mBallCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_ball_cb);
+			mPenCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_pen_cb);
+			mRedTeamCb.setChecked(true);
+			mBlueTeamCb.setChecked(true);
+			mBallCb.setChecked(true);
+			mPenCb.setChecked(true);
+			mRedTeamCb
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setBlueTeamVisiblity(isChecked);
-                }
-            });
-            mBallCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							mPlayGround.setRedTeamVisiblity(isChecked);
+						}
+					});
+			mBlueTeamCb
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setBallVisiblity(isChecked);
-                }
-            });
-            mPenCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							mPlayGround.setBlueTeamVisiblity(isChecked);
+						}
+					});
+			mBallCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setPenVisiblity(isChecked);
-                }
-            });
-        }
-    }
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					mPlayGround.setBallVisiblity(isChecked);
+				}
+			});
+			mPenCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return mContentView;
-    }
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					mPlayGround.setPenVisiblity(isChecked);
+				}
+			});
+		}
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return mContentView;
+	}
 }

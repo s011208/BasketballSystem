@@ -6,6 +6,7 @@
     <string name="action_bar_load">讀取</string>
     <string name="action_bar_save">儲存</string>
     <string name="action_bar_reset">重置</string>
+    <string name="action_bar_share">分享給</string>
     <string name="action_bar_save_dialog_title">戰術名稱</string>
     <string name="action_bar_load_dialog_title">選擇一個戰術</string>
     <string name="ok">@android:string/ok</string>
@@ -16,5 +17,7 @@
     <string name="saved_data_list_item_confirm_dialog">確定要刪除</string>
     <string name="none_saved_data_hint">尚未儲存任何戰術</string>
     <string name="data_saved_success_hint">戰術儲存成功</string>
+    <string name="share_text">分享我的戰術板經由 Android 籃球戰術板!</string>
+    <string name="share_title">籃球戰術板!</string>
 
 </resources>

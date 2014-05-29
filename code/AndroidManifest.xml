@@ -8,11 +8,18 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
+        android:backupAgent="com.bj4.yhh.coachboard.Bj4BackupAgent"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAIv-qX-Y7BRODEp33oPkVN2ZUhEfMVUfowOZT-dg" />
+
         <activity
             android:name="com.bj4.yhh.coachboard.MainActivity"
             android:label="@string/app_name"
