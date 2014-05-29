@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bj4.yhh.coachboard"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="com.bj4.yhh.coachboard.basketball"
+    android:versionCode="3"
+    android:versionName="1.2" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.backup.api_key"
-            android:value="AEdPqrEAAAAIv-qX-Y7BRODEp33oPkVN2ZUhEfMVUfowOZT-dg" />
+            android:value="AEdPqrEAAAAIXXj_ElLI4YNf3rnh40_fHnw_HmBLFsHem7C_jw" />
 
         <activity
             android:name="com.bj4.yhh.coachboard.MainActivity"

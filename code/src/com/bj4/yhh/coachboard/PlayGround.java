@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bj4.yhh.coachboard.basketball.R;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -84,6 +86,9 @@ public class PlayGround extends FrameLayout {
 		mRunPaint.setColor(Color.WHITE);
 		mRunPaint.setStyle(Paint.Style.FILL);
 		mRunPaint.setStrokeWidth(5);
+		if (MainActivity.sCurrentSportType == MainActivity.SPORT_TYPE_BASKETBALL) {
+			setPlayerPerTeam(5);
+		}
 		resetAll();
 	}
 
@@ -129,7 +134,7 @@ public class PlayGround extends FrameLayout {
 		// team1
 		for (int i = 0; i < mPlayerPerTeam; i++) {
 			MovableItem player = new MovableItem(mContext);
-			player.setImageResource(R.drawable.blue_team);
+			player.setImageResource(R.drawable.team_blue);
 			player.setScaleType(ScaleType.CENTER_INSIDE);
 			player.setPadding(playerPadding, playerPadding, playerPadding,
 					playerPadding);
@@ -143,7 +148,7 @@ public class PlayGround extends FrameLayout {
 		// team2
 		for (int i = 0; i < mPlayerPerTeam; i++) {
 			MovableItem player = new MovableItem(mContext);
-			player.setImageResource(R.drawable.red_team);
+			player.setImageResource(R.drawable.team_red);
 			player.setScaleType(ScaleType.CENTER_INSIDE);
 			player.setPadding(playerPadding, playerPadding, playerPadding,
 					playerPadding);
@@ -156,7 +161,7 @@ public class PlayGround extends FrameLayout {
 		}
 		// ball
 		mBall = new MovableItem(mContext);
-		mBall.setImageResource(R.drawable.ball);
+		mBall.setImageResource(R.drawable.basketball_ball);
 		mBall.setScaleType(ScaleType.CENTER_INSIDE);
 		mBall.setPadding(playerPadding, playerPadding, playerPadding,
 				playerPadding);
@@ -349,8 +354,10 @@ public class PlayGround extends FrameLayout {
 		}
 		final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		intent.putExtra(Intent.EXTRA_STREAM, fileUri);
-		intent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.share_text));
-		intent.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.share_title));
+		intent.putExtra(Intent.EXTRA_TEXT,
+				mContext.getString(R.string.share_text));
+		intent.putExtra(Intent.EXTRA_SUBJECT,
+				mContext.getString(R.string.share_title));
 		intent.setType("image/png");
 		mContext.startActivity(intent);
 	}

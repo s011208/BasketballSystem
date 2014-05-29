@@ -30,7 +30,7 @@
                 android:layout_gravity="center"
                 android:padding="2dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/red_team" />
+                android:src="@drawable/team_red" />
 
             <CheckBox
                 android:id="@+id/playground_blue_cb"
@@ -44,7 +44,7 @@
                 android:layout_gravity="center"
                 android:padding="2dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/blue_team" />
+                android:src="@drawable/team_blue" />
 
             <CheckBox
                 android:id="@+id/playground_ball_cb"
@@ -58,7 +58,7 @@
                 android:layout_gravity="center"
                 android:padding="2dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ball" />
+                android:src="@drawable/basketball_ball" />
 
             <CheckBox
                 android:id="@+id/playground_pen_cb"

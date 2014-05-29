@@ -7,6 +7,8 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bj4.yhh.coachboard.basketball.R;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -47,6 +49,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
 	private int mCurrentFragment = TAB_FULLGROUND;
 
+	public static final int SPORT_TYPE_BASKETBALL = 0;
+
+	public static int sCurrentSportType = SPORT_TYPE_BASKETBALL;
+
 	private Fragment getCurrentFragment() {
 		switch (mCurrentFragment) {
 		case TAB_FULLGROUND:
@@ -69,7 +75,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 	private synchronized PlayGroundFragment getFullGround() {
 		if (mFullGround == null) {
 			mFullGround = new PlayGroundFragment(this,
-					R.drawable.full_play_ground);
+					R.drawable.basketball_full_play_ground);
 		}
 		return mFullGround;
 	}
@@ -77,7 +83,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 	private synchronized PlayGroundFragment getHalfGround() {
 		if (mHalfGround == null) {
 			mHalfGround = new PlayGroundFragment(this,
-					R.drawable.half_play_ground);
+					R.drawable.basketball_half_play_ground);
 		}
 		return mHalfGround;
 	}
@@ -111,6 +117,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 			menu.getItem(1).setVisible(false);
 			menu.getItem(2).setVisible(false);
 			menu.getItem(3).setVisible(false);
+			menu.getItem(4).setVisible(false);
 		}
 		return true;
 	}
@@ -192,7 +199,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 			}
 		} else {
 		}
-
+		
 		return super.onOptionsItemSelected(item);
 	}
 

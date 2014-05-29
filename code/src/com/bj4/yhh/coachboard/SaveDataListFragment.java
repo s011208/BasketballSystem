@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bj4.yhh.coachboard.basketball.R;
+
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;

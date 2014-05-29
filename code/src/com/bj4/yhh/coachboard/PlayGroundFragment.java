@@ -2,6 +2,8 @@ package com.bj4.yhh.coachboard;
 
 import org.json.JSONObject;
 
+import com.bj4.yhh.coachboard.basketball.R;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;

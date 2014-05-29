@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.bj4.yhh.coachboard;
+package com.bj4.yhh.coachboard.basketball;
 
 public final class R {
     public static final class attr {
@@ -30,13 +30,13 @@ public final class R {
         public static final int saved_data_list_item_title_textsize=0x7f040006;
     }
     public static final class drawable {
-        public static final int ball=0x7f020000;
-        public static final int blue_team=0x7f020001;
-        public static final int full_play_ground=0x7f020002;
-        public static final int half_play_ground=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int pen=0x7f020005;
-        public static final int red_team=0x7f020006;
+        public static final int basketball_ball=0x7f020000;
+        public static final int basketball_full_play_ground=0x7f020001;
+        public static final int basketball_half_play_ground=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int pen=0x7f020004;
+        public static final int team_blue=0x7f020005;
+        public static final int team_red=0x7f020006;
     }
     public static final class id {
         public static final int action_erase=0x7f08000c;
