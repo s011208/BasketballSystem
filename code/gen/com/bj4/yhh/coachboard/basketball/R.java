@@ -35,8 +35,9 @@ public final class R {
         public static final int basketball_half_play_ground=0x7f020002;
         public static final int ic_launcher=0x7f020003;
         public static final int pen=0x7f020004;
-        public static final int team_blue=0x7f020005;
-        public static final int team_red=0x7f020006;
+        public static final int replay=0x7f020005;
+        public static final int team_blue=0x7f020006;
+        public static final int team_red=0x7f020007;
     }
     public static final class id {
         public static final int action_erase=0x7f08000c;
