@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Coach Board</string>
+    <string name="app_name">Basketball Coach Board</string>
     <string name="action_bar_erase">Erase</string>
     <string name="action_bar_load">Load</string>
     <string name="action_bar_save">Save</string>
@@ -12,5 +12,9 @@
     <string name="cancel">@android:string/cancel</string>
     <string name="tab_full_ground">Full ground</string>
     <string name="tab_half_ground">Half ground</string>
+    <string name="tab_save_data">Saved data</string>
+    <string name="saved_data_list_item_confirm_dialog">Do you want to delete file </string>
+    <string name="none_saved_data_hint">There are no data saved!</string>
+    <string name="data_saved_success_hint">Data saved!</string>
 
 </resources>

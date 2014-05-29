@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">籃球戰術板</string>
+    <string name="action_bar_erase">清除路線</string>
+    <string name="action_bar_load">讀取</string>
+    <string name="action_bar_save">儲存</string>
+    <string name="action_bar_reset">重置</string>
+    <string name="action_bar_save_dialog_title">戰術名稱</string>
+    <string name="action_bar_load_dialog_title">選擇一個戰術</string>
+    <string name="ok">@android:string/ok</string>
+    <string name="cancel">@android:string/cancel</string>
+    <string name="tab_full_ground">全場</string>
+    <string name="tab_half_ground">半場</string>
+    <string name="tab_save_data">儲存的戰術</string>
+    <string name="saved_data_list_item_confirm_dialog">確定要刪除</string>
+    <string name="none_saved_data_hint">尚未儲存任何戰術</string>
+    <string name="data_saved_success_hint">戰術儲存成功</string>
+
+</resources>

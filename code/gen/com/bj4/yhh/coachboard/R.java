@@ -11,6 +11,9 @@ public final class R {
     public static final class attr {
     }
     public static final class dimen {
+        /**  Default screen margins, per the Android Design guidelines. 
+ Default screen margins, per the Android Design guidelines. 
+         */
         public static final int action_bar_movable_item_w_and_h=0x7f040003;
         /**  Default screen margins, per the Android Design guidelines. 
 
@@ -23,6 +26,8 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
         public static final int movable_item_padding=0x7f040004;
         public static final int movable_item_w_and_h=0x7f040002;
+        public static final int saved_data_list_item_height=0x7f040005;
+        public static final int saved_data_list_item_title_textsize=0x7f040006;
     }
     public static final class drawable {
         public static final int ball=0x7f020000;
@@ -34,10 +39,10 @@ public final class R {
         public static final int red_team=0x7f020006;
     }
     public static final class id {
-        public static final int action_erase=0x7f08000a;
-        public static final int action_load=0x7f08000d;
-        public static final int action_reset=0x7f08000b;
-        public static final int action_save=0x7f08000c;
+        public static final int action_erase=0x7f08000c;
+        public static final int action_load=0x7f08000f;
+        public static final int action_reset=0x7f08000d;
+        public static final int action_save=0x7f08000e;
         public static final int banner=0x7f080000;
         public static final int fragment_main=0x7f080001;
         public static final int playground=0x7f080009;
@@ -48,10 +53,14 @@ public final class R {
         public static final int playground_pen_cb=0x7f080007;
         public static final int playground_red_cb=0x7f080004;
         public static final int playground_sep=0x7f080008;
+        public static final int saved_data_list_item_title=0x7f08000b;
+        public static final int saved_data_list_view=0x7f08000a;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int play_ground_fragment=0x7f030001;
+        public static final int saved_data_list_fragment=0x7f030002;
+        public static final int saved_data_list_item=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f070000;
@@ -65,9 +74,13 @@ public final class R {
         public static final int action_bar_save_dialog_title=0x7f050005;
         public static final int app_name=0x7f050000;
         public static final int cancel=0x7f050008;
+        public static final int data_saved_success_hint=0x7f05000e;
+        public static final int none_saved_data_hint=0x7f05000d;
         public static final int ok=0x7f050007;
+        public static final int saved_data_list_item_confirm_dialog=0x7f05000c;
         public static final int tab_full_ground=0x7f050009;
         public static final int tab_half_ground=0x7f05000a;
+        public static final int tab_save_data=0x7f05000b;
     }
     public static final class style {
         /** 

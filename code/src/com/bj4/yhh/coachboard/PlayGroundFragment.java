@@ -24,6 +24,9 @@ public class PlayGroundFragment extends Fragment {
 
     private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
 
+    public PlayGroundFragment() {
+    }
+
     public PlayGroundFragment(Context context, int playGroundResource) {
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
