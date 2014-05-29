@@ -23,6 +23,22 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     private PlayGroundFragment mFullGround, mHalfGround;
 
+    private static final int TAB_FULLGROUND = 0;
+
+    private static final int TAB_HALFGROUND = 1;
+
+    private int mCurrentFragment = TAB_FULLGROUND;
+
+    private PlayGroundFragment getCurrentPlayGroundFragment() {
+        switch (mCurrentFragment) {
+            case TAB_FULLGROUND:
+                return getFullGround();
+            case TAB_HALFGROUND:
+                return getHalfGround();
+        }
+        return null;
+    }
+
     private synchronized PlayGroundFragment getFullGround() {
         if (mFullGround == null) {
             mFullGround = new PlayGroundFragment();
@@ -51,9 +67,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        actionBar.addTab(actionBar.newTab().setText(R.string.tab_full_ground).setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText(R.string.tab_half_ground).setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText(R.string.tab_full_ground).setTabListener(this),
+                TAB_FULLGROUND);
+        actionBar.addTab(actionBar.newTab().setText(R.string.tab_half_ground).setTabListener(this),
+                TAB_HALFGROUND);
     }
 
     @Override
@@ -74,14 +91,15 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         int position = tab.getPosition();
-        switch(position){
-            case 0:
+        switch (position) {
+            case TAB_FULLGROUND:
                 fragmentTransaction.replace(R.id.fragment_main, getFullGround());
                 break;
-            case 1:
+            case TAB_HALFGROUND:
                 fragmentTransaction.replace(R.id.fragment_main, getHalfGround());
                 break;
         }
+        mCurrentFragment = position;
     }
 
     @Override

@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playground_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bj4.yhh.coachboard.MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/playground_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#30000000"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/playground_red_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:layout_width="@dimen/movable_item_w_and_h"
+                android:layout_height="@dimen/movable_item_w_and_h"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/red_team" />
+
+            <CheckBox
+                android:id="@+id/playground_blue_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:layout_width="@dimen/movable_item_w_and_h"
+                android:layout_height="@dimen/movable_item_w_and_h"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/blue_team" />
+
+            <CheckBox
+                android:id="@+id/playground_ball_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:layout_width="@dimen/movable_item_w_and_h"
+                android:layout_height="@dimen/movable_item_w_and_h"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ball" />
+
+            <CheckBox
+                android:id="@+id/playground_pen_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:layout_width="@dimen/movable_item_w_and_h"
+                android:layout_height="@dimen/movable_item_w_and_h"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/pen" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/playground_sep"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/playground_options"
+        android:background="#000000" />
+
+    <com.bj4.yhh.coachboard.PlayGround
+        android:id="@+id/playground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/playground_sep" >
+    </com.bj4.yhh.coachboard.PlayGround>
+
+</RelativeLayout>
