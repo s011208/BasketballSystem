@@ -1,22 +1,34 @@
 
 package com.bj4.yhh.coachboard;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
@@ -41,16 +53,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     private synchronized PlayGroundFragment getFullGround() {
         if (mFullGround == null) {
-            mFullGround = new PlayGroundFragment();
-            mFullGround.setPlayGround(R.drawable.full_play_ground);
+            mFullGround = new PlayGroundFragment(this, R.drawable.full_play_ground);
         }
         return mFullGround;
     }
 
     private synchronized PlayGroundFragment getHalfGround() {
         if (mHalfGround == null) {
-            mHalfGround = new PlayGroundFragment();
-            mHalfGround.setPlayGround(R.drawable.half_playground);
+            mHalfGround = new PlayGroundFragment(this, R.drawable.half_play_ground);
         }
         return mHalfGround;
     }
@@ -82,8 +92,55 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_erase:
+                getCurrentPlayGroundFragment().erasePen();
+                break;
+            case R.id.action_load:
+                ArrayList<String> itemTitle = new ArrayList<String>();
+                final ArrayList<JSONObject> itemJList = new ArrayList<JSONObject>();
+                final File[] fileList = getFilesDir().listFiles();
+                for (File f : fileList) {
+                    String data = PlayGround.readFromFile(f.getAbsolutePath());
+                    try {
+                        JSONObject j = new JSONObject(data);
+                        itemTitle.add(j.getString(PlayGround.JSON_KEY_TITLE));
+                        itemJList.add(j);
+                    } catch (JSONException e) {
+                        Log.w("QQQQ", "failed", e);
+                    }
+                }
+                String[] title = itemTitle.toArray(new String[0]);
+                new AlertDialog.Builder(new ContextThemeWrapper(this,
+                        android.R.style.Theme_DeviceDefault_Dialog))
+                        .setTitle(R.string.action_bar_load_dialog_title)
+                        .setItems(title, new OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getCurrentPlayGroundFragment().restoreData(itemJList.get(which));
+                            }
+                        }).setNegativeButton(R.string.cancel, null).setCancelable(true).show();
+
+                break;
+            case R.id.action_save:
+                final EditText titleEditText = new EditText(this);
+                new AlertDialog.Builder(new ContextThemeWrapper(this,
+                        android.R.style.Theme_DeviceDefault_Dialog))
+                        .setTitle(R.string.action_bar_save_dialog_title)
+                        .setIcon(android.R.drawable.ic_dialog_info).setView(titleEditText)
+                        .setPositiveButton(R.string.ok, new OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getCurrentPlayGroundFragment().saveData(
+                                        titleEditText.getText().toString());
+                            }
+                        }).setNegativeButton(R.string.cancel, null).setCancelable(true).show();
+                break;
+            case R.id.action_reset:
+                getCurrentPlayGroundFragment().resetAll();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

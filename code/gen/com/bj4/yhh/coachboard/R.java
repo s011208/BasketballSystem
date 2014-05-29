@@ -11,6 +11,7 @@ public final class R {
     public static final class attr {
     }
     public static final class dimen {
+        public static final int action_bar_movable_item_w_and_h=0x7f040003;
         /**  Default screen margins, per the Android Design guidelines. 
 
          Example customization of dimensions originally defined in res/values/dimens.xml
@@ -20,19 +21,23 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f040000;
         public static final int activity_vertical_margin=0x7f040001;
+        public static final int movable_item_padding=0x7f040004;
         public static final int movable_item_w_and_h=0x7f040002;
     }
     public static final class drawable {
         public static final int ball=0x7f020000;
         public static final int blue_team=0x7f020001;
         public static final int full_play_ground=0x7f020002;
-        public static final int half_playground=0x7f020003;
+        public static final int half_play_ground=0x7f020003;
         public static final int ic_launcher=0x7f020004;
         public static final int pen=0x7f020005;
         public static final int red_team=0x7f020006;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000a;
+        public static final int action_erase=0x7f08000a;
+        public static final int action_load=0x7f08000d;
+        public static final int action_reset=0x7f08000b;
+        public static final int action_save=0x7f08000c;
         public static final int banner=0x7f080000;
         public static final int fragment_main=0x7f080001;
         public static final int playground=0x7f080009;
@@ -52,10 +57,17 @@ public final class R {
         public static final int main=0x7f070000;
     }
     public static final class string {
-        public static final int action_settings=0x7f050001;
+        public static final int action_bar_erase=0x7f050001;
+        public static final int action_bar_load=0x7f050002;
+        public static final int action_bar_load_dialog_title=0x7f050006;
+        public static final int action_bar_reset=0x7f050004;
+        public static final int action_bar_save=0x7f050003;
+        public static final int action_bar_save_dialog_title=0x7f050005;
         public static final int app_name=0x7f050000;
-        public static final int tab_full_ground=0x7f050002;
-        public static final int tab_half_ground=0x7f050003;
+        public static final int cancel=0x7f050008;
+        public static final int ok=0x7f050007;
+        public static final int tab_full_ground=0x7f050009;
+        public static final int tab_half_ground=0x7f05000a;
     }
     public static final class style {
         /** 

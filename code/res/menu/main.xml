@@ -3,9 +3,24 @@
     tools:context="com.bj4.yhh.coachboard.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_erase"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_bar_erase"/>
+    <item
+        android:id="@+id/action_reset"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_bar_reset"/>
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_bar_save"/>
+    <item
+        android:id="@+id/action_load"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_bar_load"/>
 
 </menu>

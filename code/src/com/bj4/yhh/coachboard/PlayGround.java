@@ -1,8 +1,20 @@
 
 package com.bj4.yhh.coachboard;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -16,13 +28,29 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
 public class PlayGround extends FrameLayout {
+    private static final String JSON_KEY_TEAM_BLUE = "json_team_blue";
+
+    private static final String JSON_KEY_TEAM_RED = "json_team_red";
+
+    private static final String JSON_KEY_BALL = "json_ball";
+
+    private static final String JSON_KEY_PEN = "json_pen";
+
+    private static final String JSON_KEY_X = "json_x";
+
+    private static final String JSON_KEY_Y = "json_y";
+
+    public static final String JSON_KEY_TITLE = "title";
+
     private int mPlayerPerTeam = 5;
 
     private Context mContext;
 
-    private ArrayList<MovableItem> mTeam1, mTeam2;
+    private ArrayList<MovableItem> mTeamBlue, mTeamRed;
 
     private MovableItem mBall;
 
@@ -49,23 +77,23 @@ public class PlayGround extends FrameLayout {
         mRunPaint.setColor(Color.WHITE);
         mRunPaint.setStyle(Paint.Style.FILL);
         mRunPaint.setStrokeWidth(5);
-        resetPlayer();
+        resetAll();
     }
 
     public void setBlueTeamVisiblity(boolean isChecked) {
-        if (mTeam1 == null) {
+        if (mTeamBlue == null) {
             return;
         }
-        for (View v : mTeam1) {
+        for (View v : mTeamBlue) {
             v.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
     public void setRedTeamVisiblity(boolean isChecked) {
-        if (mTeam2 == null) {
+        if (mTeamRed == null) {
             return;
         }
-        for (View v : mTeam2) {
+        for (View v : mTeamRed) {
             v.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
         }
     }
@@ -82,37 +110,167 @@ public class PlayGround extends FrameLayout {
         invalidate();
     }
 
-    public void resetPlayer() {
+    public void resetAll() {
         removeAllViews();
-        mTeam1 = new ArrayList<MovableItem>();
-        mTeam2 = new ArrayList<MovableItem>();
+        erasePen();
+        mTeamBlue = new ArrayList<MovableItem>();
+        mTeamRed = new ArrayList<MovableItem>();
         int playerWandH = (int)mContext.getResources().getDimension(R.dimen.movable_item_w_and_h);
+        int playerPadding = (int)mContext.getResources().getDimension(R.dimen.movable_item_padding);
         // team1
         for (int i = 0; i < mPlayerPerTeam; i++) {
             MovableItem player = new MovableItem(mContext);
-            player.setBackgroundResource(R.drawable.blue_team);
+            player.setImageResource(R.drawable.blue_team);
+            player.setScaleType(ScaleType.CENTER_INSIDE);
+            player.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
             FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
             fl.topMargin = playerWandH;
             fl.leftMargin = i * playerWandH;
             addView(player, fl);
-            mTeam1.add(player);
+            mTeamBlue.add(player);
         }
         // team2
         for (int i = 0; i < mPlayerPerTeam; i++) {
             MovableItem player = new MovableItem(mContext);
-            player.setBackgroundResource(R.drawable.red_team);
+            player.setImageResource(R.drawable.red_team);
+            player.setScaleType(ScaleType.CENTER_INSIDE);
+            player.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
             FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
             fl.leftMargin = i * playerWandH;
             fl.topMargin = playerWandH * 3;
             addView(player, fl);
-            mTeam2.add(player);
+            mTeamRed.add(player);
         }
         // ball
         mBall = new MovableItem(mContext);
-        mBall.setBackgroundResource(R.drawable.ball);
+        mBall.setImageResource(R.drawable.ball);
+        mBall.setScaleType(ScaleType.CENTER_INSIDE);
+        mBall.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
         FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
         fl.topMargin = playerWandH * 5;
         addView(mBall, fl);
+    }
+
+    public String saveData(String title) {
+        JSONObject jSaveData = new JSONObject();
+        try {
+            // team blue
+            JSONArray jTeamBlue = new JSONArray();
+            for (View v : mTeamBlue) {
+                JSONObject j = new JSONObject();
+                j.put(JSON_KEY_X, v.getX());
+                j.put(JSON_KEY_Y, v.getY());
+                jTeamBlue.put(j);
+            }
+            // team red
+            JSONArray jTeamRed = new JSONArray();
+            for (View v : mTeamRed) {
+                JSONObject j = new JSONObject();
+                j.put(JSON_KEY_X, v.getX());
+                j.put(JSON_KEY_Y, v.getY());
+                jTeamRed.put(j);
+            }
+            // ball
+            JSONArray jBall = new JSONArray();
+            JSONObject j = new JSONObject();
+            j.put(JSON_KEY_X, mBall.getX());
+            j.put(JSON_KEY_Y, mBall.getY());
+            jBall.put(j);
+
+            jSaveData.put(JSON_KEY_TEAM_BLUE, jTeamBlue);
+            jSaveData.put(JSON_KEY_TEAM_RED, jTeamRed);
+            jSaveData.put(JSON_KEY_BALL, jBall);
+            jSaveData.put(JSON_KEY_TITLE, title);
+
+        } catch (JSONException e) {
+        }
+        String result = jSaveData.toString();
+        String fileName = java.util.UUID.randomUUID().toString();
+        File file = new File(mContext.getFilesDir() + File.separator + fileName);
+        try {
+            file.createNewFile();
+            writeToFile(file.getAbsolutePath(), result);
+        } catch (IOException e) {
+            Log.w("QQQQ", "failed", e);
+        }
+
+        return result;
+    }
+
+    public static boolean writeToFile(final String filePath, final String data) {
+        Writer writer;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath),
+                    "utf-8"));
+            writer.write(data);
+            writer.flush();
+            writer.close();
+            return true;
+        } catch (Exception e) {
+            Log.w("QQQQ", "writeToFile failed: " + filePath, e);
+            return false;
+        }
+    }
+
+    public static String readFromFile(String filePath) {
+        String ret = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            ret = sb.toString();
+            br.close();
+        } catch (IOException e) {
+            Log.w("QQQQ", "readFromFile failed: " + filePath, e);
+        }
+        return ret;
+    }
+
+    public void restoreData(JSONObject jObject) {
+        try {
+            JSONArray blueTeam = jObject.getJSONArray(JSON_KEY_TEAM_BLUE);
+            for (int i = 0; i < blueTeam.length(); i++) {
+                JSONObject k = blueTeam.getJSONObject(i);
+                View v = mTeamBlue.get(i);
+                int x = k.getInt(JSON_KEY_X);
+                int y = k.getInt(JSON_KEY_Y);
+                v.setX(x);
+                v.setY(y);
+            }
+
+            JSONArray redTeam = jObject.getJSONArray(JSON_KEY_TEAM_RED);
+            for (int i = 0; i < redTeam.length(); i++) {
+                JSONObject k = redTeam.getJSONObject(i);
+                View v = mTeamRed.get(i);
+                int x = k.getInt(JSON_KEY_X);
+                int y = k.getInt(JSON_KEY_Y);
+                v.setX(x);
+                v.setY(y);
+            }
+
+            JSONArray ball = jObject.getJSONArray(JSON_KEY_BALL);
+            JSONObject b = ball.getJSONObject(0);
+            int x = b.getInt(JSON_KEY_X);
+            int y = b.getInt(JSON_KEY_Y);
+            mBall.setX(x);
+            mBall.setY(y);
+        } catch (JSONException e) {
+            Log.e("QQQQ", "failed", e);
+        }
+    }
+
+    public void erasePen() {
+        if (mAllRunningPoints != null) {
+            mAllRunningPoints.clear();
+            mRunningPoints.clear();
+            invalidate();
+        }
     }
 
     public void setGroundImage(int resource) {
@@ -168,7 +326,7 @@ public class PlayGround extends FrameLayout {
         }
     }
 
-    private class MovableItem extends View {
+    private class MovableItem extends ImageView {
 
         private int mDeltaX, mDeltaY;
 

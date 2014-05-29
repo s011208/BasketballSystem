@@ -1,8 +1,12 @@
 
 package com.bj4.yhh.coachboard;
 
+import org.json.JSONObject;
+
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,39 @@ public class PlayGroundFragment extends Fragment {
     private int mPlayGroundResource;
 
     private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
+
+    public PlayGroundFragment(Context context, int playGroundResource) {
+        LayoutInflater inflater = (LayoutInflater)context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        setPlayGround(playGroundResource);
+        mContentView = (RelativeLayout)inflater.inflate(R.layout.play_ground_fragment, null);
+        initComponents();
+    }
+
+    public void erasePen() {
+        if (mPlayGround != null) {
+            mPlayGround.erasePen();
+        }
+    }
+
+    public void restoreData(JSONObject jObject) {
+        if (mPlayGround != null) {
+            mPlayGround.restoreData(jObject);
+        }
+    }
+
+    public String saveData(String title) {
+        if (mPlayGround != null) {
+            mPlayGround.saveData(title);
+        }
+        return null;
+    }
+
+    public void resetAll() {
+        if (mPlayGround != null) {
+            mPlayGround.resetAll();
+        }
+    }
 
     public void setPlayGround(int res) {
         mPlayGroundResource = res;
@@ -69,23 +106,6 @@ public class PlayGroundFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContentView = (RelativeLayout)inflater.inflate(R.layout.play_ground_fragment, null);
-        initComponents();
         return mContentView;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-//        outState.putInt("curChoice", mCurCheckPosition);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            // Restore last state for checked position.
-//            mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
-        }
     }
 }
