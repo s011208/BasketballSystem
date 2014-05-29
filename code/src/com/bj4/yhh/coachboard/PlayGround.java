@@ -404,6 +404,10 @@ public class PlayGround extends FrameLayout {
 		setDrawingCacheEnabled(true);
 		buildDrawingCache();
 		Bitmap bmp = getDrawingCache();
+		File directory = new File(Environment.getExternalStorageDirectory()
+				+ File.separator + "coachboard");
+		if (directory.exists() == false)
+			directory.mkdir();
 		File png = new File(Environment.getExternalStorageDirectory()
 				+ File.separator + "coachboard" + File.separatorChar
 				+ java.util.UUID.randomUUID().toString() + ".png");
