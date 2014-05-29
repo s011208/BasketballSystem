@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Coach Board</string>
+    <string name="action_settings">Settings</string>
+    <string name="tab_full_ground">Full ground</string>
+    <string name="tab_half_ground">Half ground</string>
+
+</resources>
