@@ -177,10 +177,35 @@ public class PlayGround extends FrameLayout {
             j.put(JSON_KEY_Y, mBall.getY());
             jBall.put(j);
 
+            // pen
+            JSONArray jPen = new JSONArray();
+            Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+            while (iter.hasNext()) {
+                ArrayList<Point> runningPoints = iter.next();
+                JSONArray points = new JSONArray();
+                for (int i = 0; i < runningPoints.size() - 1; i++) {
+                    JSONObject point = new JSONObject();
+                    Point p = runningPoints.get(i);
+                    point.put(JSON_KEY_X, p.x);
+                    point.put(JSON_KEY_Y, p.y);
+                    points.put(point);
+                }
+                jPen.put(points);
+            }
+            JSONArray points = new JSONArray();
+            for (int i = 0; i < mRunningPoints.size() - 1; i++) {
+                JSONObject point = new JSONObject();
+                Point p = mRunningPoints.get(i);
+                point.put(JSON_KEY_X, p.x);
+                point.put(JSON_KEY_Y, p.y);
+                points.put(point);
+            }
+            jPen.put(points);
             jSaveData.put(JSON_KEY_TEAM_BLUE, jTeamBlue);
             jSaveData.put(JSON_KEY_TEAM_RED, jTeamRed);
             jSaveData.put(JSON_KEY_BALL, jBall);
             jSaveData.put(JSON_KEY_TITLE, title);
+            jSaveData.put(JSON_KEY_PEN, jPen);
 
         } catch (JSONException e) {
         }
@@ -260,6 +285,21 @@ public class PlayGround extends FrameLayout {
             int y = b.getInt(JSON_KEY_Y);
             mBall.setX(x);
             mBall.setY(y);
+            erasePen();
+            JSONArray jPen = jObject.getJSONArray(JSON_KEY_PEN);
+            for (int i = 0; i < jPen.length(); i++) {
+                JSONArray jPoints = jPen.getJSONArray(i);
+                ArrayList<Point> pointList = new ArrayList<Point>();
+                for (int j = 0; j < jPoints.length(); j++) {
+                    JSONObject jPoint = jPoints.getJSONObject(j);
+                    Point p = new Point();
+                    p.x = jPoint.getInt(JSON_KEY_X);
+                    p.y = jPoint.getInt(JSON_KEY_Y);
+                    pointList.add(p);
+                }
+                mAllRunningPoints.add(pointList);
+            }
+            invalidate();
         } catch (JSONException e) {
             Log.e("QQQQ", "failed", e);
         }

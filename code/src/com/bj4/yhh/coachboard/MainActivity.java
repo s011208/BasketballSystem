@@ -110,7 +110,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                         Log.w("QQQQ", "failed", e);
                     }
                 }
-                String[] title = itemTitle.toArray(new String[0]);
+                final String[] title = itemTitle.toArray(new String[0]);
                 new AlertDialog.Builder(new ContextThemeWrapper(this,
                         android.R.style.Theme_DeviceDefault_Dialog))
                         .setTitle(R.string.action_bar_load_dialog_title)
@@ -119,6 +119,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 getCurrentPlayGroundFragment().restoreData(itemJList.get(which));
+                                getActionBar().setTitle(title[which]);
                             }
                         }).setNegativeButton(R.string.cancel, null).setCancelable(true).show();
 
