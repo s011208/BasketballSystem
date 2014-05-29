@@ -23,6 +23,11 @@
         android:showAsAction="never"
         android:title="@string/action_bar_load"/>
     <item
+        android:id="@+id/action_replay"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_bar_replay"/>
+    <item
         android:id="@+id/action_share"
         android:orderInCategory="100"
         android:showAsAction="never"

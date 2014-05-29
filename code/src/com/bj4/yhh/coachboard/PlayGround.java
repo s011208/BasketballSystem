@@ -18,6 +18,10 @@ import org.json.JSONObject;
 
 import com.bj4.yhh.coachboard.basketball.R;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -54,6 +58,10 @@ public class PlayGround extends FrameLayout {
 	public static final String JSON_KEY_TITLE = "title";
 
 	public static final String JSON_KEY_FILE_NAME = "json_file_name";
+	private static final int REPLAY_POINT_TIME = 100;
+	private static final int DRAWING_MODE_NORMAL = 0;
+	private static final int DRAWING_MODE_REPLAY = 1;
+	private int mCurrentDrawingMode = DRAWING_MODE_NORMAL;
 
 	private int mPlayerPerTeam = 5;
 
@@ -67,6 +75,7 @@ public class PlayGround extends FrameLayout {
 
 	private ArrayList<ArrayList<Point>> mAllRunningPoints = new ArrayList<ArrayList<Point>>();
 
+	private ArrayList<ArrayList<Point>> mAnimatorRunningPoints = new ArrayList<ArrayList<Point>>();
 	private ArrayList<Point> mRunningPoints = new ArrayList<Point>();
 
 	private boolean mShowPen = true;
@@ -166,6 +175,75 @@ public class PlayGround extends FrameLayout {
 				playerWandH);
 		fl.topMargin = playerWandH * 5;
 		addView(mBall, fl);
+	}
+
+	public void replay() {
+		final ArrayList<ArrayList<Point>> allRunningPoints = new ArrayList<ArrayList<Point>>();
+		mAllRunningPoints.clone();
+		Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+		int totalEvents = 0;
+		while (iter.hasNext()) {
+			ArrayList<Point> points = iter.next();
+			totalEvents += points.size();
+			ArrayList<Point> cPoints = new ArrayList<Point>();
+			for (Point p : points) {
+				Point cp = new Point(p);
+				cPoints.add(cp);
+			}
+			allRunningPoints.add(cPoints);
+		}
+		ArrayList<Point> cPoints = new ArrayList<Point>();
+		for (Point p : mRunningPoints) {
+			Point cp = new Point(p);
+			cPoints.add(cp);
+			++totalEvents;
+		}
+		allRunningPoints.add(cPoints);
+
+		ValueAnimator va = ValueAnimator.ofInt(0, totalEvents);
+		va.setDuration(totalEvents * REPLAY_POINT_TIME);
+		va.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				if (allRunningPoints.isEmpty() == false) {
+					ArrayList<Point> pointList = allRunningPoints.get(0);
+					if (pointList.isEmpty() == false) {
+						if (mAnimatorRunningPoints.isEmpty()) {
+							mAnimatorRunningPoints.add(new ArrayList<Point>());
+						}
+						mAnimatorRunningPoints.get(
+								mAnimatorRunningPoints.size() - 1).add(
+								pointList.remove(0));
+					} else {
+						allRunningPoints.remove(0);
+						mAnimatorRunningPoints.add(new ArrayList<Point>());
+					}
+				}
+				invalidate();
+			}
+		});
+		va.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				mCurrentDrawingMode = DRAWING_MODE_NORMAL;
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+			}
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				mAnimatorRunningPoints.clear();
+				mCurrentDrawingMode = DRAWING_MODE_REPLAY;
+			}
+		});
+		va.start();
 	}
 
 	public String saveData(String title) {
@@ -376,6 +454,8 @@ public class PlayGround extends FrameLayout {
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
+		if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
+			return super.onTouchEvent(event);
 		int x = (int) event.getX();
 		int y = (int) event.getY();
 		Point p;
@@ -395,6 +475,9 @@ public class PlayGround extends FrameLayout {
 			break;
 		case MotionEvent.ACTION_DOWN:
 			mRunningPoints = new ArrayList<Point>();
+			p = new Point();
+			p.set(x, y);
+			mRunningPoints.add(p);
 			break;
 		}
 		return true;
@@ -402,8 +485,25 @@ public class PlayGround extends FrameLayout {
 
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
-		if (mShowPen) {
-			Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+		if (mCurrentDrawingMode == DRAWING_MODE_NORMAL) {
+			if (mShowPen) {
+				Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+				while (iter.hasNext()) {
+					ArrayList<Point> runningPoints = iter.next();
+					for (int i = 0; i < runningPoints.size() - 1; i++) {
+						Point p = runningPoints.get(i);
+						Point p1 = runningPoints.get(i + 1);
+						canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+					}
+				}
+				for (int i = 0; i < mRunningPoints.size() - 1; i++) {
+					Point p = mRunningPoints.get(i);
+					Point p1 = mRunningPoints.get(i + 1);
+					canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+				}
+			}
+		} else {
+			Iterator<ArrayList<Point>> iter = mAnimatorRunningPoints.iterator();
 			while (iter.hasNext()) {
 				ArrayList<Point> runningPoints = iter.next();
 				for (int i = 0; i < runningPoints.size() - 1; i++) {
@@ -411,11 +511,6 @@ public class PlayGround extends FrameLayout {
 					Point p1 = runningPoints.get(i + 1);
 					canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
 				}
-			}
-			for (int i = 0; i < mRunningPoints.size() - 1; i++) {
-				Point p = mRunningPoints.get(i);
-				Point p1 = mRunningPoints.get(i + 1);
-				canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
 			}
 		}
 	}
@@ -429,7 +524,8 @@ public class PlayGround extends FrameLayout {
 		}
 
 		public boolean onTouchEvent(MotionEvent event) {
-
+			if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
+				return super.onTouchEvent(event);
 			int x = (int) event.getRawX();
 			int y = (int) event.getRawY();
 			switch (event.getAction()) {

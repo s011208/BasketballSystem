@@ -7,6 +7,7 @@
     <string name="action_bar_save">儲存</string>
     <string name="action_bar_reset">重置</string>
     <string name="action_bar_share">分享給</string>
+    <string name="action_bar_replay">戰術重播</string>
     <string name="action_bar_save_dialog_title">戰術名稱</string>
     <string name="action_bar_load_dialog_title">選擇一個戰術</string>
     <string name="ok">@android:string/ok</string>

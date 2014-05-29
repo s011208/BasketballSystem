@@ -6,6 +6,7 @@
     <string name="action_bar_load">Load</string>
     <string name="action_bar_save">Save</string>
     <string name="action_bar_reset">Reset</string>
+    <string name="action_bar_replay">Replay</string>
     <string name="action_bar_share">Share to</string>
     <string name="action_bar_save_dialog_title">Name</string>
     <string name="action_bar_load_dialog_title">Select a file</string>

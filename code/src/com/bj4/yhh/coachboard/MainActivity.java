@@ -116,6 +116,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 			menu.getItem(2).setVisible(false);
 			menu.getItem(3).setVisible(false);
 			menu.getItem(4).setVisible(false);
+			menu.getItem(5).setVisible(false);
 		}
 		return true;
 	}
@@ -194,10 +195,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 			case R.id.action_share:
 				playGroundFragment.sharePlayGround();
 				break;
+			case R.id.action_replay:
+				playGroundFragment.replay();
+				break;
 			}
 		} else {
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 
