@@ -86,9 +86,6 @@ public class PlayGround extends FrameLayout {
 		mRunPaint.setColor(Color.WHITE);
 		mRunPaint.setStyle(Paint.Style.FILL);
 		mRunPaint.setStrokeWidth(5);
-		if (MainActivity.sCurrentSportType == MainActivity.SPORT_TYPE_BASKETBALL) {
-			setPlayerPerTeam(5);
-		}
 		resetAll();
 	}
 

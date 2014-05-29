@@ -51,8 +51,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
 	public static final int SPORT_TYPE_BASKETBALL = 0;
 
-	public static int sCurrentSportType = SPORT_TYPE_BASKETBALL;
-
 	private Fragment getCurrentFragment() {
 		switch (mCurrentFragment) {
 		case TAB_FULLGROUND:
