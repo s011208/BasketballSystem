@@ -8,6 +8,7 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bj4.yhh.coachboard.PlayGround.MainActivityCallback;
 import com.bj4.yhh.coachboard.basketball.R;
 
 import android.app.Activity;
@@ -36,7 +37,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements ActionBar.TabListener {
+public class MainActivity extends Activity implements ActionBar.TabListener, MainActivityCallback {
 
     private PlayGroundFragment mFullGround, mHalfGround;
 
@@ -76,6 +77,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     private synchronized PlayGroundFragment getFullGround() {
         if (mFullGround == null) {
             mFullGround = new PlayGroundFragment(this, R.drawable.basketball_full_play_ground);
+            mFullGround.setCallback(this);
         }
         return mFullGround;
     }
@@ -83,6 +85,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     private synchronized PlayGroundFragment getHalfGround() {
         if (mHalfGround == null) {
             mHalfGround = new PlayGroundFragment(this, R.drawable.basketball_half_play_ground);
+            mHalfGround.setCallback(this);
         }
         return mHalfGround;
     }
@@ -190,7 +193,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                     playGroundFragment.sharePlayGround();
                     break;
                 case R.id.action_replay:
-                    playGroundFragment.replay();
+                    if (playGroundFragment.isReplaying() == false) {
+                        playGroundFragment.replay();
+                    }
                     break;
             }
         } else {
@@ -229,5 +234,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         if (mDisableBackPress)
             return;
         super.onBackPressed();
+    }
+
+    @Override
+    public void replayDone() {
     }
 }

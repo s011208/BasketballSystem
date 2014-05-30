@@ -88,6 +88,16 @@ public class PlayGround extends FrameLayout {
 
     private int mHandHoloX, mHandHoloY;
 
+    public interface MainActivityCallback {
+        public void replayDone();
+    }
+
+    private MainActivityCallback mCallback;
+
+    public void setCallback(MainActivityCallback cb) {
+        mCallback = cb;
+    }
+
     private ArrayList<ArrayList<Point>> mAllRunningPoints = new ArrayList<ArrayList<Point>>();
 
     private ArrayList<ArrayList<Point>> mAnimatorRunningPoints = new ArrayList<ArrayList<Point>>();
@@ -243,8 +253,9 @@ public class PlayGround extends FrameLayout {
     }
 
     public void replay() {
-        if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
+        if (mCurrentDrawingMode != DRAWING_MODE_NORMAL) {
             return;
+        }
         final ArrayList<ArrayList<Point>> allRunningPoints = new ArrayList<ArrayList<Point>>();
         mAllRunningPoints.clone();
         Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
@@ -299,6 +310,9 @@ public class PlayGround extends FrameLayout {
             public void onAnimationEnd(Animator animation) {
                 mCurrentDrawingMode = DRAWING_MODE_NORMAL;
                 mAnimatorRunningPoints.clear();
+                if (mCallback != null) {
+                    mCallback.replayDone();
+                }
             }
 
             @Override
@@ -588,6 +602,10 @@ public class PlayGround extends FrameLayout {
                 }
             }
         }
+    }
+
+    public boolean isReplaying() {
+        return mCurrentDrawingMode == DRAWING_MODE_REPLAY;
     }
 
     private class MovableItem extends ImageView {
