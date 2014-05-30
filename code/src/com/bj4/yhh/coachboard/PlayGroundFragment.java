@@ -75,6 +75,12 @@ public class PlayGroundFragment extends Fragment {
         }
     }
 
+    public void undo() {
+        if (mPlayGround != null) {
+            mPlayGround.undo();
+        }
+    }
+
     public void resetAll() {
         if (mPlayGround != null) {
             mPlayGround.resetAll();

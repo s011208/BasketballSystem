@@ -129,6 +129,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
             menu.getItem(3).setVisible(false);
             menu.getItem(4).setVisible(false);
             menu.getItem(5).setVisible(false);
+            menu.getItem(6).setVisible(false);
         }
         return true;
     }
@@ -204,6 +205,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                     if (playGroundFragment.isReplaying() == false) {
                         playGroundFragment.replay();
                     }
+                    break;
+                case R.id.action_undo:
+                    playGroundFragment.undo();
                     break;
             }
         } else {

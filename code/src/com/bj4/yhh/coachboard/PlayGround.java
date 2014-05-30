@@ -107,6 +107,8 @@ public class PlayGround extends FrameLayout {
 
     private ArrayList<Point> mRunningPoints = new ArrayList<Point>();
 
+    private ArrayList<MoveStep> mMoveStepsList = new ArrayList<MoveStep>();
+
     private boolean mShowPen = true;
 
     public PlayGround(Context context) {
@@ -217,9 +219,9 @@ public class PlayGround extends FrameLayout {
         mTeamRed = new ArrayList<MovableItem>();
         int playerWandH = (int)mContext.getResources().getDimension(R.dimen.movable_item_w_and_h);
         int playerPadding = (int)mContext.getResources().getDimension(R.dimen.movable_item_padding);
-        // team1
+        // team blue
         for (int i = 0; i < mPlayerPerTeam; i++) {
-            MovableItem player = new MovableItem(mContext);
+            MovableItem player = new MovableItem(mContext, MoveStep.TAG_TEAM_BLUE, i);
             player.setImageResource(R.drawable.team_blue);
             player.setScaleType(ScaleType.CENTER_INSIDE);
             if (mShowNumber)
@@ -231,9 +233,9 @@ public class PlayGround extends FrameLayout {
             addView(player, fl);
             mTeamBlue.add(player);
         }
-        // team2
+        // team red
         for (int i = 0; i < mPlayerPerTeam; i++) {
-            MovableItem player = new MovableItem(mContext);
+            MovableItem player = new MovableItem(mContext, MoveStep.TAG_TEAM_RED, i);
             player.setImageResource(R.drawable.team_red);
             player.setScaleType(ScaleType.CENTER_INSIDE);
             if (mShowNumber)
@@ -246,7 +248,7 @@ public class PlayGround extends FrameLayout {
             mTeamRed.add(player);
         }
         // ball
-        mBall = new MovableItem(mContext);
+        mBall = new MovableItem(mContext, MoveStep.TAG_BALL, 0);
         mBall.setImageResource(R.drawable.basketball_ball);
         mBall.setScaleType(ScaleType.CENTER_INSIDE);
         mBall.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
@@ -569,6 +571,7 @@ public class PlayGround extends FrameLayout {
                 mRunningPoints.add(p);
                 mAllRunningPoints.add(mRunningPoints);
                 mHandHoloAnimator.cancel();
+
                 invalidate();
                 break;
             case MotionEvent.ACTION_DOWN:
@@ -577,6 +580,8 @@ public class PlayGround extends FrameLayout {
                 p.set(x, y);
                 mRunningPoints.add(p);
                 mHandHoloAnimator.start();
+                mMoveStepsList.add(new MoveStep(MoveStep.TAG_DRAW_LINE, MoveStep.NOT_USED,
+                        MoveStep.NOT_USED, MoveStep.NOT_USED));
                 break;
         }
         return true;
@@ -601,7 +606,6 @@ public class PlayGround extends FrameLayout {
                     canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
                 }
                 if (mDrawHandHolo) {
-                    Log.e("QQQQ", "draw holo");
                     canvas.drawCircle(mHandHoloX, mHandHoloY, mHandHoloRadius, mHandHoloPaint);
                 }
             }
@@ -622,14 +626,100 @@ public class PlayGround extends FrameLayout {
         return mCurrentDrawingMode == DRAWING_MODE_REPLAY;
     }
 
+    public void undo() {
+        if (mMoveStepsList.isEmpty())
+            return;
+        // for(MoveStep step : mMoveStepsList){
+        // Log.e("QQQQ", step.toString());
+        // }
+        MoveStep step = mMoveStepsList.remove(mMoveStepsList.size() - 1);
+        final int tag = step.mTag;
+        final int index = step.mIndex;
+        final int x = step.mX;
+        final int y = step.mY;
+        switch (tag) {
+            case MoveStep.TAG_TEAM_RED:
+                if (mTeamRed.size() > index) {
+                    MovableItem item = mTeamRed.get(index);
+                    item.setX(x);
+                    item.setY(y);
+                } else {
+                    // wrong
+                }
+                break;
+            case MoveStep.TAG_TEAM_BLUE:
+                if (mTeamBlue.size() > index) {
+                    MovableItem item = mTeamBlue.get(index);
+                    item.setX(x);
+                    item.setY(y);
+                } else {
+                    // wrong
+                }
+                break;
+            case MoveStep.TAG_BALL:
+                MovableItem item = mBall;
+                item.setX(x);
+                item.setY(y);
+                break;
+            case MoveStep.TAG_DRAW_LINE:
+                if (mRunningPoints.isEmpty() == false) {
+                    mRunningPoints.clear();
+                    mAllRunningPoints.remove(mAllRunningPoints.size() - 1);
+                } else {
+                    if (mAllRunningPoints.isEmpty()) {
+                        // do nothing
+                    } else {
+                        mAllRunningPoints.remove(mAllRunningPoints.size() - 1);
+                    }
+                }
+                postInvalidate();
+                break;
+        }
+
+    }
+
+    class MoveStep {
+        public static final int TAG_TEAM_RED = 0;
+
+        public static final int TAG_TEAM_BLUE = 1;
+
+        public static final int TAG_BALL = 2;
+
+        public static final int TAG_DRAW_LINE = 3;
+
+        public static final int NOT_USED = -1;
+
+        public int mIndex;
+
+        public int mTag;
+
+        public int mX, mY;
+
+        public MoveStep(int tag, int index, int x, int y) {
+            mTag = tag;
+            mIndex = index;
+            mX = x;
+            mY = y;
+        }
+
+        public String toString() {
+            return "tag: " + mTag + ", index: " + mIndex + ", x: " + mX + ", y: " + mY;
+        }
+
+    }
+
     private class MovableItem extends ImageView {
 
         private int mDeltaX, mDeltaY;
 
         private String mNumber = "";
 
-        public MovableItem(Context context) {
+        public int mTag, mIndex;
+
+        public MovableItem(Context context, int tag, int index) {
             super(context);
+            mTag = tag;
+            mIndex = index;
         }
 
         public void setNumber(String number) {
@@ -661,6 +751,7 @@ public class PlayGround extends FrameLayout {
                 case MotionEvent.ACTION_DOWN:
                     mDeltaX = x - (int)getX();
                     mDeltaY = y - (int)getY();
+                    mMoveStepsList.add(new MoveStep(mTag, mIndex, (int)getX(), (int)getY()));
                     break;
             }
 

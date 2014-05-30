@@ -46,7 +46,8 @@ public final class R {
         public static final int action_replay=0x7f080010;
         public static final int action_reset=0x7f08000d;
         public static final int action_save=0x7f08000e;
-        public static final int action_share=0x7f080011;
+        public static final int action_share=0x7f080012;
+        public static final int action_undo=0x7f080011;
         public static final int banner=0x7f080000;
         public static final int fragment_main=0x7f080001;
         public static final int playground=0x7f080009;
@@ -72,23 +73,24 @@ public final class R {
     public static final class string {
         public static final int action_bar_erase=0x7f050001;
         public static final int action_bar_load=0x7f050002;
-        public static final int action_bar_load_dialog_title=0x7f050008;
+        public static final int action_bar_load_dialog_title=0x7f050009;
         public static final int action_bar_replay=0x7f050005;
         public static final int action_bar_reset=0x7f050004;
         public static final int action_bar_save=0x7f050003;
-        public static final int action_bar_save_dialog_title=0x7f050007;
+        public static final int action_bar_save_dialog_title=0x7f050008;
         public static final int action_bar_share=0x7f050006;
+        public static final int action_bar_undo=0x7f050007;
         public static final int app_name=0x7f050000;
-        public static final int cancel=0x7f05000a;
-        public static final int data_saved_success_hint=0x7f050010;
-        public static final int none_saved_data_hint=0x7f05000f;
-        public static final int ok=0x7f050009;
-        public static final int saved_data_list_item_confirm_dialog=0x7f05000e;
-        public static final int share_text=0x7f050011;
-        public static final int share_title=0x7f050012;
-        public static final int tab_full_ground=0x7f05000b;
-        public static final int tab_half_ground=0x7f05000c;
-        public static final int tab_save_data=0x7f05000d;
+        public static final int cancel=0x7f05000b;
+        public static final int data_saved_success_hint=0x7f050011;
+        public static final int none_saved_data_hint=0x7f050010;
+        public static final int ok=0x7f05000a;
+        public static final int saved_data_list_item_confirm_dialog=0x7f05000f;
+        public static final int share_text=0x7f050012;
+        public static final int share_title=0x7f050013;
+        public static final int tab_full_ground=0x7f05000c;
+        public static final int tab_half_ground=0x7f05000d;
+        public static final int tab_save_data=0x7f05000e;
     }
     public static final class style {
         /** 
