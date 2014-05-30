@@ -76,9 +76,17 @@ public class PlayGround extends FrameLayout {
 
     private MovableItem mBall;
 
-    private Paint mRunPaint, mTeamNumberPaint;
+    private Paint mRunPaint, mTeamNumberPaint, mHandHoloPaint;
 
     private boolean mShowNumber = true;
+
+    private ValueAnimator mHandHoloAnimator;
+
+    private boolean mDrawHandHolo = false;
+
+    private int mHandHoloRadius = 0;
+
+    private int mHandHoloX, mHandHoloY;
 
     private ArrayList<ArrayList<Point>> mAllRunningPoints = new ArrayList<ArrayList<Point>>();
 
@@ -99,6 +107,49 @@ public class PlayGround extends FrameLayout {
     public PlayGround(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
+        initPaints();
+        resetAll();
+        mHandHoloAnimator = ValueAnimator.ofInt(30, 80);
+        mHandHoloAnimator.setRepeatMode(ValueAnimator.INFINITE);
+        mHandHoloAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mHandHoloAnimator.setDuration(800);
+        mHandHoloAnimator.addUpdateListener(new AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mHandHoloRadius = (Integer)animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mHandHoloAnimator.addListener(new AnimatorListener() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                // TODO Auto-generated method stub
+                mDrawHandHolo = true;
+                mHandHoloRadius = 0;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // TODO Auto-generated method stub
+                mDrawHandHolo = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                // TODO Auto-generated method stub
+                mDrawHandHolo = true;
+            }
+        });
+    }
+
+    private void initPaints() {
         mRunPaint = new Paint();
         mRunPaint.setColor(Color.WHITE);
         mRunPaint.setStyle(Paint.Style.FILL);
@@ -109,7 +160,11 @@ public class PlayGround extends FrameLayout {
         mTeamNumberPaint.setTextSize((int)getResources()
                 .getDimension(R.dimen.team_number_text_size));
         mTeamNumberPaint.setTextAlign(Paint.Align.CENTER);
-        resetAll();
+        mHandHoloPaint = new Paint();
+        mHandHoloPaint.setColor(Color.WHITE);
+        mHandHoloPaint.setStyle(Paint.Style.STROKE);
+        mHandHoloPaint.setStrokeWidth(5);
+        mHandHoloPaint.setAntiAlias(true);
     }
 
     public void setBlueTeamVisiblity(boolean isChecked) {
@@ -470,8 +525,8 @@ public class PlayGround extends FrameLayout {
     public boolean onTouchEvent(MotionEvent event) {
         if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
             return super.onTouchEvent(event);
-        int x = (int)event.getX();
-        int y = (int)event.getY();
+        int x = mHandHoloX = (int)event.getX();
+        int y = mHandHoloY = (int)event.getY();
         Point p;
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
@@ -485,6 +540,7 @@ public class PlayGround extends FrameLayout {
                 p.set(x, y);
                 mRunningPoints.add(p);
                 mAllRunningPoints.add(mRunningPoints);
+                mHandHoloAnimator.cancel();
                 invalidate();
                 break;
             case MotionEvent.ACTION_DOWN:
@@ -492,6 +548,7 @@ public class PlayGround extends FrameLayout {
                 p = new Point();
                 p.set(x, y);
                 mRunningPoints.add(p);
+                mHandHoloAnimator.start();
                 break;
         }
         return true;
@@ -514,6 +571,10 @@ public class PlayGround extends FrameLayout {
                     Point p = mRunningPoints.get(i);
                     Point p1 = mRunningPoints.get(i + 1);
                     canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+                }
+                if (mDrawHandHolo) {
+                    Log.e("QQQQ", "draw holo");
+                    canvas.drawCircle(mHandHoloX, mHandHoloY, mHandHoloRadius, mHandHoloPaint);
                 }
             }
         } else {
