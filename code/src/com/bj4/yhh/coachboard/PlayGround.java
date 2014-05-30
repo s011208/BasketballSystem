@@ -42,6 +42,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 
 public class PlayGround extends FrameLayout {
     private static final String JSON_KEY_TEAM_BLUE = "json_team_blue";
@@ -255,6 +256,9 @@ public class PlayGround extends FrameLayout {
     public void replay() {
         if (mCurrentDrawingMode != DRAWING_MODE_NORMAL) {
             return;
+        }
+        if (mAllRunningPoints.isEmpty()) {
+            Toast.makeText(mContext, "you have to draw lines to run!", Toast.LENGTH_LONG).show();
         }
         final ArrayList<ArrayList<Point>> allRunningPoints = new ArrayList<ArrayList<Point>>();
         mAllRunningPoints.clone();
