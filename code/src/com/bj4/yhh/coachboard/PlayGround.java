@@ -1,3 +1,4 @@
+
 package com.bj4.yhh.coachboard;
 
 import java.io.BufferedReader;
@@ -43,512 +44,535 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 public class PlayGround extends FrameLayout {
-	private static final String JSON_KEY_TEAM_BLUE = "json_team_blue";
+    private static final String JSON_KEY_TEAM_BLUE = "json_team_blue";
 
-	private static final String JSON_KEY_TEAM_RED = "json_team_red";
+    private static final String JSON_KEY_TEAM_RED = "json_team_red";
 
-	private static final String JSON_KEY_BALL = "json_ball";
+    private static final String JSON_KEY_BALL = "json_ball";
 
-	private static final String JSON_KEY_PEN = "json_pen";
+    private static final String JSON_KEY_PEN = "json_pen";
 
-	private static final String JSON_KEY_X = "json_x";
+    private static final String JSON_KEY_X = "json_x";
 
-	private static final String JSON_KEY_Y = "json_y";
+    private static final String JSON_KEY_Y = "json_y";
 
-	public static final String JSON_KEY_TITLE = "title";
+    public static final String JSON_KEY_TITLE = "title";
 
-	public static final String JSON_KEY_FILE_NAME = "json_file_name";
-	private static final int REPLAY_POINT_TIME = 200;
-	private static final int DRAWING_MODE_NORMAL = 0;
-	private static final int DRAWING_MODE_REPLAY = 1;
-	private int mCurrentDrawingMode = DRAWING_MODE_NORMAL;
+    public static final String JSON_KEY_FILE_NAME = "json_file_name";
 
-	private int mPlayerPerTeam = 5;
+    private static final int REPLAY_POINT_TIME = 20;
 
-	private Context mContext;
+    private static final int DRAWING_MODE_NORMAL = 0;
 
-	private ArrayList<MovableItem> mTeamBlue, mTeamRed;
+    private static final int DRAWING_MODE_REPLAY = 1;
 
-	private MovableItem mBall;
+    private int mCurrentDrawingMode = DRAWING_MODE_NORMAL;
 
-	private Paint mRunPaint;
+    private int mPlayerPerTeam = 5;
 
-	private ArrayList<ArrayList<Point>> mAllRunningPoints = new ArrayList<ArrayList<Point>>();
+    private Context mContext;
 
-	private ArrayList<ArrayList<Point>> mAnimatorRunningPoints = new ArrayList<ArrayList<Point>>();
-	private ArrayList<Point> mRunningPoints = new ArrayList<Point>();
+    private ArrayList<MovableItem> mTeamBlue, mTeamRed;
 
-	private boolean mShowPen = true;
+    private MovableItem mBall;
 
-	public PlayGround(Context context) {
-		this(context, null);
-	}
+    private Paint mRunPaint, mTeamNumberPaint;
 
-	public PlayGround(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
-	}
+    private boolean mShowNumber = true;
 
-	public PlayGround(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		mContext = context;
-		mRunPaint = new Paint();
-		mRunPaint.setColor(Color.WHITE);
-		mRunPaint.setStyle(Paint.Style.FILL);
-		mRunPaint.setStrokeWidth(5);
-		resetAll();
-	}
+    private ArrayList<ArrayList<Point>> mAllRunningPoints = new ArrayList<ArrayList<Point>>();
 
-	public void setBlueTeamVisiblity(boolean isChecked) {
-		if (mTeamBlue == null) {
-			return;
-		}
-		for (View v : mTeamBlue) {
-			v.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-		}
-	}
+    private ArrayList<ArrayList<Point>> mAnimatorRunningPoints = new ArrayList<ArrayList<Point>>();
 
-	public void setRedTeamVisiblity(boolean isChecked) {
-		if (mTeamRed == null) {
-			return;
-		}
-		for (View v : mTeamRed) {
-			v.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-		}
-	}
+    private ArrayList<Point> mRunningPoints = new ArrayList<Point>();
 
-	public void setBallVisiblity(boolean isChecked) {
-		if (mBall == null) {
-			return;
-		}
-		mBall.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
-	}
+    private boolean mShowPen = true;
 
-	public void setPenVisiblity(boolean isChecked) {
-		mShowPen = isChecked;
-		invalidate();
-	}
+    public PlayGround(Context context) {
+        this(context, null);
+    }
 
-	public void resetAll() {
-		removeAllViews();
-		erasePen();
-		mTeamBlue = new ArrayList<MovableItem>();
-		mTeamRed = new ArrayList<MovableItem>();
-		int playerWandH = (int) mContext.getResources().getDimension(
-				R.dimen.movable_item_w_and_h);
-		int playerPadding = (int) mContext.getResources().getDimension(
-				R.dimen.movable_item_padding);
-		// team1
-		for (int i = 0; i < mPlayerPerTeam; i++) {
-			MovableItem player = new MovableItem(mContext);
-			player.setImageResource(R.drawable.team_blue);
-			player.setScaleType(ScaleType.CENTER_INSIDE);
-			player.setPadding(playerPadding, playerPadding, playerPadding,
-					playerPadding);
-			FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(
-					playerWandH, playerWandH);
-			fl.topMargin = playerWandH;
-			fl.leftMargin = i * playerWandH;
-			addView(player, fl);
-			mTeamBlue.add(player);
-		}
-		// team2
-		for (int i = 0; i < mPlayerPerTeam; i++) {
-			MovableItem player = new MovableItem(mContext);
-			player.setImageResource(R.drawable.team_red);
-			player.setScaleType(ScaleType.CENTER_INSIDE);
-			player.setPadding(playerPadding, playerPadding, playerPadding,
-					playerPadding);
-			FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(
-					playerWandH, playerWandH);
-			fl.leftMargin = i * playerWandH;
-			fl.topMargin = playerWandH * 3;
-			addView(player, fl);
-			mTeamRed.add(player);
-		}
-		// ball
-		mBall = new MovableItem(mContext);
-		mBall.setImageResource(R.drawable.basketball_ball);
-		mBall.setScaleType(ScaleType.CENTER_INSIDE);
-		mBall.setPadding(playerPadding, playerPadding, playerPadding,
-				playerPadding);
-		FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH,
-				playerWandH);
-		fl.topMargin = playerWandH * 5;
-		addView(mBall, fl);
-	}
+    public PlayGround(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
 
-	public void replay() {
-		final ArrayList<ArrayList<Point>> allRunningPoints = new ArrayList<ArrayList<Point>>();
-		mAllRunningPoints.clone();
-		Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
-		int totalEvents = 0;
-		while (iter.hasNext()) {
-			ArrayList<Point> points = iter.next();
-			totalEvents += points.size();
-			ArrayList<Point> cPoints = new ArrayList<Point>();
-			for (Point p : points) {
-				Point cp = new Point(p);
-				cPoints.add(cp);
-			}
-			allRunningPoints.add(cPoints);
-		}
-		ArrayList<Point> cPoints = new ArrayList<Point>();
-		for (Point p : mRunningPoints) {
-			Point cp = new Point(p);
-			cPoints.add(cp);
-			++totalEvents;
-		}
-		allRunningPoints.add(cPoints);
+    public PlayGround(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        mContext = context;
+        mRunPaint = new Paint();
+        mRunPaint.setColor(Color.WHITE);
+        mRunPaint.setStyle(Paint.Style.FILL);
+        mRunPaint.setStrokeWidth(5);
+        mTeamNumberPaint = new Paint();
+        mTeamNumberPaint.setColor(Color.WHITE);
+        mTeamNumberPaint.setStyle(Paint.Style.FILL);
+        mTeamNumberPaint.setTextSize((int)getResources()
+                .getDimension(R.dimen.team_number_text_size));
+        mTeamNumberPaint.setTextAlign(Paint.Align.CENTER);
+        resetAll();
+    }
 
-		ValueAnimator va = ValueAnimator.ofInt(0, totalEvents);
-		va.setDuration(totalEvents * REPLAY_POINT_TIME);
-		va.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				if (allRunningPoints.isEmpty() == false) {
-					ArrayList<Point> pointList = allRunningPoints.get(0);
-					if (pointList.isEmpty() == false) {
-						if (mAnimatorRunningPoints.isEmpty()) {
-							mAnimatorRunningPoints.add(new ArrayList<Point>());
-						}
-						mAnimatorRunningPoints.get(
-								mAnimatorRunningPoints.size() - 1).add(
-								pointList.remove(0));
-					} else {
-						allRunningPoints.remove(0);
-						mAnimatorRunningPoints.add(new ArrayList<Point>());
-					}
-				}
-				invalidate();
-			}
-		});
-		va.addListener(new AnimatorListener() {
+    public void setBlueTeamVisiblity(boolean isChecked) {
+        if (mTeamBlue == null) {
+            return;
+        }
+        for (View v : mTeamBlue) {
+            v.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
 
-			@Override
-			public void onAnimationCancel(Animator animation) {
-			}
+    public void setRedTeamVisiblity(boolean isChecked) {
+        if (mTeamRed == null) {
+            return;
+        }
+        for (View v : mTeamRed) {
+            v.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
 
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				mCurrentDrawingMode = DRAWING_MODE_NORMAL;
-			}
+    public void setBallVisiblity(boolean isChecked) {
+        if (mBall == null) {
+            return;
+        }
+        mBall.setVisibility(isChecked ? View.VISIBLE : View.INVISIBLE);
+    }
 
-			@Override
-			public void onAnimationRepeat(Animator animation) {
-			}
+    public void setPenVisiblity(boolean isChecked) {
+        mShowPen = isChecked;
+        invalidate();
+    }
 
-			@Override
-			public void onAnimationStart(Animator animation) {
-				mAnimatorRunningPoints.clear();
-				mCurrentDrawingMode = DRAWING_MODE_REPLAY;
-			}
-		});
-		va.start();
-	}
+    public void resetAll() {
+        removeAllViews();
+        erasePen();
+        mTeamBlue = new ArrayList<MovableItem>();
+        mTeamRed = new ArrayList<MovableItem>();
+        int playerWandH = (int)mContext.getResources().getDimension(R.dimen.movable_item_w_and_h);
+        int playerPadding = (int)mContext.getResources().getDimension(R.dimen.movable_item_padding);
+        // team1
+        for (int i = 0; i < mPlayerPerTeam; i++) {
+            MovableItem player = new MovableItem(mContext);
+            player.setImageResource(R.drawable.team_blue);
+            player.setScaleType(ScaleType.CENTER_INSIDE);
+            if (mShowNumber)
+                player.setNumber(String.valueOf(i + 1));
+            player.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
+            FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
+            fl.topMargin = playerWandH;
+            fl.leftMargin = i * playerWandH;
+            addView(player, fl);
+            mTeamBlue.add(player);
+        }
+        // team2
+        for (int i = 0; i < mPlayerPerTeam; i++) {
+            MovableItem player = new MovableItem(mContext);
+            player.setImageResource(R.drawable.team_red);
+            player.setScaleType(ScaleType.CENTER_INSIDE);
+            if (mShowNumber)
+                player.setNumber(String.valueOf(i + 1));
+            player.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
+            FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
+            fl.leftMargin = i * playerWandH;
+            fl.topMargin = playerWandH * 3;
+            addView(player, fl);
+            mTeamRed.add(player);
+        }
+        // ball
+        mBall = new MovableItem(mContext);
+        mBall.setImageResource(R.drawable.basketball_ball);
+        mBall.setScaleType(ScaleType.CENTER_INSIDE);
+        mBall.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
+        FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
+        fl.topMargin = playerWandH * 5;
+        addView(mBall, fl);
+    }
 
-	public String saveData(String title) {
-		JSONObject jSaveData = new JSONObject();
-		try {
-			// team blue
-			JSONArray jTeamBlue = new JSONArray();
-			for (View v : mTeamBlue) {
-				JSONObject j = new JSONObject();
-				j.put(JSON_KEY_X, v.getX());
-				j.put(JSON_KEY_Y, v.getY());
-				jTeamBlue.put(j);
-			}
-			// team red
-			JSONArray jTeamRed = new JSONArray();
-			for (View v : mTeamRed) {
-				JSONObject j = new JSONObject();
-				j.put(JSON_KEY_X, v.getX());
-				j.put(JSON_KEY_Y, v.getY());
-				jTeamRed.put(j);
-			}
-			// ball
-			JSONArray jBall = new JSONArray();
-			JSONObject j = new JSONObject();
-			j.put(JSON_KEY_X, mBall.getX());
-			j.put(JSON_KEY_Y, mBall.getY());
-			jBall.put(j);
+    public void replay() {
+        if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
+            return;
+        final ArrayList<ArrayList<Point>> allRunningPoints = new ArrayList<ArrayList<Point>>();
+        mAllRunningPoints.clone();
+        Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+        int totalEvents = 0;
+        while (iter.hasNext()) {
+            ArrayList<Point> points = iter.next();
+            totalEvents += points.size();
+            ArrayList<Point> cPoints = new ArrayList<Point>();
+            for (Point p : points) {
+                Point cp = new Point(p);
+                cPoints.add(cp);
+            }
+            allRunningPoints.add(cPoints);
+        }
+        ArrayList<Point> cPoints = new ArrayList<Point>();
+        for (Point p : mRunningPoints) {
+            Point cp = new Point(p);
+            cPoints.add(cp);
+            ++totalEvents;
+        }
+        allRunningPoints.add(cPoints);
 
-			// pen
-			JSONArray jPen = new JSONArray();
-			Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
-			while (iter.hasNext()) {
-				ArrayList<Point> runningPoints = iter.next();
-				JSONArray points = new JSONArray();
-				for (int i = 0; i < runningPoints.size() - 1; i++) {
-					JSONObject point = new JSONObject();
-					Point p = runningPoints.get(i);
-					point.put(JSON_KEY_X, p.x);
-					point.put(JSON_KEY_Y, p.y);
-					points.put(point);
-				}
-				jPen.put(points);
-			}
-			JSONArray points = new JSONArray();
-			for (int i = 0; i < mRunningPoints.size() - 1; i++) {
-				JSONObject point = new JSONObject();
-				Point p = mRunningPoints.get(i);
-				point.put(JSON_KEY_X, p.x);
-				point.put(JSON_KEY_Y, p.y);
-				points.put(point);
-			}
-			jPen.put(points);
-			jSaveData.put(JSON_KEY_TEAM_BLUE, jTeamBlue);
-			jSaveData.put(JSON_KEY_TEAM_RED, jTeamRed);
-			jSaveData.put(JSON_KEY_BALL, jBall);
-			jSaveData.put(JSON_KEY_TITLE, title);
-			jSaveData.put(JSON_KEY_PEN, jPen);
+        final int duration = totalEvents * REPLAY_POINT_TIME;
+        ValueAnimator va = ValueAnimator.ofInt(0, totalEvents);
+        va.setDuration(duration);
+        va.addUpdateListener(new AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                if (allRunningPoints.isEmpty() == false) {
+                    ArrayList<Point> pointList = allRunningPoints.get(0);
+                    if (pointList.isEmpty() == false) {
+                        if (mAnimatorRunningPoints.isEmpty()) {
+                            mAnimatorRunningPoints.add(new ArrayList<Point>());
+                        }
+                        mAnimatorRunningPoints.get(mAnimatorRunningPoints.size() - 1).add(
+                                pointList.remove(0));
+                    } else {
+                        allRunningPoints.remove(0);
+                        mAnimatorRunningPoints.add(new ArrayList<Point>());
+                    }
+                }
+                invalidate();
+            }
+        });
+        va.addListener(new AnimatorListener() {
 
-		} catch (JSONException e) {
-		}
-		String result = jSaveData.toString();
-		String fileName = java.util.UUID.randomUUID().toString();
-		File file = new File(mContext.getFilesDir() + File.separator + fileName);
-		try {
-			file.createNewFile();
-			writeToFile(file.getAbsolutePath(), result);
-		} catch (IOException e) {
-			Log.w("QQQQ", "failed", e);
-		}
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
 
-		return result;
-	}
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mCurrentDrawingMode = DRAWING_MODE_NORMAL;
+                mAnimatorRunningPoints.clear();
+            }
 
-	public static boolean writeToFile(final String filePath, final String data) {
-		Writer writer;
-		try {
-			writer = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(filePath), "utf-8"));
-			writer.write(data);
-			writer.flush();
-			writer.close();
-			return true;
-		} catch (Exception e) {
-			Log.w("QQQQ", "writeToFile failed: " + filePath, e);
-			return false;
-		}
-	}
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
 
-	public static String readFromFile(String filePath) {
-		String ret = "";
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(filePath));
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mAnimatorRunningPoints.clear();
+                mCurrentDrawingMode = DRAWING_MODE_REPLAY;
+            }
+        });
+        va.start();
+    }
 
-			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
-				line = br.readLine();
-			}
-			ret = sb.toString();
-			br.close();
-		} catch (IOException e) {
-			Log.w("QQQQ", "readFromFile failed: " + filePath, e);
-		}
-		return ret;
-	}
+    public String saveData(String title) {
+        JSONObject jSaveData = new JSONObject();
+        try {
+            // team blue
+            JSONArray jTeamBlue = new JSONArray();
+            for (View v : mTeamBlue) {
+                JSONObject j = new JSONObject();
+                j.put(JSON_KEY_X, v.getX());
+                j.put(JSON_KEY_Y, v.getY());
+                jTeamBlue.put(j);
+            }
+            // team red
+            JSONArray jTeamRed = new JSONArray();
+            for (View v : mTeamRed) {
+                JSONObject j = new JSONObject();
+                j.put(JSON_KEY_X, v.getX());
+                j.put(JSON_KEY_Y, v.getY());
+                jTeamRed.put(j);
+            }
+            // ball
+            JSONArray jBall = new JSONArray();
+            JSONObject j = new JSONObject();
+            j.put(JSON_KEY_X, mBall.getX());
+            j.put(JSON_KEY_Y, mBall.getY());
+            jBall.put(j);
 
-	public void restoreData(JSONObject jObject) {
-		try {
-			JSONArray blueTeam = jObject.getJSONArray(JSON_KEY_TEAM_BLUE);
-			for (int i = 0; i < blueTeam.length(); i++) {
-				JSONObject k = blueTeam.getJSONObject(i);
-				View v = mTeamBlue.get(i);
-				int x = k.getInt(JSON_KEY_X);
-				int y = k.getInt(JSON_KEY_Y);
-				v.setX(x);
-				v.setY(y);
-			}
+            // pen
+            JSONArray jPen = new JSONArray();
+            Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+            while (iter.hasNext()) {
+                ArrayList<Point> runningPoints = iter.next();
+                JSONArray points = new JSONArray();
+                for (int i = 0; i < runningPoints.size() - 1; i++) {
+                    JSONObject point = new JSONObject();
+                    Point p = runningPoints.get(i);
+                    point.put(JSON_KEY_X, p.x);
+                    point.put(JSON_KEY_Y, p.y);
+                    points.put(point);
+                }
+                jPen.put(points);
+            }
+            JSONArray points = new JSONArray();
+            for (int i = 0; i < mRunningPoints.size() - 1; i++) {
+                JSONObject point = new JSONObject();
+                Point p = mRunningPoints.get(i);
+                point.put(JSON_KEY_X, p.x);
+                point.put(JSON_KEY_Y, p.y);
+                points.put(point);
+            }
+            jPen.put(points);
+            jSaveData.put(JSON_KEY_TEAM_BLUE, jTeamBlue);
+            jSaveData.put(JSON_KEY_TEAM_RED, jTeamRed);
+            jSaveData.put(JSON_KEY_BALL, jBall);
+            jSaveData.put(JSON_KEY_TITLE, title);
+            jSaveData.put(JSON_KEY_PEN, jPen);
 
-			JSONArray redTeam = jObject.getJSONArray(JSON_KEY_TEAM_RED);
-			for (int i = 0; i < redTeam.length(); i++) {
-				JSONObject k = redTeam.getJSONObject(i);
-				View v = mTeamRed.get(i);
-				int x = k.getInt(JSON_KEY_X);
-				int y = k.getInt(JSON_KEY_Y);
-				v.setX(x);
-				v.setY(y);
-			}
+        } catch (JSONException e) {
+        }
+        String result = jSaveData.toString();
+        String fileName = java.util.UUID.randomUUID().toString();
+        File file = new File(mContext.getFilesDir() + File.separator + fileName);
+        try {
+            file.createNewFile();
+            writeToFile(file.getAbsolutePath(), result);
+        } catch (IOException e) {
+            Log.w("QQQQ", "failed", e);
+        }
 
-			JSONArray ball = jObject.getJSONArray(JSON_KEY_BALL);
-			JSONObject b = ball.getJSONObject(0);
-			int x = b.getInt(JSON_KEY_X);
-			int y = b.getInt(JSON_KEY_Y);
-			mBall.setX(x);
-			mBall.setY(y);
-			erasePen();
-			JSONArray jPen = jObject.getJSONArray(JSON_KEY_PEN);
-			for (int i = 0; i < jPen.length(); i++) {
-				JSONArray jPoints = jPen.getJSONArray(i);
-				ArrayList<Point> pointList = new ArrayList<Point>();
-				for (int j = 0; j < jPoints.length(); j++) {
-					JSONObject jPoint = jPoints.getJSONObject(j);
-					Point p = new Point();
-					p.x = jPoint.getInt(JSON_KEY_X);
-					p.y = jPoint.getInt(JSON_KEY_Y);
-					pointList.add(p);
-				}
-				mAllRunningPoints.add(pointList);
-			}
-			invalidate();
-		} catch (JSONException e) {
-			Log.e("QQQQ", "failed", e);
-		}
-	}
+        return result;
+    }
 
-	public void sharePlayGround() {
-		setDrawingCacheEnabled(true);
-		buildDrawingCache();
-		Bitmap bmp = getDrawingCache();
-		File directory = new File(Environment.getExternalStorageDirectory()
-				+ File.separator + "coachboard");
-		if (directory.exists() == false)
-			directory.mkdir();
-		File png = new File(Environment.getExternalStorageDirectory()
-				+ File.separator + "coachboard" + File.separatorChar
-				+ java.util.UUID.randomUUID().toString() + ".png");
-		Uri fileUri = Uri.fromFile(png);
-		FileOutputStream out = null;
-		try {
-			png.createNewFile();
-			Intent scanIntent = new Intent(
-					Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-			scanIntent.setData(fileUri);
-			mContext.sendBroadcast(scanIntent);
-			out = new FileOutputStream(png);
-			bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
-			out.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (out != null)
-					out.close();
-			} catch (IOException ignore) {
-			}
-		}
-		final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-		intent.putExtra(Intent.EXTRA_STREAM, fileUri);
-		intent.putExtra(Intent.EXTRA_TEXT,
-				mContext.getString(R.string.share_text));
-		intent.putExtra(Intent.EXTRA_SUBJECT,
-				mContext.getString(R.string.share_title));
-		intent.setType("image/png");
-		mContext.startActivity(intent);
-	}
+    public static boolean writeToFile(final String filePath, final String data) {
+        Writer writer;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath),
+                    "utf-8"));
+            writer.write(data);
+            writer.flush();
+            writer.close();
+            return true;
+        } catch (Exception e) {
+            Log.w("QQQQ", "writeToFile failed: " + filePath, e);
+            return false;
+        }
+    }
 
-	public void erasePen() {
-		if (mAllRunningPoints != null) {
-			mAllRunningPoints.clear();
-			mRunningPoints.clear();
-			invalidate();
-		}
-	}
+    public static String readFromFile(String filePath) {
+        String ret = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
 
-	public void setGroundImage(int resource) {
-		setBackgroundResource(resource);
-	}
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            ret = sb.toString();
+            br.close();
+        } catch (IOException e) {
+            Log.w("QQQQ", "readFromFile failed: " + filePath, e);
+        }
+        return ret;
+    }
 
-	public void setPlayerPerTeam(int playerPerTeam) {
-		mPlayerPerTeam = playerPerTeam;
-	}
+    public void restoreData(JSONObject jObject) {
+        try {
+            JSONArray blueTeam = jObject.getJSONArray(JSON_KEY_TEAM_BLUE);
+            for (int i = 0; i < blueTeam.length(); i++) {
+                JSONObject k = blueTeam.getJSONObject(i);
+                View v = mTeamBlue.get(i);
+                int x = k.getInt(JSON_KEY_X);
+                int y = k.getInt(JSON_KEY_Y);
+                v.setX(x);
+                v.setY(y);
+            }
 
-	public boolean onTouchEvent(MotionEvent event) {
-		if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
-			return super.onTouchEvent(event);
-		int x = (int) event.getX();
-		int y = (int) event.getY();
-		Point p;
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_MOVE:
-			p = new Point();
-			p.set(x, y);
-			mRunningPoints.add(p);
-			invalidate();
-			break;
-		case MotionEvent.ACTION_UP:
-			p = new Point();
-			p.set(x, y);
-			mRunningPoints.add(p);
-			mAllRunningPoints.add(mRunningPoints);
-			invalidate();
-			break;
-		case MotionEvent.ACTION_DOWN:
-			mRunningPoints = new ArrayList<Point>();
-			p = new Point();
-			p.set(x, y);
-			mRunningPoints.add(p);
-			break;
-		}
-		return true;
-	}
+            JSONArray redTeam = jObject.getJSONArray(JSON_KEY_TEAM_RED);
+            for (int i = 0; i < redTeam.length(); i++) {
+                JSONObject k = redTeam.getJSONObject(i);
+                View v = mTeamRed.get(i);
+                int x = k.getInt(JSON_KEY_X);
+                int y = k.getInt(JSON_KEY_Y);
+                v.setX(x);
+                v.setY(y);
+            }
 
-	public void draw(Canvas canvas) {
-		super.draw(canvas);
-		if (mCurrentDrawingMode == DRAWING_MODE_NORMAL) {
-			if (mShowPen) {
-				Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
-				while (iter.hasNext()) {
-					ArrayList<Point> runningPoints = iter.next();
-					for (int i = 0; i < runningPoints.size() - 1; i++) {
-						Point p = runningPoints.get(i);
-						Point p1 = runningPoints.get(i + 1);
-						canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
-					}
-				}
-				for (int i = 0; i < mRunningPoints.size() - 1; i++) {
-					Point p = mRunningPoints.get(i);
-					Point p1 = mRunningPoints.get(i + 1);
-					canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
-				}
-			}
-		} else {
-			Iterator<ArrayList<Point>> iter = mAnimatorRunningPoints.iterator();
-			while (iter.hasNext()) {
-				ArrayList<Point> runningPoints = iter.next();
-				for (int i = 0; i < runningPoints.size() - 1; i++) {
-					Point p = runningPoints.get(i);
-					Point p1 = runningPoints.get(i + 1);
-					canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
-				}
-			}
-		}
-	}
+            JSONArray ball = jObject.getJSONArray(JSON_KEY_BALL);
+            JSONObject b = ball.getJSONObject(0);
+            int x = b.getInt(JSON_KEY_X);
+            int y = b.getInt(JSON_KEY_Y);
+            mBall.setX(x);
+            mBall.setY(y);
+            erasePen();
+            JSONArray jPen = jObject.getJSONArray(JSON_KEY_PEN);
+            for (int i = 0; i < jPen.length(); i++) {
+                JSONArray jPoints = jPen.getJSONArray(i);
+                ArrayList<Point> pointList = new ArrayList<Point>();
+                for (int j = 0; j < jPoints.length(); j++) {
+                    JSONObject jPoint = jPoints.getJSONObject(j);
+                    Point p = new Point();
+                    p.x = jPoint.getInt(JSON_KEY_X);
+                    p.y = jPoint.getInt(JSON_KEY_Y);
+                    pointList.add(p);
+                }
+                mAllRunningPoints.add(pointList);
+            }
+            invalidate();
+        } catch (JSONException e) {
+            Log.e("QQQQ", "failed", e);
+        }
+    }
 
-	private class MovableItem extends ImageView {
+    public void sharePlayGround() {
+        setDrawingCacheEnabled(true);
+        buildDrawingCache();
+        Bitmap bmp = getDrawingCache();
+        File directory = new File(Environment.getExternalStorageDirectory() + File.separator
+                + "coachboard");
+        if (directory.exists() == false)
+            directory.mkdir();
+        File png = new File(Environment.getExternalStorageDirectory() + File.separator
+                + "coachboard" + File.separatorChar + java.util.UUID.randomUUID().toString()
+                + ".png");
+        Uri fileUri = Uri.fromFile(png);
+        FileOutputStream out = null;
+        try {
+            png.createNewFile();
+            Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            scanIntent.setData(fileUri);
+            mContext.sendBroadcast(scanIntent);
+            out = new FileOutputStream(png);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null)
+                    out.close();
+            } catch (IOException ignore) {
+            }
+        }
+        final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.share_text));
+        intent.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.share_title));
+        intent.setType("image/png");
+        mContext.startActivity(intent);
+    }
 
-		private int mDeltaX, mDeltaY;
+    public void erasePen() {
+        if (mAllRunningPoints != null) {
+            mAllRunningPoints.clear();
+            mRunningPoints.clear();
+            invalidate();
+        }
+    }
 
-		public MovableItem(Context context) {
-			super(context);
-		}
+    public void setGroundImage(int resource) {
+        setBackgroundResource(resource);
+    }
 
-		public boolean onTouchEvent(MotionEvent event) {
-			if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
-				return super.onTouchEvent(event);
-			int x = (int) event.getRawX();
-			int y = (int) event.getRawY();
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_MOVE:
-				setX(x - mDeltaX);
-				setY(y - mDeltaY);
-				break;
+    public void setPlayerPerTeam(int playerPerTeam) {
+        mPlayerPerTeam = playerPerTeam;
+    }
 
-			case MotionEvent.ACTION_UP:
-				break;
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
+            return super.onTouchEvent(event);
+        int x = (int)event.getX();
+        int y = (int)event.getY();
+        Point p;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                p = new Point();
+                p.set(x, y);
+                mRunningPoints.add(p);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                p = new Point();
+                p.set(x, y);
+                mRunningPoints.add(p);
+                mAllRunningPoints.add(mRunningPoints);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_DOWN:
+                mRunningPoints = new ArrayList<Point>();
+                p = new Point();
+                p.set(x, y);
+                mRunningPoints.add(p);
+                break;
+        }
+        return true;
+    }
 
-			case MotionEvent.ACTION_DOWN:
-				mDeltaX = x - (int) getX();
-				mDeltaY = y - (int) getY();
-				break;
-			}
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        if (mCurrentDrawingMode == DRAWING_MODE_NORMAL) {
+            if (mShowPen) {
+                Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+                while (iter.hasNext()) {
+                    ArrayList<Point> runningPoints = iter.next();
+                    for (int i = 0; i < runningPoints.size() - 1; i++) {
+                        Point p = runningPoints.get(i);
+                        Point p1 = runningPoints.get(i + 1);
+                        canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+                    }
+                }
+                for (int i = 0; i < mRunningPoints.size() - 1; i++) {
+                    Point p = mRunningPoints.get(i);
+                    Point p1 = mRunningPoints.get(i + 1);
+                    canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+                }
+            }
+        } else {
+            Iterator<ArrayList<Point>> iter = mAnimatorRunningPoints.iterator();
+            while (iter.hasNext()) {
+                ArrayList<Point> runningPoints = iter.next();
+                for (int i = 0; i < runningPoints.size() - 1; i++) {
+                    Point p = runningPoints.get(i);
+                    Point p1 = runningPoints.get(i + 1);
+                    canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+                }
+            }
+        }
+    }
 
-			return true;
-		}
+    private class MovableItem extends ImageView {
 
-	}
+        private int mDeltaX, mDeltaY;
+
+        private String mNumber = "";
+
+        public MovableItem(Context context) {
+            super(context);
+        }
+
+        public void setNumber(String number) {
+            mNumber = number;
+        }
+
+        public void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            int xPos = (canvas.getWidth() / 2);
+            int yPos = (int)((canvas.getHeight() / 2) - ((mTeamNumberPaint.descent() + mTeamNumberPaint
+                    .ascent()) / 2));
+            canvas.drawText(mNumber, xPos, yPos, mTeamNumberPaint);
+        }
+
+        public boolean onTouchEvent(MotionEvent event) {
+            if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
+                return super.onTouchEvent(event);
+            int x = (int)event.getRawX();
+            int y = (int)event.getRawY();
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_MOVE:
+                    setX(x - mDeltaX);
+                    setY(y - mDeltaY);
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    break;
+
+                case MotionEvent.ACTION_DOWN:
+                    mDeltaX = x - (int)getX();
+                    mDeltaY = y - (int)getY();
+                    break;
+            }
+
+            return true;
+        }
+
+    }
 }

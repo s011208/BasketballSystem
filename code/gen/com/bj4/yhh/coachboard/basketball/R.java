@@ -28,6 +28,7 @@ public final class R {
         public static final int movable_item_w_and_h=0x7f040002;
         public static final int saved_data_list_item_height=0x7f040005;
         public static final int saved_data_list_item_title_textsize=0x7f040006;
+        public static final int team_number_text_size=0x7f040007;
     }
     public static final class drawable {
         public static final int basketball_ball=0x7f020000;

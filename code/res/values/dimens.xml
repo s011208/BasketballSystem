@@ -8,5 +8,6 @@
     <dimen name="movable_item_padding">8dp</dimen>
     <dimen name="saved_data_list_item_height">60dp</dimen>
     <dimen name="saved_data_list_item_title_textsize">24sp</dimen>
+    <dimen name="team_number_text_size">20sp</dimen>
 
 </resources>
