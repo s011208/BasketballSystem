@@ -144,11 +144,6 @@ public class SaveDataListFragment extends Fragment {
             } else {
                 holder = (ViewHolder)row.getTag();
             }
-            if (position % 2 == 0) {
-                row.setBackgroundColor(Color.rgb(0xff, 0xc9, 0x91));
-            } else {
-                row.setBackgroundColor(Color.rgb(0xff, 0xe7, 0xcd));
-            }
             holder.mTitle.setText(getItem(position));
             return row;
         }

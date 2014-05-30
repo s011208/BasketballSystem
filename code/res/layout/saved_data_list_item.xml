@@ -3,11 +3,13 @@
     android:id="@+id/playground_main"
     android:layout_width="match_parent"
     android:layout_height="@dimen/saved_data_list_item_height"
+    android:background="@drawable/saved_data_list_item_background"
     tools:context="com.bj4.yhh.coachboard.MainActivity" >
 
     <TextView
         android:id="@+id/saved_data_list_item_title"
-        android:layout_width="wrap_content"
+        android:background="#10000000"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/saved_data_list_item_height"
         android:gravity="center"
         android:layout_centerInParent="true"

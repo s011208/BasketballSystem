@@ -43,6 +43,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     private SaveDataListFragment mSaveDataListFragment;
 
+    private SettingsFragment mSettingsFragment;
+
     private boolean mDisableBackPress = true;
 
     private static final int TAB_FULLGROUND = 0;
@@ -50,6 +52,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     private static final int TAB_HALFGROUND = 1;
 
     private static final int TAB_SAVE_DATALIST = 2;
+
+    private static final int TAB_SETTINGS = 3;
 
     private int mCurrentFragment = TAB_FULLGROUND;
 
@@ -63,8 +67,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                 return getHalfGround();
             case TAB_SAVE_DATALIST:
                 return getSaveDataListFragment();
+            case TAB_SETTINGS:
+                return getSettingsFragment();
         }
         return null;
+    }
+
+    private synchronized SettingsFragment getSettingsFragment() {
+        if (mSettingsFragment == null) {
+            mSettingsFragment = new SettingsFragment(this);
+        }
+        return mSettingsFragment;
     }
 
     private synchronized SaveDataListFragment getSaveDataListFragment() {
@@ -117,12 +130,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                 TAB_HALFGROUND);
         actionBar.addTab(actionBar.newTab().setText(R.string.tab_save_data).setTabListener(this),
                 TAB_SAVE_DATALIST);
+        actionBar.addTab(actionBar.newTab().setText(R.string.tab_settings).setTabListener(this),
+                TAB_SETTINGS);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        if (mCurrentFragment == TAB_SAVE_DATALIST) {
+        if (mCurrentFragment == TAB_SAVE_DATALIST || mCurrentFragment == TAB_SETTINGS) {
             menu.getItem(0).setVisible(false);
             menu.getItem(1).setVisible(false);
             menu.getItem(2).setVisible(false);
@@ -228,6 +243,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                 break;
             case TAB_SAVE_DATALIST:
                 fragmentTransaction.replace(R.id.fragment_main, getSaveDataListFragment());
+                break;
+            case TAB_SETTINGS:
+                fragmentTransaction.replace(R.id.fragment_main, getSettingsFragment());
                 break;
         }
         mCurrentFragment = position;
