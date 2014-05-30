@@ -69,6 +69,12 @@ public class PlayGroundFragment extends Fragment {
         }
     }
 
+    public void cancelReplay() {
+        if (mPlayGround != null) {
+            mPlayGround.cancelReplay();
+        }
+    }
+
     public void resetAll() {
         if (mPlayGround != null) {
             mPlayGround.resetAll();

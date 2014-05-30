@@ -97,6 +97,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         initActionBar();
     }
 
+    public void onPause() {
+        super.onPause();
+        if (getCurrentFragment() instanceof PlayGroundFragment) {
+            final PlayGroundFragment playGroundFragment = (PlayGroundFragment)getCurrentFragment();
+            playGroundFragment.cancelReplay();
+        }
+    }
+
     private void initActionBar() {
 
         // Set up the action bar.

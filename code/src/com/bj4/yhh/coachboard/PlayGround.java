@@ -61,7 +61,7 @@ public class PlayGround extends FrameLayout {
 
     public static final String JSON_KEY_FILE_NAME = "json_file_name";
 
-    private static final int REPLAY_POINT_TIME = 5;
+    private static final int REPLAY_POINT_TIME = 40;
 
     private static final int DRAWING_MODE_NORMAL = 0;
 
@@ -88,6 +88,8 @@ public class PlayGround extends FrameLayout {
     private int mHandHoloRadius = 0;
 
     private int mHandHoloX, mHandHoloY;
+
+    private ValueAnimator mReplayAnimator;
 
     public interface MainActivityCallback {
         public void replayDone();
@@ -283,9 +285,9 @@ public class PlayGround extends FrameLayout {
         allRunningPoints.add(cPoints);
 
         final int duration = totalEvents * REPLAY_POINT_TIME;
-        ValueAnimator va = ValueAnimator.ofInt(0, totalEvents);
-        va.setDuration(duration);
-        va.addUpdateListener(new AnimatorUpdateListener() {
+        mReplayAnimator = ValueAnimator.ofInt(0, totalEvents);
+        mReplayAnimator.setDuration(duration);
+        mReplayAnimator.addUpdateListener(new AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (allRunningPoints.isEmpty() == false) {
@@ -300,11 +302,13 @@ public class PlayGround extends FrameLayout {
                         allRunningPoints.remove(0);
                         mAnimatorRunningPoints.add(new ArrayList<Point>());
                     }
+                } else {
+                    mReplayAnimator.cancel();
                 }
                 invalidate();
             }
         });
-        va.addListener(new AnimatorListener() {
+        mReplayAnimator.addListener(new AnimatorListener() {
 
             @Override
             public void onAnimationCancel(Animator animation) {
@@ -329,7 +333,13 @@ public class PlayGround extends FrameLayout {
                 mCurrentDrawingMode = DRAWING_MODE_REPLAY;
             }
         });
-        va.start();
+        mReplayAnimator.start();
+    }
+
+    public void cancelReplay() {
+        if (mReplayAnimator != null && mReplayAnimator.isRunning()) {
+            mReplayAnimator.cancel();
+        }
     }
 
     public String saveData(String title) {
