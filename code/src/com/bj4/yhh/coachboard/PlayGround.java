@@ -125,7 +125,7 @@ public class PlayGround extends FrameLayout {
         mHandHoloAnimator = ValueAnimator.ofInt(30, 80);
         mHandHoloAnimator.setRepeatMode(ValueAnimator.INFINITE);
         mHandHoloAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mHandHoloAnimator.setDuration(800);
+        mHandHoloAnimator.setDuration(500);
         mHandHoloAnimator.addUpdateListener(new AnimatorUpdateListener() {
 
             @Override
@@ -666,6 +666,5 @@ public class PlayGround extends FrameLayout {
 
             return true;
         }
-
     }
 }
