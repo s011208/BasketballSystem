@@ -43,8 +43,10 @@ public final class R {
         public static final int replay=0x7f020005;
         public static final int saved_data_list_item_background=0x7f020006;
         public static final int settings_item_background=0x7f020007;
-        public static final int team_blue=0x7f020008;
-        public static final int team_red=0x7f020009;
+        public static final int soccer_full_ground=0x7f020008;
+        public static final int soccer_half_ground=0x7f020009;
+        public static final int team_blue=0x7f02000a;
+        public static final int team_red=0x7f02000b;
     }
     public static final class id {
         public static final int action_erase=0x7f090014;
