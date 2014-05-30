@@ -61,7 +61,7 @@ public class PlayGround extends FrameLayout {
 
     public static final String JSON_KEY_FILE_NAME = "json_file_name";
 
-    private static final int REPLAY_POINT_TIME = 20;
+    private static final int REPLAY_POINT_TIME = 5;
 
     private static final int DRAWING_MODE_NORMAL = 0;
 
