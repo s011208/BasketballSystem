@@ -196,7 +196,7 @@ public class PlayGround extends FrameLayout {
             case SettingManager.SPORT_TYPE_BASEBALL:
                 setPlayerPerTeam(9);
                 resetAll();
-                mBall.setImageResource(R.drawable.basketball_ball);
+                mBall.setImageResource(R.drawable.baseball_ball);
                 break;
             case SettingManager.SPORT_TYPE_BASKETBALL:
                 setPlayerPerTeam(5);
@@ -206,22 +206,22 @@ public class PlayGround extends FrameLayout {
             case SettingManager.SPORT_TYPE_FOOTBALL:
                 setPlayerPerTeam(15);
                 resetAll();
-                mBall.setImageResource(R.drawable.basketball_ball);
+                mBall.setImageResource(R.drawable.football_ball);
                 break;
             case SettingManager.SPORT_TYPE_SOCCER:
                 setPlayerPerTeam(11);
                 resetAll();
-                mBall.setImageResource(R.drawable.basketball_ball);
+                mBall.setImageResource(R.drawable.soccer_ball);
                 break;
             case SettingManager.SPORT_TYPE_TENNIS:
                 setPlayerPerTeam(2);
                 resetAll();
-                mBall.setImageResource(R.drawable.basketball_ball);
+                mBall.setImageResource(R.drawable.tennis_ball);
                 break;
             case SettingManager.SPORT_TYPE_VOLLEYBALL:
                 setPlayerPerTeam(6);
                 resetAll();
-                mBall.setImageResource(R.drawable.basketball_ball);
+                mBall.setImageResource(R.drawable.volleyball_ball);
                 break;
         }
     }

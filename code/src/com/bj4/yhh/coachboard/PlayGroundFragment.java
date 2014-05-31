@@ -1,4 +1,3 @@
-
 package com.bj4.yhh.coachboard;
 
 import org.json.JSONObject;
@@ -21,199 +20,213 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 
 public class PlayGroundFragment extends Fragment {
-    private PlayGround mPlayGround;
+	private PlayGround mPlayGround;
 
-    private RelativeLayout mContentView;
+	private RelativeLayout mContentView;
 
-    private boolean mIsFullGround;
+	private boolean mIsFullGround;
 
-    private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
+	private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
 
-    private SettingManager mSettingManager;
+	private SettingManager mSettingManager;
 
-    private AdView mBottomBanner;
+	private AdView mBottomBanner;
 
-    public PlayGroundFragment() {
-    }
+	public PlayGroundFragment() {
+	}
 
-    public PlayGroundFragment(Context context, boolean isFullGround) {
-        LayoutInflater inflater = (LayoutInflater)context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mSettingManager = CoachBoardApplication.getSettingManager(context);
-        setPlayGround(isFullGround);
-        mContentView = (RelativeLayout)inflater.inflate(R.layout.play_ground_fragment, null);
-        initComponents();
-        mBottomBanner = (AdView)mContentView.findViewById(R.id.adView);
-        if (mSettingManager.isShowAds() && isFullGround == false) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mBottomBanner.loadAd(adRequest);
-        } else {
-            mBottomBanner.setVisibility(View.GONE);
-        }
-    }
+	public PlayGroundFragment(Context context, boolean isFullGround) {
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mSettingManager = CoachBoardApplication.getSettingManager(context);
+		setPlayGround(isFullGround);
+		mContentView = (RelativeLayout) inflater.inflate(
+				R.layout.play_ground_fragment, null);
+		initComponents();
+		mBottomBanner = (AdView) mContentView.findViewById(R.id.adView);
+		if (mSettingManager.isShowAds() && isFullGround == false) {
+			AdRequest adRequest = new AdRequest.Builder().build();
+			mBottomBanner.loadAd(adRequest);
+		} else {
+			mBottomBanner.setVisibility(View.GONE);
+		}
+	}
 
-    public void onResume() {
-        super.onResume();
-        mBottomBanner.resume();
-    }
+	public void onResume() {
+		super.onResume();
+		mBottomBanner.resume();
+	}
 
-    public void onDestroy() {
-        mBottomBanner.destroy();
-        super.onDestroy();
-    }
+	public void onDestroy() {
+		mBottomBanner.destroy();
+		super.onDestroy();
+	}
 
-    public void onPause() {
-        mBottomBanner.pause();
-        super.onPause();
-    }
+	public void onPause() {
+		mBottomBanner.pause();
+		super.onPause();
+	}
 
-    public void onSportTypeChanged() {
-        mPlayGround.setBackgroundResource(getBackgroundResourceId());
-        mPlayGround.onSportTypeChanged(mSettingManager.getSportType());
-    }
+	public void onSportTypeChanged() {
+		mPlayGround.setBackgroundResource(getBackgroundResourceId());
+		mPlayGround.onSportTypeChanged(mSettingManager.getSportType());
+	}
 
-    public void sharePlayGround() {
-        if (mPlayGround != null) {
-            mPlayGround.sharePlayGround();
-        }
-    }
+	public void sharePlayGround() {
+		if (mPlayGround != null) {
+			mPlayGround.sharePlayGround();
+		}
+	}
 
-    public void erasePen() {
-        if (mPlayGround != null) {
-            mPlayGround.erasePen();
-        }
-    }
+	public void erasePen() {
+		if (mPlayGround != null) {
+			mPlayGround.erasePen();
+		}
+	}
 
-    public void restoreData(JSONObject jObject) {
-        if (mPlayGround != null) {
-            mPlayGround.restoreData(jObject);
-        }
-    }
+	public void restoreData(JSONObject jObject) {
+		if (mPlayGround != null) {
+			mPlayGround.restoreData(jObject);
+		}
+	}
 
-    public String saveData(String title) {
-        if (mPlayGround != null) {
-            mPlayGround.saveData(title);
-        }
-        return null;
-    }
+	public String saveData(String title) {
+		if (mPlayGround != null) {
+			mPlayGround.saveData(title);
+		}
+		return null;
+	}
 
-    public void replay() {
-        if (mPlayGround != null) {
-            mPlayGround.replay();
-        }
-    }
+	public void replay() {
+		if (mPlayGround != null) {
+			mPlayGround.replay();
+		}
+	}
 
-    public void cancelReplay() {
-        if (mPlayGround != null) {
-            mPlayGround.cancelReplay();
-        }
-    }
+	public void cancelReplay() {
+		if (mPlayGround != null) {
+			mPlayGround.cancelReplay();
+		}
+	}
 
-    public void undo() {
-        if (mPlayGround != null) {
-            mPlayGround.undo();
-        }
-    }
+	public void undo() {
+		if (mPlayGround != null) {
+			mPlayGround.undo();
+		}
+	}
 
-    public void resetAll() {
-        if (mPlayGround != null) {
-            mPlayGround.resetAll();
-        }
-    }
+	public void resetAll() {
+		if (mPlayGround != null) {
+			mPlayGround.resetAll();
+		}
+	}
 
-    public void setPlayGround(boolean isFullGround) {
-        mIsFullGround = isFullGround;
-    }
+	public void setPlayGround(boolean isFullGround) {
+		mIsFullGround = isFullGround;
+	}
 
-    public boolean isReplaying() {
-        if (mPlayGround != null) {
-            return mPlayGround.isReplaying();
-        }
-        return false;
-    }
+	public boolean isReplaying() {
+		if (mPlayGround != null) {
+			return mPlayGround.isReplaying();
+		}
+		return false;
+	}
 
-    public void setCallback(MainActivityCallback cb) {
-        if (mPlayGround != null) {
-            mPlayGround.setCallback(cb);
-        }
-    }
+	public void setCallback(MainActivityCallback cb) {
+		if (mPlayGround != null) {
+			mPlayGround.setCallback(cb);
+		}
+	}
 
-    private int getBackgroundResourceId() {
-        int sportType = mSettingManager.getSportType();
-        int rtn = 0;
-        switch (sportType) {
-            case SettingManager.SPORT_TYPE_BASEBALL:
-                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
-                        : R.drawable.basketball_half_play_ground;
-                break;
-            case SettingManager.SPORT_TYPE_BASKETBALL:
-                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
-                        : R.drawable.basketball_half_play_ground;
-                break;
-            case SettingManager.SPORT_TYPE_FOOTBALL:
-                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
-                        : R.drawable.basketball_half_play_ground;
-                break;
-            case SettingManager.SPORT_TYPE_SOCCER:
-                rtn = mIsFullGround ? R.drawable.soccer_full_ground : R.drawable.soccer_half_ground;
-                break;
-            case SettingManager.SPORT_TYPE_TENNIS:
-                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
-                        : R.drawable.basketball_half_play_ground;
-                break;
-            case SettingManager.SPORT_TYPE_VOLLEYBALL:
-                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
-                        : R.drawable.basketball_half_play_ground;
-                break;
-        }
-        return rtn;
-    }
+	private int getBackgroundResourceId() {
+		int sportType = mSettingManager.getSportType();
+		int rtn = 0;
+		switch (sportType) {
+		case SettingManager.SPORT_TYPE_BASEBALL:
+			rtn = mIsFullGround ? R.drawable.baseball_ground
+					: R.drawable.baseball_ground;
+			break;
+		case SettingManager.SPORT_TYPE_BASKETBALL:
+			rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
+					: R.drawable.basketball_half_play_ground;
+			break;
+		case SettingManager.SPORT_TYPE_FOOTBALL:
+			rtn = mIsFullGround ? R.drawable.football_full_ground
+					: R.drawable.football_half_ground;
+			break;
+		case SettingManager.SPORT_TYPE_SOCCER:
+			rtn = mIsFullGround ? R.drawable.soccer_full_ground
+					: R.drawable.soccer_half_ground;
+			break;
+		case SettingManager.SPORT_TYPE_TENNIS:
+			rtn = mIsFullGround ? R.drawable.tennis_full_ground
+					: R.drawable.tennis_half_ground;
+			break;
+		case SettingManager.SPORT_TYPE_VOLLEYBALL:
+			rtn = mIsFullGround ? R.drawable.volleyball_full_ground
+					: R.drawable.volleyball_half_ground;
+			break;
+		}
+		return rtn;
+	}
 
-    private void initComponents() {
-        if (mContentView != null) {
-            mPlayGround = (PlayGround)mContentView.findViewById(R.id.playground);
-            mPlayGround.setBackgroundResource(getBackgroundResourceId());
-            mRedTeamCb = (CheckBox)mContentView.findViewById(R.id.playground_red_cb);
-            mBlueTeamCb = (CheckBox)mContentView.findViewById(R.id.playground_blue_cb);
-            mBallCb = (CheckBox)mContentView.findViewById(R.id.playground_ball_cb);
-            mPenCb = (CheckBox)mContentView.findViewById(R.id.playground_pen_cb);
-            mRedTeamCb.setChecked(true);
-            mBlueTeamCb.setChecked(true);
-            mBallCb.setChecked(true);
-            mPenCb.setChecked(true);
-            mRedTeamCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+	private void initComponents() {
+		if (mContentView != null) {
+			mPlayGround = (PlayGround) mContentView
+					.findViewById(R.id.playground);
+			mPlayGround.setBackgroundResource(getBackgroundResourceId());
+			mRedTeamCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_red_cb);
+			mBlueTeamCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_blue_cb);
+			mBallCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_ball_cb);
+			mPenCb = (CheckBox) mContentView
+					.findViewById(R.id.playground_pen_cb);
+			mRedTeamCb.setChecked(true);
+			mBlueTeamCb.setChecked(true);
+			mBallCb.setChecked(true);
+			mPenCb.setChecked(true);
+			mRedTeamCb
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setRedTeamVisiblity(isChecked);
-                }
-            });
-            mBlueTeamCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							mPlayGround.setRedTeamVisiblity(isChecked);
+						}
+					});
+			mBlueTeamCb
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setBlueTeamVisiblity(isChecked);
-                }
-            });
-            mBallCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							mPlayGround.setBlueTeamVisiblity(isChecked);
+						}
+					});
+			mBallCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setBallVisiblity(isChecked);
-                }
-            });
-            mPenCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					mPlayGround.setBallVisiblity(isChecked);
+				}
+			});
+			mPenCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mPlayGround.setPenVisiblity(isChecked);
-                }
-            });
-        }
-    }
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					mPlayGround.setPenVisiblity(isChecked);
+				}
+			});
+		}
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return mContentView;
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return mContentView;
+	}
 }
