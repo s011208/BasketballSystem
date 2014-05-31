@@ -97,14 +97,18 @@ public class SaveDataListFragment extends Fragment {
         private void refreshContent() {
             mTitle.clear();
             mFilePath.clear();
+            final String filePrefix = CoachBoardApplication.getSettingManager(mContext).getPrefix();
             final File[] fileList = mContext.getFilesDir().listFiles();
             for (File f : fileList) {
-                String data = PlayGround.readFromFile(f.getAbsolutePath());
-                try {
-                    JSONObject j = new JSONObject(data);
-                    mTitle.add(j.getString(PlayGround.JSON_KEY_TITLE));
-                    mFilePath.add(f.getAbsolutePath());
-                } catch (JSONException e) {
+                String fileName = f.getName();
+                if (fileName.startsWith(filePrefix)) {
+                    String data = PlayGround.readFromFile(f.getAbsolutePath());
+                    try {
+                        JSONObject j = new JSONObject(data);
+                        mTitle.add(j.getString(PlayGround.JSON_KEY_TITLE));
+                        mFilePath.add(f.getAbsolutePath());
+                    } catch (JSONException e) {
+                    }
                 }
             }
         }

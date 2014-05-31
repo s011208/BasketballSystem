@@ -182,7 +182,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                     final String[] title = itemTitle.toArray(new String[0]);
                     if (title.length > 0) {
                         new AlertDialog.Builder(new ContextThemeWrapper(this,
-                                android.R.style.Theme_DeviceDefault_Dialog))
+                                android.R.style.Theme_Holo_Light_Dialog))
                                 .setTitle(R.string.action_bar_load_dialog_title)
                                 .setItems(title, new OnClickListener() {
 
@@ -200,15 +200,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                     break;
                 case R.id.action_save:
                     final EditText titleEditText = new EditText(this);
+                    titleEditText.setHint(R.string.save_board_edittext_hint);
                     new AlertDialog.Builder(new ContextThemeWrapper(this,
-                            android.R.style.Theme_DeviceDefault_Dialog))
+                            android.R.style.Theme_Holo_Light_Dialog))
                             .setTitle(R.string.action_bar_save_dialog_title)
                             .setIcon(android.R.drawable.ic_dialog_info).setView(titleEditText)
                             .setPositiveButton(R.string.ok, new OnClickListener() {
 
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    playGroundFragment.saveData(titleEditText.getText().toString());
+                                    String textContent = titleEditText.getText().toString().trim();
+                                    if (textContent.length() == 0)
+                                        textContent = titleEditText.getHint().toString();
+                                    playGroundFragment.saveData(textContent);
                                     Toast.makeText(getApplicationContext(),
                                             R.string.data_saved_success_hint, Toast.LENGTH_SHORT)
                                             .show();

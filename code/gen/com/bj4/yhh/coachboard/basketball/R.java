@@ -102,15 +102,17 @@ public final class R {
         public static final int data_saved_success_hint=0x7f060012;
         public static final int none_saved_data_hint=0x7f060011;
         public static final int ok=0x7f06000a;
+        public static final int save_board_edittext_hint=0x7f060015;
         public static final int saved_data_list_item_confirm_dialog=0x7f060010;
-        public static final int settings_baseball=0x7f060016;
+        public static final int settings_baseball=0x7f060017;
         /**  settings 
+ settings 
          */
-        public static final int settings_basketball=0x7f060015;
-        public static final int settings_football=0x7f060017;
-        public static final int settings_soccer=0x7f060018;
-        public static final int settings_tennies=0x7f060019;
-        public static final int settings_volleyball=0x7f06001a;
+        public static final int settings_basketball=0x7f060016;
+        public static final int settings_football=0x7f060018;
+        public static final int settings_soccer=0x7f060019;
+        public static final int settings_tennies=0x7f06001a;
+        public static final int settings_volleyball=0x7f06001b;
         public static final int share_text=0x7f060013;
         public static final int share_title=0x7f060014;
         public static final int tab_full_ground=0x7f06000c;

@@ -456,7 +456,7 @@ public class PlayGround extends FrameLayout {
         } catch (JSONException e) {
         }
         String result = jSaveData.toString();
-        String fileName = java.util.UUID.randomUUID().toString();
+        String fileName = CoachBoardApplication.getSettingManager(mContext).generateFileName();
         File file = new File(mContext.getFilesDir() + File.separator + fileName);
         try {
             file.createNewFile();

@@ -20,8 +20,9 @@
     <string name="saved_data_list_item_confirm_dialog">Do you want to delete file </string>
     <string name="none_saved_data_hint">There are no data saved!</string>
     <string name="data_saved_success_hint">Data saved!</string>
-    <string name="share_text">Sharing my board from Super Coach board in Android!</string>
-    <string name="share_title">Super Coach board!</string>
+    <string name="share_text">Sharing my board from Super Coach Tactic Board in Android!</string>
+    <string name="share_title">Super Coach Tactic Board!</string>
+    <string name="save_board_edittext_hint">My Tactic</string>
     <!-- settings -->
     <string name="settings_basketball">Basketball</string>
     <string name="settings_baseball">Baseball</string>

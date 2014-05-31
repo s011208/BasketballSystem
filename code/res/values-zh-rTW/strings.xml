@@ -22,5 +22,12 @@
     <string name="data_saved_success_hint">戰術儲存成功</string>
     <string name="share_text">分享我的戰術板經由 Android 超級戰術板!</string>
     <string name="share_title">超級戰術板!</string>
-
+    <string name="save_board_edittext_hint">我的戰術</string>
+    <!-- settings -->
+    <string name="settings_basketball">籃球</string>
+    <string name="settings_baseball">棒球</string>
+    <string name="settings_football">橄欖球</string>
+    <string name="settings_soccer">足球</string>
+    <string name="settings_tennies">網球</string>
+    <string name="settings_volleyball">排球</string>
 </resources>
