@@ -54,16 +54,19 @@ public class PlayGroundFragment extends Fragment {
 
 	public void onResume() {
 		super.onResume();
-		mBottomBanner.resume();
+		if (mBottomBanner != null)
+			mBottomBanner.resume();
 	}
 
 	public void onDestroy() {
-		mBottomBanner.destroy();
+		if (mBottomBanner != null)
+			mBottomBanner.destroy();
 		super.onDestroy();
 	}
 
 	public void onPause() {
-		mBottomBanner.pause();
+		if (mBottomBanner != null)
+			mBottomBanner.pause();
 		super.onPause();
 	}
 
