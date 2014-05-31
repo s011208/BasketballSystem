@@ -73,6 +73,10 @@ public class PlayGroundFragment extends Fragment {
 	public void onSportTypeChanged() {
 		mPlayGround.setBackgroundResource(getBackgroundResourceId());
 		mPlayGround.onSportTypeChanged(mSettingManager.getSportType());
+		mRedTeamCb.setChecked(true);
+		mBlueTeamCb.setChecked(true);
+		mBallCb.setChecked(true);
+		mPenCb.setChecked(true);
 	}
 
 	public void sharePlayGround() {
