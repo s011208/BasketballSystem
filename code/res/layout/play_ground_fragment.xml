@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/playground_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -92,12 +91,13 @@
         android:orientation="vertical" >
 
         <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/playground_bottom_banner_id" />
+            ads:adUnitId="ca-app-pub-6361389364792908/5777855823" />
     </LinearLayout>
 
     <com.bj4.yhh.coachboard.PlayGround
@@ -105,7 +105,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/playground_bottom_banner"
-        android:layout_alignParentBottom="true"
         android:layout_below="@+id/playground_sep" >
     </com.bj4.yhh.coachboard.PlayGround>
 

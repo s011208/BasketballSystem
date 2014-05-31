@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="playground_bottom_banner_id">ca-app-pub-6361389364792908/5777855823</string>
+
     <string name="app_name">Super Coach Tactic Board</string>
     <string name="action_bar_erase">Erase</string>
     <string name="action_bar_load">Load</string>

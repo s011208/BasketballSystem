@@ -293,16 +293,16 @@ containing a value of this type.
         public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int action_bar_erase=0x7f06001d;
-        public static final int action_bar_load=0x7f06001e;
-        public static final int action_bar_load_dialog_title=0x7f060025;
-        public static final int action_bar_replay=0x7f060021;
-        public static final int action_bar_reset=0x7f060020;
-        public static final int action_bar_save=0x7f06001f;
-        public static final int action_bar_save_dialog_title=0x7f060024;
-        public static final int action_bar_share=0x7f060022;
-        public static final int action_bar_undo=0x7f060023;
-        public static final int app_name=0x7f06001c;
+        public static final int action_bar_erase=0x7f06001c;
+        public static final int action_bar_load=0x7f06001d;
+        public static final int action_bar_load_dialog_title=0x7f060024;
+        public static final int action_bar_replay=0x7f060020;
+        public static final int action_bar_reset=0x7f06001f;
+        public static final int action_bar_save=0x7f06001e;
+        public static final int action_bar_save_dialog_title=0x7f060023;
+        public static final int action_bar_share=0x7f060021;
+        public static final int action_bar_undo=0x7f060022;
+        public static final int app_name=0x7f06001b;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
          */
@@ -326,7 +326,7 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f060014;
-        public static final int cancel=0x7f060027;
+        public static final int cancel=0x7f060026;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -398,30 +398,29 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f060013;
-        public static final int data_saved_success_hint=0x7f06002e;
+        public static final int data_saved_success_hint=0x7f06002d;
         /**  Location client code resources (prefix with location_client) 
          */
         public static final int location_client_powered_by_google=0x7f06001a;
-        public static final int none_saved_data_hint=0x7f06002d;
-        public static final int ok=0x7f060026;
-        public static final int playground_bottom_banner_id=0x7f06001b;
-        public static final int save_board_edittext_hint=0x7f060031;
-        public static final int saved_data_list_item_confirm_dialog=0x7f06002c;
-        public static final int settings_baseball=0x7f060033;
+        public static final int none_saved_data_hint=0x7f06002c;
+        public static final int ok=0x7f060025;
+        public static final int save_board_edittext_hint=0x7f060030;
+        public static final int saved_data_list_item_confirm_dialog=0x7f06002b;
+        public static final int settings_baseball=0x7f060032;
         /**  settings 
  settings 
          */
-        public static final int settings_basketball=0x7f060032;
-        public static final int settings_football=0x7f060034;
-        public static final int settings_soccer=0x7f060035;
-        public static final int settings_tennies=0x7f060036;
-        public static final int settings_volleyball=0x7f060037;
-        public static final int share_text=0x7f06002f;
-        public static final int share_title=0x7f060030;
-        public static final int tab_full_ground=0x7f060028;
-        public static final int tab_half_ground=0x7f060029;
-        public static final int tab_save_data=0x7f06002a;
-        public static final int tab_settings=0x7f06002b;
+        public static final int settings_basketball=0x7f060031;
+        public static final int settings_football=0x7f060033;
+        public static final int settings_soccer=0x7f060034;
+        public static final int settings_tennies=0x7f060035;
+        public static final int settings_volleyball=0x7f060036;
+        public static final int share_text=0x7f06002e;
+        public static final int share_title=0x7f06002f;
+        public static final int tab_full_ground=0x7f060027;
+        public static final int tab_half_ground=0x7f060028;
+        public static final int tab_save_data=0x7f060029;
+        public static final int tab_settings=0x7f06002a;
     }
     public static final class style {
         /** 
