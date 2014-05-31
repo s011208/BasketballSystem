@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.ads.*;
 
 public class MainActivity extends Activity implements ActionBar.TabListener, MainActivityCallback,
@@ -198,16 +199,21 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                 case R.id.action_load:
                     ArrayList<String> itemTitle = new ArrayList<String>();
                     final ArrayList<JSONObject> itemJList = new ArrayList<JSONObject>();
+                    final String filePrefix = CoachBoardApplication.getSettingManager(this)
+                            .getPrefix();
                     final File[] fileList = getFilesDir().listFiles();
                     for (File f : fileList) {
-                        String data = PlayGround.readFromFile(f.getAbsolutePath());
-                        try {
-                            JSONObject j = new JSONObject(data);
-                            itemTitle.add(j.getString(PlayGround.JSON_KEY_TITLE));
-                            itemJList.add(j);
-                        } catch (JSONException e) {
-                            if (DEBUG)
-                                Log.w(TAG, "failed", e);
+                        String fileName = f.getName();
+                        if (fileName.startsWith(filePrefix)) {
+                            String data = PlayGround.readFromFile(f.getAbsolutePath());
+                            try {
+                                JSONObject j = new JSONObject(data);
+                                itemTitle.add(j.getString(PlayGround.JSON_KEY_TITLE));
+                                itemJList.add(j);
+                            } catch (JSONException e) {
+                                if (DEBUG)
+                                    Log.w(TAG, "failed", e);
+                            }
                         }
                     }
                     final String[] title = itemTitle.toArray(new String[0]);
