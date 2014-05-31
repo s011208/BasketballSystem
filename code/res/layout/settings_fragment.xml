@@ -7,7 +7,6 @@
     tools:context="com.bj4.yhh.coachboard.MainActivity" >
 
     <LinearLayout
-        android:id="@+id/settings_sport_ground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -69,6 +68,32 @@
                 android:layout_weight="1"
                 android:text="@string/settings_tennies" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/settings_item_background"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="2"
+            android:gravity="center_vertical|left"
+            android:text="@string/settings_enable_backpress" />
+
+        <CheckBox
+            android:id="@+id/enable_backpress_cb"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right" />
     </LinearLayout>
 
 </LinearLayout>

@@ -40,17 +40,23 @@ public class SettingManager {
 
     private boolean mShowAds = true;
 
+    private boolean mEnableBackpress = false;
+
     private static final String SHAREDPREFERENCES_KEY = "settings";
 
     private static final String KEY_SPORT_TYPE = "sport_type";
 
-    public static final String BROADCAST_NOTIFY_SPORT_TYPE_CHANGED = "com.bj4.yhh.coachboard.sporttype_changed";
+    private static final String KEY_SHOW_ADS = "show_ads";
+
+    private static final String KEY_ENABLE_BACKPRESS = "enable_backpress";
 
     public SettingManager(Context context) {
         mContext = context.getApplicationContext();
         mPref = mContext.getSharedPreferences(SHAREDPREFERENCES_KEY, Context.MODE_PRIVATE);
         // init value
         mCurrentSportType = mPref.getInt(KEY_SPORT_TYPE, SPORT_TYPE_BASKETBALL);
+        mShowAds = mPref.getBoolean(KEY_SHOW_ADS, true);
+        mEnableBackpress = mPref.getBoolean(KEY_ENABLE_BACKPRESS, false);
     }
 
     public void setSportType(int type) {
@@ -96,7 +102,21 @@ public class SettingManager {
         return prefix;
     }
 
+    public boolean isEnableBackpress() {
+        return mEnableBackpress;
+    }
+
+    public void setisEnableBackpress(boolean enable) {
+        mEnableBackpress = enable;
+        mPref.edit().putBoolean(KEY_ENABLE_BACKPRESS, enable).apply();
+    }
+
     public boolean isShowAds() {
         return mShowAds;
+    }
+
+    public void setShowAds(boolean show) {
+        mShowAds = show;
+        mPref.edit().putBoolean(KEY_SHOW_ADS, show).apply();
     }
 }

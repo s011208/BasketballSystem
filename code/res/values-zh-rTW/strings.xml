@@ -30,4 +30,5 @@
     <string name="settings_soccer">足球</string>
     <string name="settings_tennies">網球</string>
     <string name="settings_volleyball">排球</string>
+    <string name="settings_enable_backpress">啟用返回鍵</string>
 </resources>

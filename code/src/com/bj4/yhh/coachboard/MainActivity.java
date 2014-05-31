@@ -54,8 +54,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     private SettingsFragment mSettingsFragment;
 
-    private boolean mDisableBackPress = true;
-
     private static final int TAB_FULLGROUND = 0;
 
     private static final int TAB_HALFGROUND = 1;
@@ -136,7 +134,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         if (mSettingManager.isShowAds()) {
             AdRequest adRequest = new AdRequest.Builder().build();
             mInterstitial.loadAd(adRequest);
-            if (mDisableBackPress) {
+            if (mSettingManager.isEnableBackpress() == false) {
                 if (mInterstitial.isLoaded()) {
                     mInterstitial.show();
                 }
@@ -309,7 +307,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     }
 
     public void onBackPressed() {
-        if (mDisableBackPress)
+        if (mSettingManager.isEnableBackpress() == false)
             return;
         else {
             if (mSettingManager.isShowAds()) {

@@ -253,6 +253,7 @@ containing a value of this type.
         public static final int action_undo=0x7f050020;
         public static final int adView=0x7f05000f;
         public static final int banner=0x7f050005;
+        public static final int enable_backpress_cb=0x7f05001a;
         public static final int fragment_main=0x7f050006;
         public static final int hybrid=0x7f050004;
         public static final int none=0x7f050000;
@@ -270,13 +271,12 @@ containing a value of this type.
         public static final int saved_data_list_item_title=0x7f050012;
         public static final int saved_data_list_view=0x7f050011;
         public static final int settings_fragment=0x7f050013;
-        public static final int settings_sport_ground=0x7f050014;
-        public static final int sport_type_baseball=0x7f050016;
-        public static final int sport_type_basketball=0x7f050015;
-        public static final int sport_type_football=0x7f050018;
-        public static final int sport_type_soccer=0x7f050019;
-        public static final int sport_type_tennis=0x7f05001a;
-        public static final int sport_type_volleyball=0x7f050017;
+        public static final int sport_type_baseball=0x7f050015;
+        public static final int sport_type_basketball=0x7f050014;
+        public static final int sport_type_football=0x7f050017;
+        public static final int sport_type_soccer=0x7f050018;
+        public static final int sport_type_tennis=0x7f050019;
+        public static final int sport_type_volleyball=0x7f050016;
         public static final int terrain=0x7f050003;
     }
     public static final class integer {
@@ -411,6 +411,7 @@ containing a value of this type.
  settings 
          */
         public static final int settings_basketball=0x7f060031;
+        public static final int settings_enable_backpress=0x7f060037;
         public static final int settings_football=0x7f060033;
         public static final int settings_soccer=0x7f060034;
         public static final int settings_tennies=0x7f060035;

@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -40,6 +41,8 @@ public class SaveDataListFragment extends Fragment {
     private SaveDataListAdapter mListAdapter;
 
     private LayoutInflater mInflater;
+
+    private Handler mHandler = new Handler();
 
     public SaveDataListFragment() {
     }
@@ -80,7 +83,15 @@ public class SaveDataListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mListAdapter.notifyDataSetChanged();
+        mHandler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                mListAdapter.notifyDataSetChanged();
+            }
+        });
+
         return mContentView;
     }
 

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -47,6 +48,8 @@ public class SettingsFragment extends Fragment {
 
     private SettingManager mSettingManager;
 
+    private CheckBox mEnableBackpress;
+
     public SettingsFragment() {
     }
 
@@ -60,6 +63,15 @@ public class SettingsFragment extends Fragment {
 
     private void initComponents() {
         initRadioButtons();
+        mEnableBackpress = (CheckBox)mContentView.findViewById(R.id.enable_backpress_cb);
+        mEnableBackpress.setChecked(mSettingManager.isEnableBackpress());
+        mEnableBackpress.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton btn, boolean checked) {
+                mSettingManager.setisEnableBackpress(checked);
+            }
+        });
     }
 
     private void initRadioButtons() {

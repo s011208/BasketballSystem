@@ -30,5 +30,7 @@
     <string name="settings_soccer">Soccer</string>
     <string name="settings_tennies">Tennis</string>
     <string name="settings_volleyball">Volleyball</string>
+    
+    <string name="settings_enable_backpress">Enable back key</string>
 
 </resources>
