@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.ads.*;
 
 public class MainActivity extends Activity implements ActionBar.TabListener, MainActivityCallback,
         SettingsFragment.SettingsChangedCallback {
@@ -61,6 +62,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     private int mCurrentFragment = TAB_FULLGROUND;
 
     public static final int SPORT_TYPE_BASKETBALL = 0;
+
+    private boolean mShowAd = true;
+
+    private static final String INTERSTITIAL_ID = "ca-app-pub-6361389364792908/5697130627";
+
+    private InterstitialAd mInterstitial;
 
     private Fragment getCurrentFragment() {
         switch (mCurrentFragment) {
@@ -113,6 +120,26 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         setContentView(R.layout.activity_main);
         mSettingManager = CoachBoardApplication.getSettingManager(this);
         initActionBar();
+        if (mShowAd) {
+            mInterstitial = new InterstitialAd(this);
+            mInterstitial.setAdUnitId(INTERSTITIAL_ID);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mInterstitial.loadAd(adRequest);
+        }
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (mShowAd) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mInterstitial.loadAd(adRequest);
+            if (mDisableBackPress) {
+                if (mInterstitial.isLoaded()) {
+                    Log.e("QQQQ", "show");
+                    mInterstitial.show();
+                }
+            }
+        }
     }
 
     public void onPause() {
@@ -276,6 +303,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     public void onBackPressed() {
         if (mDisableBackPress)
             return;
+        else {
+            if (mShowAd) {
+                if (mInterstitial.isLoaded()) {
+                    Log.e("QQQQ", "show");
+                    mInterstitial.show();
+                }
+            }
+        }
         super.onBackPressed();
     }
 
