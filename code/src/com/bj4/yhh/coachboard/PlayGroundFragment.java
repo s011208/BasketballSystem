@@ -23,19 +23,27 @@ public class PlayGroundFragment extends Fragment {
 
     private RelativeLayout mContentView;
 
-    private int mPlayGroundResource;
+    private boolean mIsFullGround;
 
     private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
+
+    private SettingManager mSettingManager;
 
     public PlayGroundFragment() {
     }
 
-    public PlayGroundFragment(Context context, int playGroundResource) {
+    public PlayGroundFragment(Context context, boolean isFullGround) {
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        setPlayGround(playGroundResource);
+        mSettingManager = CoachBoardApplication.getSettingManager(context);
+        setPlayGround(isFullGround);
         mContentView = (RelativeLayout)inflater.inflate(R.layout.play_ground_fragment, null);
         initComponents();
+    }
+
+    public void onSportTypeChanged() {
+        mPlayGround.setBackgroundResource(getBackgroundResourceId());
+        mPlayGround.onSportTypeChanged(mSettingManager.getSportType());
     }
 
     public void sharePlayGround() {
@@ -87,8 +95,8 @@ public class PlayGroundFragment extends Fragment {
         }
     }
 
-    public void setPlayGround(int res) {
-        mPlayGroundResource = res;
+    public void setPlayGround(boolean isFullGround) {
+        mIsFullGround = isFullGround;
     }
 
     public boolean isReplaying() {
@@ -104,10 +112,41 @@ public class PlayGroundFragment extends Fragment {
         }
     }
 
+    private int getBackgroundResourceId() {
+        int sportType = mSettingManager.getSportType();
+        int rtn = 0;
+        switch (sportType) {
+            case SettingManager.SPORT_TYPE_BASEBALL:
+                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
+                        : R.drawable.basketball_half_play_ground;
+                break;
+            case SettingManager.SPORT_TYPE_BASKETBALL:
+                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
+                        : R.drawable.basketball_half_play_ground;
+                break;
+            case SettingManager.SPORT_TYPE_FOOTBALL:
+                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
+                        : R.drawable.basketball_half_play_ground;
+                break;
+            case SettingManager.SPORT_TYPE_SOCCER:
+                rtn = mIsFullGround ? R.drawable.soccer_full_ground : R.drawable.soccer_half_ground;
+                break;
+            case SettingManager.SPORT_TYPE_TENNIS:
+                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
+                        : R.drawable.basketball_half_play_ground;
+                break;
+            case SettingManager.SPORT_TYPE_VOLLEYBALL:
+                rtn = mIsFullGround ? R.drawable.basketball_full_play_ground
+                        : R.drawable.basketball_half_play_ground;
+                break;
+        }
+        return rtn;
+    }
+
     private void initComponents() {
         if (mContentView != null) {
             mPlayGround = (PlayGround)mContentView.findViewById(R.id.playground);
-            mPlayGround.setBackgroundResource(mPlayGroundResource);
+            mPlayGround.setBackgroundResource(getBackgroundResourceId());
             mRedTeamCb = (CheckBox)mContentView.findViewById(R.id.playground_red_cb);
             mBlueTeamCb = (CheckBox)mContentView.findViewById(R.id.playground_blue_cb);
             mBallCb = (CheckBox)mContentView.findViewById(R.id.playground_ball_cb);

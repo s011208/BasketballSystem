@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name="com.bj4.yhh.coachboard.CoachBoardApplication"
         android:allowBackup="true"
         android:backupAgent="com.bj4.yhh.coachboard.Bj4BackupAgent"
         android:icon="@drawable/ic_launcher"

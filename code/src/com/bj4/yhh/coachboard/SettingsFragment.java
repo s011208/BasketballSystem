@@ -7,7 +7,9 @@ import com.bj4.yhh.coachboard.basketball.R;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,19 +23,17 @@ import android.widget.RelativeLayout;
 
 public class SettingsFragment extends Fragment {
 
-    public static final int SPORT_TYPE_BASKETBALL = 0;
+    private Handler mHandler = new Handler();
 
-    public static final int SPORT_TYPE_SOCCER = 1;
+    public interface SettingsChangedCallback {
+        public void onSportTypeChanged();
+    }
 
-    public static final int SPORT_TYPE_FOOTBALL = 2;
+    public void setCallback(SettingsChangedCallback cb) {
+        mCallback = cb;
+    }
 
-    public static final int SPORT_TYPE_TENNIS = 3;
-
-    public static final int SPORT_TYPE_BASEBALL = 4;
-
-    public static final int SPORT_TYPE_VOLLEYBALL = 5;
-
-    public static int sCurrentSportType = SPORT_TYPE_BASKETBALL;
+    private SettingsChangedCallback mCallback;
 
     private LinearLayout mContentView;
 
@@ -45,6 +45,8 @@ public class SettingsFragment extends Fragment {
 
     private ArrayList<RadioButton> mSportTypeButtons = new ArrayList<RadioButton>();
 
+    private SettingManager mSettingManager;
+
     public SettingsFragment() {
     }
 
@@ -52,6 +54,7 @@ public class SettingsFragment extends Fragment {
         mContext = context;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContentView = (LinearLayout)mInflater.inflate(R.layout.settings_fragment, null);
+        mSettingManager = CoachBoardApplication.getSettingManager(mContext);
         initComponents();
     }
 
@@ -66,6 +69,27 @@ public class SettingsFragment extends Fragment {
         mRFootBall = (RadioButton)mContentView.findViewById(R.id.sport_type_football);
         mRTennis = (RadioButton)mContentView.findViewById(R.id.sport_type_tennis);
         mRVolleyBall = (RadioButton)mContentView.findViewById(R.id.sport_type_volleyball);
+        int sportType = mSettingManager.getSportType();
+        switch (sportType) {
+            case SettingManager.SPORT_TYPE_BASEBALL:
+                mRBaseBall.setChecked(true);
+                break;
+            case SettingManager.SPORT_TYPE_BASKETBALL:
+                mRBasketball.setChecked(true);
+                break;
+            case SettingManager.SPORT_TYPE_FOOTBALL:
+                mRFootBall.setChecked(true);
+                break;
+            case SettingManager.SPORT_TYPE_SOCCER:
+                mRSoccer.setChecked(true);
+                break;
+            case SettingManager.SPORT_TYPE_TENNIS:
+                mRTennis.setChecked(true);
+                break;
+            case SettingManager.SPORT_TYPE_VOLLEYBALL:
+                mRVolleyBall.setChecked(true);
+                break;
+        }
         mSportTypeButtons.add(mRBasketball);
         mSportTypeButtons.add(mRBaseBall);
         mSportTypeButtons.add(mRSoccer);
@@ -77,33 +101,47 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    boolean hasCheckChanged = false;
                     final int checkedId = buttonView.getId();
                     for (RadioButton btn : mSportTypeButtons) {
                         if (checkedId != btn.getId()) {
+                            if (btn.isChecked())
+                                hasCheckChanged = true;
                             btn.setChecked(false);
                         }
                     }
                     switch (checkedId) {
                         case R.id.sport_type_basketball:
-                            sCurrentSportType = SPORT_TYPE_BASKETBALL;
+                            mSettingManager.setSportType(SettingManager.SPORT_TYPE_BASKETBALL);
                             break;
                         case R.id.sport_type_baseball:
-                            sCurrentSportType = SPORT_TYPE_BASEBALL;
+                            mSettingManager.setSportType(SettingManager.SPORT_TYPE_BASEBALL);
                             break;
                         case R.id.sport_type_soccer:
-                            sCurrentSportType = SPORT_TYPE_SOCCER;
+                            mSettingManager.setSportType(SettingManager.SPORT_TYPE_SOCCER);
                             break;
                         case R.id.sport_type_football:
-                            sCurrentSportType = SPORT_TYPE_FOOTBALL;
+                            mSettingManager.setSportType(SettingManager.SPORT_TYPE_FOOTBALL);
                             break;
                         case R.id.sport_type_tennis:
-                            sCurrentSportType = SPORT_TYPE_TENNIS;
+                            mSettingManager.setSportType(SettingManager.SPORT_TYPE_TENNIS);
                             break;
                         case R.id.sport_type_volleyball:
-                            sCurrentSportType = SPORT_TYPE_VOLLEYBALL;
+                            mSettingManager.setSportType(SettingManager.SPORT_TYPE_VOLLEYBALL);
                             break;
                         default:
-                            sCurrentSportType = SPORT_TYPE_BASKETBALL;
+                            mSettingManager.setSportType(SettingManager.SPORT_TYPE_BASKETBALL);
+                    }
+                    if (hasCheckChanged) {
+                        mHandler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                if (mCallback != null) {
+                                    mCallback.onSportTypeChanged();
+                                }
+                            }
+                        });
                     }
                 }
             }

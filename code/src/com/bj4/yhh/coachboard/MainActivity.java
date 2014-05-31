@@ -37,7 +37,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements ActionBar.TabListener, MainActivityCallback {
+public class MainActivity extends Activity implements ActionBar.TabListener, MainActivityCallback,
+        SettingsFragment.SettingsChangedCallback {
+
+    private SettingManager mSettingManager;
 
     private PlayGroundFragment mFullGround, mHalfGround;
 
@@ -76,6 +79,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     private synchronized SettingsFragment getSettingsFragment() {
         if (mSettingsFragment == null) {
             mSettingsFragment = new SettingsFragment(this);
+            mSettingsFragment.setCallback(this);
         }
         return mSettingsFragment;
     }
@@ -89,7 +93,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     private synchronized PlayGroundFragment getFullGround() {
         if (mFullGround == null) {
-            mFullGround = new PlayGroundFragment(this, R.drawable.basketball_full_play_ground);
+            mFullGround = new PlayGroundFragment(this, true);
             mFullGround.setCallback(this);
         }
         return mFullGround;
@@ -97,7 +101,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     private synchronized PlayGroundFragment getHalfGround() {
         if (mHalfGround == null) {
-            mHalfGround = new PlayGroundFragment(this, R.drawable.basketball_half_play_ground);
+            mHalfGround = new PlayGroundFragment(this, false);
             mHalfGround.setCallback(this);
         }
         return mHalfGround;
@@ -107,6 +111,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSettingManager = CoachBoardApplication.getSettingManager(this);
         initActionBar();
     }
 
@@ -132,6 +137,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                 TAB_SAVE_DATALIST);
         actionBar.addTab(actionBar.newTab().setText(R.string.tab_settings).setTabListener(this),
                 TAB_SETTINGS);
+        setTabChanged();
     }
 
     @Override
@@ -234,6 +240,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         int position = tab.getPosition();
+        int sportType = mSettingManager.getSportType();
+        if (sportType == SettingManager.SPORT_TYPE_BASEBALL && position > TAB_FULLGROUND)
+            ++position;
         switch (position) {
             case TAB_FULLGROUND:
                 fragmentTransaction.replace(R.id.fragment_main, getFullGround());
@@ -268,5 +277,30 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     @Override
     public void replayDone() {
+    }
+
+    @Override
+    public void onSportTypeChanged() {
+        getFullGround().onSportTypeChanged();
+        getHalfGround().onSportTypeChanged();
+        setTabChanged();
+    }
+
+    private void setTabChanged() {
+        int sportType = mSettingManager.getSportType();
+        ActionBar actionBar = getActionBar();
+        int tabCount = actionBar.getTabCount();
+        switch (sportType) {
+            case SettingManager.SPORT_TYPE_BASEBALL:
+                if (tabCount == 4) {
+                    actionBar.removeTabAt(TAB_HALFGROUND);
+                }
+                break;
+            default:
+                if (tabCount == 3) {
+                    actionBar.addTab(actionBar.newTab().setText(R.string.tab_half_ground)
+                            .setTabListener(this), TAB_HALFGROUND);
+                }
+        }
     }
 }

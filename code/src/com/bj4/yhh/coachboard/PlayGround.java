@@ -69,7 +69,9 @@ public class PlayGround extends FrameLayout {
 
     private int mCurrentDrawingMode = DRAWING_MODE_NORMAL;
 
-    private int mPlayerPerTeam = 5;
+    private static final int MAX_PLAYER_PER_ROW = 6;
+
+    private int mPlayerPerTeam;
 
     private Context mContext;
 
@@ -88,6 +90,8 @@ public class PlayGround extends FrameLayout {
     private int mHandHoloRadius = 0;
 
     private int mHandHoloX, mHandHoloY;
+
+    private int mPlayerNumberPaintTextSize;
 
     private ValueAnimator mReplayAnimator;
 
@@ -123,7 +127,7 @@ public class PlayGround extends FrameLayout {
         super(context, attrs, defStyle);
         mContext = context;
         initPaints();
-        resetAll();
+        onSportTypeChanged(CoachBoardApplication.getSettingManager(mContext).getSportType());
         mHandHoloAnimator = ValueAnimator.ofInt(30, 80);
         mHandHoloAnimator.setRepeatMode(ValueAnimator.INFINITE);
         mHandHoloAnimator.setRepeatCount(ValueAnimator.INFINITE);
@@ -165,6 +169,8 @@ public class PlayGround extends FrameLayout {
     }
 
     private void initPaints() {
+        mPlayerNumberPaintTextSize = (int)getResources()
+                .getDimension(R.dimen.team_number_text_size);
         mRunPaint = new Paint();
         mRunPaint.setColor(Color.WHITE);
         mRunPaint.setStyle(Paint.Style.FILL);
@@ -172,14 +178,48 @@ public class PlayGround extends FrameLayout {
         mTeamNumberPaint = new Paint();
         mTeamNumberPaint.setColor(Color.WHITE);
         mTeamNumberPaint.setStyle(Paint.Style.FILL);
-        mTeamNumberPaint.setTextSize((int)getResources()
-                .getDimension(R.dimen.team_number_text_size));
+        mTeamNumberPaint.setTextSize(mPlayerNumberPaintTextSize);
         mTeamNumberPaint.setTextAlign(Paint.Align.CENTER);
         mHandHoloPaint = new Paint();
         mHandHoloPaint.setColor(Color.WHITE);
         mHandHoloPaint.setStyle(Paint.Style.STROKE);
         mHandHoloPaint.setStrokeWidth(5);
         mHandHoloPaint.setAntiAlias(true);
+    }
+
+    public void onSportTypeChanged(int sportType) {
+        switch (sportType) {
+            case SettingManager.SPORT_TYPE_BASEBALL:
+                setPlayerPerTeam(9);
+                resetAll();
+                mBall.setImageResource(R.drawable.basketball_ball);
+                break;
+            case SettingManager.SPORT_TYPE_BASKETBALL:
+                setPlayerPerTeam(5);
+                resetAll();
+                mBall.setImageResource(R.drawable.basketball_ball);
+                break;
+            case SettingManager.SPORT_TYPE_FOOTBALL:
+                setPlayerPerTeam(15);
+                resetAll();
+                mBall.setImageResource(R.drawable.basketball_ball);
+                break;
+            case SettingManager.SPORT_TYPE_SOCCER:
+                setPlayerPerTeam(11);
+                resetAll();
+                mBall.setImageResource(R.drawable.basketball_ball);
+                break;
+            case SettingManager.SPORT_TYPE_TENNIS:
+                setPlayerPerTeam(2);
+                resetAll();
+                mBall.setImageResource(R.drawable.basketball_ball);
+                break;
+            case SettingManager.SPORT_TYPE_VOLLEYBALL:
+                setPlayerPerTeam(6);
+                resetAll();
+                mBall.setImageResource(R.drawable.basketball_ball);
+                break;
+        }
     }
 
     public void setBlueTeamVisiblity(boolean isChecked) {
@@ -219,6 +259,15 @@ public class PlayGround extends FrameLayout {
         mTeamRed = new ArrayList<MovableItem>();
         int playerWandH = (int)mContext.getResources().getDimension(R.dimen.movable_item_w_and_h);
         int playerPadding = (int)mContext.getResources().getDimension(R.dimen.movable_item_padding);
+        if (mPlayerPerTeam <= 9) {
+            mTeamNumberPaint.setTextSize(mPlayerNumberPaintTextSize);
+        }
+        if (mPlayerPerTeam > 9) {
+            playerWandH *= 0.8f;
+            playerPadding *= 0.8f;
+            mTeamNumberPaint.setTextSize(mPlayerNumberPaintTextSize * 0.7f);
+        }
+        int row = 1;
         // team blue
         for (int i = 0; i < mPlayerPerTeam; i++) {
             MovableItem player = new MovableItem(mContext, MoveStep.TAG_TEAM_BLUE, i);
@@ -228,11 +277,12 @@ public class PlayGround extends FrameLayout {
                 player.setNumber(String.valueOf(i + 1));
             player.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
             FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
-            fl.topMargin = playerWandH;
-            fl.leftMargin = i * playerWandH;
+            fl.topMargin = (row + i / MAX_PLAYER_PER_ROW) * playerWandH;
+            fl.leftMargin = (i % MAX_PLAYER_PER_ROW) * playerWandH;
             addView(player, fl);
             mTeamBlue.add(player);
         }
+        row += mPlayerPerTeam / MAX_PLAYER_PER_ROW + 1;
         // team red
         for (int i = 0; i < mPlayerPerTeam; i++) {
             MovableItem player = new MovableItem(mContext, MoveStep.TAG_TEAM_RED, i);
@@ -242,18 +292,21 @@ public class PlayGround extends FrameLayout {
                 player.setNumber(String.valueOf(i + 1));
             player.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
             FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
-            fl.leftMargin = i * playerWandH;
-            fl.topMargin = playerWandH * 3;
+            fl.topMargin = (row + i / MAX_PLAYER_PER_ROW) * playerWandH;
+            fl.leftMargin = (i % MAX_PLAYER_PER_ROW) * playerWandH;
             addView(player, fl);
             mTeamRed.add(player);
         }
         // ball
-        mBall = new MovableItem(mContext, MoveStep.TAG_BALL, 0);
-        mBall.setImageResource(R.drawable.basketball_ball);
-        mBall.setScaleType(ScaleType.CENTER_INSIDE);
+        row += mPlayerPerTeam / MAX_PLAYER_PER_ROW + 1;
+        if (mBall == null) {
+            mBall = new MovableItem(mContext, MoveStep.TAG_BALL, 0);
+            mBall.setImageResource(R.drawable.basketball_ball);
+            mBall.setScaleType(ScaleType.CENTER_INSIDE);
+        }
         mBall.setPadding(playerPadding, playerPadding, playerPadding, playerPadding);
         FrameLayout.LayoutParams fl = new FrameLayout.LayoutParams(playerWandH, playerWandH);
-        fl.topMargin = playerWandH * 5;
+        fl.topMargin = playerWandH * row;
         addView(mBall, fl);
     }
 
@@ -540,6 +593,9 @@ public class PlayGround extends FrameLayout {
         if (mAllRunningPoints != null) {
             mAllRunningPoints.clear();
             mRunningPoints.clear();
+            mAnimatorRunningPoints.clear();
+            if (mReplayAnimator != null && mReplayAnimator.isRunning())
+                mReplayAnimator.cancel();
             invalidate();
         }
     }
