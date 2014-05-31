@@ -41,6 +41,10 @@ import com.google.android.gms.ads.*;
 public class MainActivity extends Activity implements ActionBar.TabListener, MainActivityCallback,
         SettingsFragment.SettingsChangedCallback {
 
+    private static final String TAG = "MainActivity";
+
+    private static final boolean DEBUG = true;
+
     private SettingManager mSettingManager;
 
     private PlayGroundFragment mFullGround, mHalfGround;
@@ -135,7 +139,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
             mInterstitial.loadAd(adRequest);
             if (mDisableBackPress) {
                 if (mInterstitial.isLoaded()) {
-                    Log.e("QQQQ", "show");
                     mInterstitial.show();
                 }
             }
@@ -203,7 +206,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
                             itemTitle.add(j.getString(PlayGround.JSON_KEY_TITLE));
                             itemJList.add(j);
                         } catch (JSONException e) {
-                            Log.w("QQQQ", "failed", e);
+                            if (DEBUG)
+                                Log.w(TAG, "failed", e);
                         }
                     }
                     final String[] title = itemTitle.toArray(new String[0]);
@@ -306,7 +310,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         else {
             if (mShowAd) {
                 if (mInterstitial.isLoaded()) {
-                    Log.e("QQQQ", "show");
                     mInterstitial.show();
                 }
             }

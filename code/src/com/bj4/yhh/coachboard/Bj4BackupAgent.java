@@ -19,6 +19,10 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 public class Bj4BackupAgent extends BackupAgentHelper {
+    private static final String TAG = "Bj4BackupAgent";
+
+    private static final boolean DEBUG = false;
+
     private static final String KEY_BACKUP_FILES = "backup_files";
 
     private static final String ENTITY_ALL_FILES = "entity_all_files";
@@ -41,7 +45,8 @@ public class Bj4BackupAgent extends BackupAgentHelper {
                     j.put(PlayGround.JSON_KEY_FILE_NAME, file.getName());
                     entity.put(j);
                 } catch (JSONException e) {
-                    Log.e("QQQQ", "failed", e);
+                    if (DEBUG)
+                        Log.w(TAG, "failed", e);
                 }
             }
             byte[] bytes;
@@ -50,7 +55,8 @@ public class Bj4BackupAgent extends BackupAgentHelper {
                 data.writeEntityHeader(ENTITY_ALL_FILES, bytes.length);
                 data.writeEntityData(bytes, bytes.length);
             } catch (Exception e) {
-                Log.e("QQQQ", "failed", e);
+                if (DEBUG)
+                    Log.w(TAG, "failed", e);
             }
         }
 
@@ -68,15 +74,14 @@ public class Bj4BackupAgent extends BackupAgentHelper {
                     data.close();
                     JSONArray entity = new JSONArray(stringBuilder.toString());
                     String root = getFilesDir().getAbsolutePath();
-                    for(int i=0; i<entity.length(); i++){
+                    for (int i = 0; i < entity.length(); i++) {
                         JSONObject j = entity.getJSONObject(i);
                         String fileName = j.getString(PlayGround.JSON_KEY_FILE_NAME);
                         PlayGround.writeToFile(root + File.separator + fileName, j.toString());
                     }
-                } catch (IOException e) {
-                    Log.e("QQQQ", "failed", e);
-                } catch (JSONException e) {
-                    Log.e("QQQQ", "failed", e);
+                } catch (Exception e) {
+                    if (DEBUG)
+                        Log.w(TAG, "failed", e);
                 }
             }
         }

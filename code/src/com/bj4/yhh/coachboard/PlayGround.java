@@ -45,6 +45,10 @@ import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 public class PlayGround extends FrameLayout {
+    private static final String TAG = "playground";
+
+    private static final boolean DEBUG = true;
+
     private static final String JSON_KEY_TEAM_BLUE = "json_team_blue";
 
     private static final String JSON_KEY_TEAM_RED = "json_team_red";
@@ -464,7 +468,8 @@ public class PlayGround extends FrameLayout {
             file.createNewFile();
             writeToFile(file.getAbsolutePath(), result);
         } catch (IOException e) {
-            Log.w("QQQQ", "failed", e);
+            if (DEBUG)
+                Log.w(TAG, "failed", e);
         }
 
         return result;
@@ -480,7 +485,8 @@ public class PlayGround extends FrameLayout {
             writer.close();
             return true;
         } catch (Exception e) {
-            Log.w("QQQQ", "writeToFile failed: " + filePath, e);
+            if (DEBUG)
+                Log.w(TAG, "writeToFile failed: " + filePath, e);
             return false;
         }
     }
@@ -500,7 +506,8 @@ public class PlayGround extends FrameLayout {
             ret = sb.toString();
             br.close();
         } catch (IOException e) {
-            Log.w("QQQQ", "readFromFile failed: " + filePath, e);
+            if (DEBUG)
+                Log.w(TAG, "readFromFile failed: " + filePath, e);
         }
         return ret;
     }
@@ -549,7 +556,8 @@ public class PlayGround extends FrameLayout {
             }
             invalidate();
         } catch (JSONException e) {
-            Log.e("QQQQ", "failed", e);
+            if (DEBUG)
+                Log.w(TAG, "failed", e);
         }
     }
 
@@ -687,9 +695,10 @@ public class PlayGround extends FrameLayout {
     public void undo() {
         if (mMoveStepsList.isEmpty())
             return;
-        // for(MoveStep step : mMoveStepsList){
-        // Log.e("QQQQ", step.toString());
-        // }
+        if (DEBUG)
+            for (MoveStep step : mMoveStepsList) {
+                Log.d(TAG, step.toString());
+            }
         MoveStep step = mMoveStepsList.remove(mMoveStepsList.size() - 1);
         final int tag = step.mTag;
         final int index = step.mIndex;
