@@ -68,8 +68,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     public static final int SPORT_TYPE_BASKETBALL = 0;
 
-    private boolean mShowAd = true;
-
     private static final String INTERSTITIAL_ID = "ca-app-pub-6361389364792908/5697130627";
 
     private InterstitialAd mInterstitial;
@@ -125,7 +123,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         setContentView(R.layout.activity_main);
         mSettingManager = CoachBoardApplication.getSettingManager(this);
         initActionBar();
-        if (mShowAd) {
+        if (mSettingManager.isShowAds()) {
             mInterstitial = new InterstitialAd(this);
             mInterstitial.setAdUnitId(INTERSTITIAL_ID);
             AdRequest adRequest = new AdRequest.Builder().build();
@@ -135,7 +133,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     public void onResume() {
         super.onResume();
-        if (mShowAd) {
+        if (mSettingManager.isShowAds()) {
             AdRequest adRequest = new AdRequest.Builder().build();
             mInterstitial.loadAd(adRequest);
             if (mDisableBackPress) {
@@ -314,7 +312,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         if (mDisableBackPress)
             return;
         else {
-            if (mShowAd) {
+            if (mSettingManager.isShowAds()) {
                 if (mInterstitial.isLoaded()) {
                     mInterstitial.show();
                 }

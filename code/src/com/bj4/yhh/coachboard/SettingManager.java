@@ -38,6 +38,8 @@ public class SettingManager {
 
     private SharedPreferences mPref;
 
+    private boolean mShowAds = true;
+
     private static final String SHAREDPREFERENCES_KEY = "settings";
 
     private static final String KEY_SPORT_TYPE = "sport_type";
@@ -92,5 +94,9 @@ public class SettingManager {
                 break;
         }
         return prefix;
+    }
+
+    public boolean isShowAds() {
+        return mShowAds;
     }
 }

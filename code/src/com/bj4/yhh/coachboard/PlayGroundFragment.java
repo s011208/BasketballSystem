@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import com.bj4.yhh.coachboard.PlayGround.MainActivityCallback;
 import com.bj4.yhh.coachboard.basketball.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -29,6 +31,8 @@ public class PlayGroundFragment extends Fragment {
 
     private SettingManager mSettingManager;
 
+    private AdView mBottomBanner;
+
     public PlayGroundFragment() {
     }
 
@@ -39,6 +43,28 @@ public class PlayGroundFragment extends Fragment {
         setPlayGround(isFullGround);
         mContentView = (RelativeLayout)inflater.inflate(R.layout.play_ground_fragment, null);
         initComponents();
+        mBottomBanner = (AdView)mContentView.findViewById(R.id.adView);
+        if (mSettingManager.isShowAds() && isFullGround == false) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mBottomBanner.loadAd(adRequest);
+        } else {
+            mBottomBanner.setVisibility(View.GONE);
+        }
+    }
+
+    public void onResume() {
+        super.onResume();
+        mBottomBanner.resume();
+    }
+
+    public void onDestroy() {
+        mBottomBanner.destroy();
+        super.onDestroy();
+    }
+
+    public void onPause() {
+        mBottomBanner.pause();
+        super.onPause();
     }
 
     public void onSportTypeChanged() {
