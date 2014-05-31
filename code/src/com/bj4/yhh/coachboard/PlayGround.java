@@ -317,6 +317,7 @@ public class PlayGround extends FrameLayout {
         }
         if (mAllRunningPoints.isEmpty()) {
             Toast.makeText(mContext, "you have to draw lines to run!", Toast.LENGTH_LONG).show();
+            return;
         }
         final ArrayList<ArrayList<Point>> allRunningPoints = new ArrayList<ArrayList<Point>>();
         mAllRunningPoints.clone();
