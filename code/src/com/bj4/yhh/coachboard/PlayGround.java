@@ -255,6 +255,7 @@ public class PlayGround extends FrameLayout {
     public void resetAll() {
         removeAllViews();
         erasePen();
+        mMoveStepsList.clear();
         mTeamBlue = new ArrayList<MovableItem>();
         mTeamRed = new ArrayList<MovableItem>();
         int playerWandH = (int)mContext.getResources().getDimension(R.dimen.movable_item_w_and_h);
