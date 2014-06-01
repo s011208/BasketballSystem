@@ -36,7 +36,7 @@
     <string name="settings_soccer">足球</string>
     <string name="settings_tennies">網球</string>
     <string name="settings_volleyball">排球</string>
-    <string name="settings_sport_type">選擇˙球類</string>
+    <string name="settings_sport_type">選擇球類</string>
     <string name="settings_function_backpress">返回鍵功能：</string>
     <string name="settings_function_backpress_system">系統</string>
     <string name="settings_function_backpress_disable">屏蔽</string>
