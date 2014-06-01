@@ -262,39 +262,40 @@ containing a value of this type.
         public static final int volleyball_half_ground=0x7f020039;
     }
     public static final class id {
-        public static final int action_erase=0x7f05001b;
-        public static final int action_load=0x7f05001e;
-        public static final int action_replay=0x7f05001f;
-        public static final int action_reset=0x7f05001c;
-        public static final int action_save=0x7f05001d;
-        public static final int action_share=0x7f050021;
-        public static final int action_undo=0x7f050020;
-        public static final int adView=0x7f05000f;
+        public static final int action_erase=0x7f05001c;
+        public static final int action_load=0x7f05001f;
+        public static final int action_replay=0x7f050020;
+        public static final int action_reset=0x7f05001d;
+        public static final int action_save=0x7f05001e;
+        public static final int action_share=0x7f050022;
+        public static final int action_undo=0x7f050021;
+        public static final int adView=0x7f050010;
         public static final int banner=0x7f050005;
-        public static final int enable_backpress_cb=0x7f05001a;
+        public static final int enable_backpress_cb=0x7f05001b;
         public static final int fragment_main=0x7f050006;
         public static final int hybrid=0x7f050004;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int playground=0x7f050010;
+        public static final int pen_color_view=0x7f05000d;
+        public static final int playground=0x7f050011;
         public static final int playground_ball_cb=0x7f05000b;
         public static final int playground_blue_cb=0x7f05000a;
-        public static final int playground_bottom_banner=0x7f05000e;
+        public static final int playground_bottom_banner=0x7f05000f;
         public static final int playground_main=0x7f050007;
         public static final int playground_options=0x7f050008;
         public static final int playground_pen_cb=0x7f05000c;
         public static final int playground_red_cb=0x7f050009;
-        public static final int playground_sep=0x7f05000d;
+        public static final int playground_sep=0x7f05000e;
         public static final int satellite=0x7f050002;
-        public static final int saved_data_list_item_title=0x7f050012;
-        public static final int saved_data_list_view=0x7f050011;
-        public static final int settings_fragment=0x7f050013;
-        public static final int sport_type_baseball=0x7f050015;
-        public static final int sport_type_basketball=0x7f050014;
-        public static final int sport_type_football=0x7f050017;
-        public static final int sport_type_soccer=0x7f050018;
-        public static final int sport_type_tennis=0x7f050019;
-        public static final int sport_type_volleyball=0x7f050016;
+        public static final int saved_data_list_item_title=0x7f050013;
+        public static final int saved_data_list_view=0x7f050012;
+        public static final int settings_fragment=0x7f050014;
+        public static final int sport_type_baseball=0x7f050016;
+        public static final int sport_type_basketball=0x7f050015;
+        public static final int sport_type_football=0x7f050018;
+        public static final int sport_type_soccer=0x7f050019;
+        public static final int sport_type_tennis=0x7f05001a;
+        public static final int sport_type_volleyball=0x7f050017;
         public static final int terrain=0x7f050003;
     }
     public static final class integer {
@@ -345,6 +346,12 @@ containing a value of this type.
          */
         public static final int auth_client_using_bad_version_title=0x7f060014;
         public static final int cancel=0x7f060026;
+        public static final int choose_pen_color_dialog_title=0x7f060031;
+        public static final int color_black=0x7f060036;
+        public static final int color_blue=0x7f060034;
+        public static final int color_red=0x7f060035;
+        public static final int color_white=0x7f060032;
+        public static final int color_yellow=0x7f060033;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -424,16 +431,16 @@ containing a value of this type.
         public static final int ok=0x7f060025;
         public static final int save_board_edittext_hint=0x7f060030;
         public static final int saved_data_list_item_confirm_dialog=0x7f06002b;
-        public static final int settings_baseball=0x7f060032;
+        public static final int settings_baseball=0x7f060038;
         /**  settings 
  settings 
          */
-        public static final int settings_basketball=0x7f060031;
-        public static final int settings_enable_backpress=0x7f060037;
-        public static final int settings_football=0x7f060033;
-        public static final int settings_soccer=0x7f060034;
-        public static final int settings_tennies=0x7f060035;
-        public static final int settings_volleyball=0x7f060036;
+        public static final int settings_basketball=0x7f060037;
+        public static final int settings_enable_backpress=0x7f06003d;
+        public static final int settings_football=0x7f060039;
+        public static final int settings_soccer=0x7f06003a;
+        public static final int settings_tennies=0x7f06003b;
+        public static final int settings_volleyball=0x7f06003c;
         public static final int share_text=0x7f06002e;
         public static final int share_title=0x7f06002f;
         public static final int tab_full_ground=0x7f060027;

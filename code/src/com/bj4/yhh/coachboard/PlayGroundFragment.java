@@ -7,12 +7,17 @@ import com.bj4.yhh.coachboard.basketball.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,13 +35,18 @@ public class PlayGroundFragment extends Fragment {
 
 	private SettingManager mSettingManager;
 
+	private View mChangePenColorView;
+
 	private AdView mBottomBanner;
+
+	private Context mContext;
 
 	public PlayGroundFragment() {
 	}
 
 	public PlayGroundFragment(Context context, boolean isFullGround) {
-		LayoutInflater inflater = (LayoutInflater) context
+		mContext = context;
+		LayoutInflater inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mSettingManager = CoachBoardApplication.getSettingManager(context);
 		setPlayGround(isFullGround);
@@ -226,6 +236,73 @@ public class PlayGroundFragment extends Fragment {
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					mPlayGround.setPenVisiblity(isChecked);
+				}
+			});
+			mChangePenColorView = mContentView
+					.findViewById(R.id.pen_color_view);
+			mChangePenColorView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					final int paintColor = mPlayGround.getPaintColor();
+					final int selectedItem;
+					if (Color.WHITE == paintColor) {
+						selectedItem = 0;
+					} else if (Color.RED == paintColor) {
+						selectedItem = 1;
+					} else if (Color.BLUE == paintColor) {
+						selectedItem = 2;
+					} else if (Color.YELLOW == paintColor) {
+						selectedItem = 3;
+					} else {
+						selectedItem = 4;
+					}
+					new AlertDialog.Builder(new ContextThemeWrapper(mContext,
+							android.R.style.Theme_Holo_Light_Dialog))
+							.setTitle(R.string.choose_pen_color_dialog_title)
+							.setSingleChoiceItems(
+									new String[] {
+											mContext.getString(R.string.color_white),
+											mContext.getString(R.string.color_red),
+											mContext.getString(R.string.color_blue),
+											mContext.getString(R.string.color_yellow),
+											mContext.getString(R.string.color_black) },
+									selectedItem,
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+											switch (which) {
+											case 0:
+												mChangePenColorView
+														.setBackgroundColor(Color.WHITE);
+												mPlayGround.setPaintColor(Color.WHITE);
+												break;
+											case 1:
+												mChangePenColorView
+														.setBackgroundColor(Color.RED);
+												mPlayGround.setPaintColor(Color.RED);
+												break;
+											case 2:
+												mChangePenColorView
+														.setBackgroundColor(Color.BLUE);
+												mPlayGround.setPaintColor(Color.BLUE);
+												break;
+											case 3:
+												mChangePenColorView
+														.setBackgroundColor(Color.YELLOW);
+												mPlayGround.setPaintColor(Color.YELLOW);
+												break;
+											case 4:
+												mChangePenColorView
+														.setBackgroundColor(Color.BLACK);
+												mPlayGround.setPaintColor(Color.BLACK);
+												break;
+											}
+											dialog.dismiss();
+										}
+									}).setNegativeButton(R.string.cancel, null)
+							.show();
 				}
 			});
 		}

@@ -176,7 +176,8 @@ public class PlayGround extends FrameLayout {
 		mPlayerNumberPaintTextSize = (int) getResources().getDimension(
 				R.dimen.team_number_text_size);
 		mRunPaint = new Paint();
-		mRunPaint.setColor(Color.WHITE);
+		mRunPaint.setColor(CoachBoardApplication.getSettingManager(mContext)
+				.getPaintColor());
 		mRunPaint.setStyle(Paint.Style.FILL);
 		mRunPaint.setStrokeWidth(5);
 		mTeamNumberPaint = new Paint();
@@ -189,6 +190,15 @@ public class PlayGround extends FrameLayout {
 		mHandHoloPaint.setStyle(Paint.Style.STROKE);
 		mHandHoloPaint.setStrokeWidth(5);
 		mHandHoloPaint.setAntiAlias(true);
+	}
+
+	public int getPaintColor() {
+		return mRunPaint.getColor();
+	}
+
+	public void setPaintColor(int color) {
+		mRunPaint.setColor(color);
+		postInvalidate();
 	}
 
 	public void onSportTypeChanged(int sportType) {

@@ -2,6 +2,7 @@ package com.bj4.yhh.coachboard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 
 public class SettingManager {
 
@@ -41,6 +42,8 @@ public class SettingManager {
 
 	private boolean mEnableBackpress = false;
 
+	private int mCurrentPaintColor = Color.WHITE;
+
 	private static final String SHAREDPREFERENCES_KEY = "settings";
 
 	private static final String KEY_SPORT_TYPE = "sport_type";
@@ -48,6 +51,8 @@ public class SettingManager {
 	private static final String KEY_SHOW_ADS = "show_ads";
 
 	private static final String KEY_ENABLE_BACKPRESS = "enable_backpress";
+
+	private static final String KEY_PAINT_COLOR = "paint_color";
 
 	public SettingManager(Context context) {
 		mContext = context.getApplicationContext();
@@ -57,6 +62,16 @@ public class SettingManager {
 		mCurrentSportType = mPref.getInt(KEY_SPORT_TYPE, SPORT_TYPE_BASKETBALL);
 		mShowAds = mPref.getBoolean(KEY_SHOW_ADS, true);
 		mEnableBackpress = mPref.getBoolean(KEY_ENABLE_BACKPRESS, false);
+		mCurrentPaintColor = mPref.getInt(KEY_PAINT_COLOR, Color.WHITE);
+	}
+
+	public void setPaintColor(int color) {
+		mCurrentPaintColor = color;
+		mPref.edit().putInt(KEY_PAINT_COLOR, color).apply();
+	}
+
+	public int getPaintColor() {
+		return mCurrentPaintColor;
 	}
 
 	public void setSportType(int type) {

@@ -73,6 +73,13 @@
                 android:padding="2dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/pen" />
+
+            <View
+                android:id="@+id/pen_color_view"
+                android:background="#ffffff"
+                android:layout_width="@dimen/action_bar_movable_item_w_and_h"
+                android:layout_height="@dimen/action_bar_movable_item_w_and_h"
+                android:layout_gravity="center" />
         </LinearLayout>
     </LinearLayout>
 

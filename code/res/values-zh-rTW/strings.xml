@@ -23,6 +23,12 @@
     <string name="share_text">分享我的戰術板經由 Android 超級戰術板!</string>
     <string name="share_title">超級戰術板!</string>
     <string name="save_board_edittext_hint">我的戰術</string>
+    <string name="choose_pen_color_dialog_title">選擇畫筆顏色</string>
+    <string name="color_white">白色</string>
+    <string name="color_yellow">黃色</string>
+    <string name="color_blue">藍色</string>
+    <string name="color_red">紅色</string>
+    <string name="color_black">黑色</string>
     <!-- settings -->
     <string name="settings_basketball">籃球</string>
     <string name="settings_baseball">棒球</string>
@@ -31,4 +37,5 @@
     <string name="settings_tennies">網球</string>
     <string name="settings_volleyball">排球</string>
     <string name="settings_enable_backpress">啟用返回鍵</string>
+
 </resources>

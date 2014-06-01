@@ -23,6 +23,12 @@
     <string name="share_text">Sharing my board from Super Coach Tactic Board in Android!</string>
     <string name="share_title">Super Coach Tactic Board!</string>
     <string name="save_board_edittext_hint">My Tactic</string>
+    <string name="choose_pen_color_dialog_title">Choose paint color</string>
+    <string name="color_white">White</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_red">Red</string>
+    <string name="color_black">Black</string>
     <!-- settings -->
     <string name="settings_basketball">Basketball</string>
     <string name="settings_baseball">Baseball</string>
