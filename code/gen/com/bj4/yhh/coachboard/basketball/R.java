@@ -199,6 +199,7 @@ containing a value of this type.
         public static final int movable_item_w_and_h=0x7f080002;
         public static final int saved_data_list_item_height=0x7f080005;
         public static final int saved_data_list_item_title_textsize=0x7f080006;
+        public static final int setting_title_text_size=0x7f080008;
         public static final int team_number_text_size=0x7f080007;
     }
     public static final class drawable {
@@ -262,16 +263,18 @@ containing a value of this type.
         public static final int volleyball_half_ground=0x7f020039;
     }
     public static final class id {
-        public static final int action_erase=0x7f05001c;
-        public static final int action_load=0x7f05001f;
-        public static final int action_replay=0x7f050020;
-        public static final int action_reset=0x7f05001d;
-        public static final int action_save=0x7f05001e;
-        public static final int action_share=0x7f050022;
-        public static final int action_undo=0x7f050021;
+        public static final int action_erase=0x7f05001e;
+        public static final int action_load=0x7f050021;
+        public static final int action_replay=0x7f050022;
+        public static final int action_reset=0x7f05001f;
+        public static final int action_save=0x7f050020;
+        public static final int action_share=0x7f050024;
+        public static final int action_undo=0x7f050023;
         public static final int adView=0x7f050010;
+        public static final int backkey_function_disable=0x7f05001c;
+        public static final int backkey_function_system=0x7f05001b;
+        public static final int backkey_function_undo=0x7f05001d;
         public static final int banner=0x7f050005;
-        public static final int enable_backpress_cb=0x7f05001b;
         public static final int fragment_main=0x7f050006;
         public static final int hybrid=0x7f050004;
         public static final int none=0x7f050000;
@@ -436,9 +439,13 @@ containing a value of this type.
  settings 
          */
         public static final int settings_basketball=0x7f060037;
-        public static final int settings_enable_backpress=0x7f06003d;
         public static final int settings_football=0x7f060039;
+        public static final int settings_function_backpress=0x7f06003e;
+        public static final int settings_function_backpress_disable=0x7f060040;
+        public static final int settings_function_backpress_system=0x7f06003f;
+        public static final int settings_function_backpress_undo=0x7f060041;
         public static final int settings_soccer=0x7f06003a;
+        public static final int settings_sport_type=0x7f06003d;
         public static final int settings_tennies=0x7f06003b;
         public static final int settings_volleyball=0x7f06003c;
         public static final int share_text=0x7f06002e;

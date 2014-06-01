@@ -40,9 +40,13 @@ public class SettingManager {
 
 	private boolean mShowAds = true;
 
-	private boolean mEnableBackpress = false;
-
 	private int mCurrentPaintColor = Color.WHITE;
+
+	public static final int BACK_KEY_FUNCTION_SYSTEM_DEFAULT = 0;
+	public static final int BACK_KEY_FUNCTION_DISABLE = 1;
+	public static final int BACK_KEY_FUNCTION_UNDO = 2;
+
+	private int mBackKeyFunction = BACK_KEY_FUNCTION_DISABLE;
 
 	private static final String SHAREDPREFERENCES_KEY = "settings";
 
@@ -61,7 +65,7 @@ public class SettingManager {
 		// init value
 		mCurrentSportType = mPref.getInt(KEY_SPORT_TYPE, SPORT_TYPE_BASKETBALL);
 		mShowAds = mPref.getBoolean(KEY_SHOW_ADS, true);
-		mEnableBackpress = mPref.getBoolean(KEY_ENABLE_BACKPRESS, false);
+		mBackKeyFunction = mPref.getInt(KEY_ENABLE_BACKPRESS, BACK_KEY_FUNCTION_DISABLE);
 		mCurrentPaintColor = mPref.getInt(KEY_PAINT_COLOR, Color.WHITE);
 	}
 
@@ -117,13 +121,13 @@ public class SettingManager {
 		return prefix;
 	}
 
-	public boolean isEnableBackpress() {
-		return mEnableBackpress;
+	public int getBackpressFunction() {
+		return mBackKeyFunction;
 	}
 
-	public void setisEnableBackpress(boolean enable) {
-		mEnableBackpress = enable;
-		mPref.edit().putBoolean(KEY_ENABLE_BACKPRESS, enable).apply();
+	public void setBackKeyFunction(int function) {
+		mBackKeyFunction = function;
+		mPref.edit().putInt(KEY_ENABLE_BACKPRESS, function).apply();
 	}
 
 	public boolean isShowAds() {

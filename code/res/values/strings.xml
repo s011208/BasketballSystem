@@ -36,7 +36,11 @@
     <string name="settings_soccer">Soccer</string>
     <string name="settings_tennies">Tennis</string>
     <string name="settings_volleyball">Volleyball</string>
+    <string name="settings_sport_type">Sports:</string>
     
-    <string name="settings_enable_backpress">Enable back key</string>
+    <string name="settings_function_backpress">Back key function:</string>
+    <string name="settings_function_backpress_system">System</string>
+    <string name="settings_function_backpress_disable">Disable</string>
+    <string name="settings_function_backpress_undo">@string/action_bar_undo</string>
 
 </resources>
