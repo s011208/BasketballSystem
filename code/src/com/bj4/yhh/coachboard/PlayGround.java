@@ -59,6 +59,8 @@ public class PlayGround extends FrameLayout {
 	private static final String JSON_KEY_X = "json_x";
 
 	private static final String JSON_KEY_Y = "json_y";
+	
+	private static final String JSON_KEY_PEN_COLOR = "json_key_color";
 
 	public static final String JSON_KEY_TITLE = "title";
 
@@ -108,11 +110,26 @@ public class PlayGround extends FrameLayout {
 		mCallback = cb;
 	}
 
-	private ArrayList<ArrayList<Point>> mAllRunningPoints = new ArrayList<ArrayList<Point>>();
+	class ColorPoint extends Point {
+		public int mPointColor;
 
-	private ArrayList<ArrayList<Point>> mAnimatorRunningPoints = new ArrayList<ArrayList<Point>>();
+		public ColorPoint() {
+			super();
+		}
 
-	private ArrayList<Point> mRunningPoints = new ArrayList<Point>();
+		public ColorPoint(ColorPoint cp) {
+			super();
+			this.x = cp.x;
+			this.y = cp.y;
+			this.mPointColor = cp.mPointColor;
+		}
+	}
+
+	private ArrayList<ArrayList<ColorPoint>> mAllRunningPoints = new ArrayList<ArrayList<ColorPoint>>();
+
+	private ArrayList<ArrayList<ColorPoint>> mAnimatorRunningPoints = new ArrayList<ArrayList<ColorPoint>>();
+
+	private ArrayList<ColorPoint> mRunningPoints = new ArrayList<ColorPoint>();
 
 	private ArrayList<MoveStep> mMoveStepsList = new ArrayList<MoveStep>();
 
@@ -342,23 +359,23 @@ public class PlayGround extends FrameLayout {
 					Toast.LENGTH_LONG).show();
 			return;
 		}
-		final ArrayList<ArrayList<Point>> allRunningPoints = new ArrayList<ArrayList<Point>>();
+		final ArrayList<ArrayList<ColorPoint>> allRunningPoints = new ArrayList<ArrayList<ColorPoint>>();
 		mAllRunningPoints.clone();
-		Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+		Iterator<ArrayList<ColorPoint>> iter = mAllRunningPoints.iterator();
 		int totalEvents = 0;
 		while (iter.hasNext()) {
-			ArrayList<Point> points = iter.next();
+			ArrayList<ColorPoint> points = iter.next();
 			totalEvents += points.size();
-			ArrayList<Point> cPoints = new ArrayList<Point>();
-			for (Point p : points) {
-				Point cp = new Point(p);
+			ArrayList<ColorPoint> cPoints = new ArrayList<ColorPoint>();
+			for (ColorPoint p : points) {
+				ColorPoint cp = new ColorPoint(p);
 				cPoints.add(cp);
 			}
 			allRunningPoints.add(cPoints);
 		}
-		ArrayList<Point> cPoints = new ArrayList<Point>();
-		for (Point p : mRunningPoints) {
-			Point cp = new Point(p);
+		ArrayList<ColorPoint> cPoints = new ArrayList<ColorPoint>();
+		for (ColorPoint p : mRunningPoints) {
+			ColorPoint cp = new ColorPoint(p);
 			cPoints.add(cp);
 			++totalEvents;
 		}
@@ -371,17 +388,18 @@ public class PlayGround extends FrameLayout {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animation) {
 				if (allRunningPoints.isEmpty() == false) {
-					ArrayList<Point> pointList = allRunningPoints.get(0);
+					ArrayList<ColorPoint> pointList = allRunningPoints.get(0);
 					if (pointList.isEmpty() == false) {
 						if (mAnimatorRunningPoints.isEmpty()) {
-							mAnimatorRunningPoints.add(new ArrayList<Point>());
+							mAnimatorRunningPoints
+									.add(new ArrayList<ColorPoint>());
 						}
 						mAnimatorRunningPoints.get(
 								mAnimatorRunningPoints.size() - 1).add(
 								pointList.remove(0));
 					} else {
 						allRunningPoints.remove(0);
-						mAnimatorRunningPoints.add(new ArrayList<Point>());
+						mAnimatorRunningPoints.add(new ArrayList<ColorPoint>());
 					}
 				} else {
 					mReplayAnimator.cancel();
@@ -451,15 +469,16 @@ public class PlayGround extends FrameLayout {
 
 			// pen
 			JSONArray jPen = new JSONArray();
-			Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+			Iterator<ArrayList<ColorPoint>> iter = mAllRunningPoints.iterator();
 			while (iter.hasNext()) {
-				ArrayList<Point> runningPoints = iter.next();
+				ArrayList<ColorPoint> runningPoints = iter.next();
 				JSONArray points = new JSONArray();
 				for (int i = 0; i < runningPoints.size() - 1; i++) {
 					JSONObject point = new JSONObject();
-					Point p = runningPoints.get(i);
+					ColorPoint p = runningPoints.get(i);
 					point.put(JSON_KEY_X, p.x);
 					point.put(JSON_KEY_Y, p.y);
+					point.put(JSON_KEY_PEN_COLOR, p.mPointColor);
 					points.put(point);
 				}
 				jPen.put(points);
@@ -467,9 +486,10 @@ public class PlayGround extends FrameLayout {
 			JSONArray points = new JSONArray();
 			for (int i = 0; i < mRunningPoints.size() - 1; i++) {
 				JSONObject point = new JSONObject();
-				Point p = mRunningPoints.get(i);
+				ColorPoint p = mRunningPoints.get(i);
 				point.put(JSON_KEY_X, p.x);
 				point.put(JSON_KEY_Y, p.y);
+				point.put(JSON_KEY_PEN_COLOR, p.mPointColor);
 				points.put(point);
 			}
 			jPen.put(points);
@@ -565,12 +585,13 @@ public class PlayGround extends FrameLayout {
 			JSONArray jPen = jObject.getJSONArray(JSON_KEY_PEN);
 			for (int i = 0; i < jPen.length(); i++) {
 				JSONArray jPoints = jPen.getJSONArray(i);
-				ArrayList<Point> pointList = new ArrayList<Point>();
+				ArrayList<ColorPoint> pointList = new ArrayList<ColorPoint>();
 				for (int j = 0; j < jPoints.length(); j++) {
 					JSONObject jPoint = jPoints.getJSONObject(j);
-					Point p = new Point();
+					ColorPoint p = new ColorPoint();
 					p.x = jPoint.getInt(JSON_KEY_X);
 					p.y = jPoint.getInt(JSON_KEY_Y);
+					p.mPointColor = jPoint.getInt(JSON_KEY_PEN_COLOR);
 					pointList.add(p);
 				}
 				mAllRunningPoints.add(pointList);
@@ -647,17 +668,19 @@ public class PlayGround extends FrameLayout {
 			return super.onTouchEvent(event);
 		int x = mHandHoloX = (int) event.getX();
 		int y = mHandHoloY = (int) event.getY();
-		Point p;
+		ColorPoint p;
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_MOVE:
-			p = new Point();
+			p = new ColorPoint();
 			p.set(x, y);
+			p.mPointColor = mRunPaint.getColor();
 			mRunningPoints.add(p);
 			invalidate();
 			break;
 		case MotionEvent.ACTION_UP:
-			p = new Point();
+			p = new ColorPoint();
 			p.set(x, y);
+			p.mPointColor = mRunPaint.getColor();
 			mRunningPoints.add(p);
 			mAllRunningPoints.add(mRunningPoints);
 			mHandHoloAnimator.cancel();
@@ -665,9 +688,10 @@ public class PlayGround extends FrameLayout {
 			invalidate();
 			break;
 		case MotionEvent.ACTION_DOWN:
-			mRunningPoints = new ArrayList<Point>();
-			p = new Point();
+			mRunningPoints = new ArrayList<ColorPoint>();
+			p = new ColorPoint();
 			p.set(x, y);
+			p.mPointColor = mRunPaint.getColor();
 			mRunningPoints.add(p);
 			mHandHoloAnimator.start();
 			mMoveStepsList.add(new MoveStep(MoveStep.TAG_DRAW_LINE,
@@ -679,21 +703,29 @@ public class PlayGround extends FrameLayout {
 
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
+		final int currentPaintColor = mRunPaint.getColor();
 		if (mCurrentDrawingMode == DRAWING_MODE_NORMAL) {
 			if (mShowPen) {
-				Iterator<ArrayList<Point>> iter = mAllRunningPoints.iterator();
+				Iterator<ArrayList<ColorPoint>> iter = mAllRunningPoints
+						.iterator();
 				while (iter.hasNext()) {
-					ArrayList<Point> runningPoints = iter.next();
-					for (int i = 0; i < runningPoints.size() - 1; i++) {
-						Point p = runningPoints.get(i);
-						Point p1 = runningPoints.get(i + 1);
-						canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+					ArrayList<ColorPoint> runningPoints = iter.next();
+					if (runningPoints.isEmpty() == false) {
+						mRunPaint.setColor(runningPoints.get(0).mPointColor);
+						for (int i = 0; i < runningPoints.size() - 1; i++) {
+							Point p = runningPoints.get(i);
+							Point p1 = runningPoints.get(i + 1);
+							canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+						}
 					}
 				}
-				for (int i = 0; i < mRunningPoints.size() - 1; i++) {
-					Point p = mRunningPoints.get(i);
-					Point p1 = mRunningPoints.get(i + 1);
-					canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+				if (mRunningPoints.isEmpty() == false) {
+					mRunPaint.setColor(mRunningPoints.get(0).mPointColor);
+					for (int i = 0; i < mRunningPoints.size() - 1; i++) {
+						Point p = mRunningPoints.get(i);
+						Point p1 = mRunningPoints.get(i + 1);
+						canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+					}
 				}
 				if (mDrawHandHolo) {
 					canvas.drawCircle(mHandHoloX, mHandHoloY, mHandHoloRadius,
@@ -701,16 +733,21 @@ public class PlayGround extends FrameLayout {
 				}
 			}
 		} else {
-			Iterator<ArrayList<Point>> iter = mAnimatorRunningPoints.iterator();
+			Iterator<ArrayList<ColorPoint>> iter = mAnimatorRunningPoints
+					.iterator();
 			while (iter.hasNext()) {
-				ArrayList<Point> runningPoints = iter.next();
-				for (int i = 0; i < runningPoints.size() - 1; i++) {
-					Point p = runningPoints.get(i);
-					Point p1 = runningPoints.get(i + 1);
-					canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+				ArrayList<ColorPoint> runningPoints = iter.next();
+				if (runningPoints.isEmpty() == false) {
+					mRunPaint.setColor(runningPoints.get(0).mPointColor);
+					for (int i = 0; i < runningPoints.size() - 1; i++) {
+						Point p = runningPoints.get(i);
+						Point p1 = runningPoints.get(i + 1);
+						canvas.drawLine(p.x, p.y, p1.x, p1.y, mRunPaint);
+					}
 				}
 			}
 		}
+		mRunPaint.setColor(currentPaintColor);
 	}
 
 	public boolean isReplaying() {

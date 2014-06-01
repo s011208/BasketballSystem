@@ -257,6 +257,7 @@ public class PlayGroundFragment extends Fragment {
 					} else {
 						selectedItem = 4;
 					}
+					Log.e("QQQQ", "paintColor: " + paintColor);
 					new AlertDialog.Builder(new ContextThemeWrapper(mContext,
 							android.R.style.Theme_Holo_Light_Dialog))
 							.setTitle(R.string.choose_pen_color_dialog_title)
