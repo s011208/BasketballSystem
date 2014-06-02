@@ -40,10 +40,15 @@
     <string name="settings_hockey">Hockey</string>
     <string name="settings_tchoukball">Tchoukball</string>
     <string name="settings_sport_type">Sports:</string>
-    
     <string name="settings_function_backpress">Back key function:</string>
     <string name="settings_function_backpress_system">System</string>
     <string name="settings_function_backpress_disable">Disable</string>
     <string name="settings_function_backpress_undo">@string/action_bar_undo</string>
+
+    <string name="setting_item_status">"Set items' behavior"</string>
+    <string-array name="item_status">
+        <item>Normal</item>
+        <item>Static</item>
+    </string-array>
 
 </resources>

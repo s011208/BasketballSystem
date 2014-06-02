@@ -23,9 +23,17 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class PlayGroundFragment extends Fragment {
+
+    public static final int ITEM_STATUS_NORMAL = 0;
+
+    public static final int ITEM_STATUS_STATIC = 1;
+
+    private int mRedTeamStatus, mBlueTeamStatus, mBallStatus;
+
     private PlayGround mPlayGround;
 
     private RelativeLayout mContentView;
@@ -33,6 +41,8 @@ public class PlayGroundFragment extends Fragment {
     private boolean mIsFullGround;
 
     private CheckBox mRedTeamCb, mBlueTeamCb, mBallCb, mPenCb;
+
+    private ImageView mRedTeamStatusView, mBlueTeamStatusView, mBallStatusView;
 
     private SettingManager mSettingManager;
 
@@ -50,6 +60,7 @@ public class PlayGroundFragment extends Fragment {
         LayoutInflater inflater = (LayoutInflater)mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mSettingManager = CoachBoardApplication.getSettingManager(context);
+        mRedTeamStatus = mBlueTeamStatus = mBallStatus = ITEM_STATUS_NORMAL;
         setPlayGround(isFullGround);
         mContentView = (RelativeLayout)inflater.inflate(R.layout.play_ground_fragment, null);
         initComponents();
@@ -81,6 +92,7 @@ public class PlayGroundFragment extends Fragment {
     }
 
     public void onSportTypeChanged() {
+        mRedTeamStatus = mBlueTeamStatus = mBallStatus = ITEM_STATUS_NORMAL;
         mPlayGround.setBackgroundResource(getBackgroundResourceId());
         mPlayGround.onSportTypeChanged(mSettingManager.getSportType());
         mRedTeamCb.setChecked(true);
@@ -212,6 +224,15 @@ public class PlayGroundFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     mPlayGround.setRedTeamVisiblity(isChecked);
+                    if (isChecked) {
+                        if (mRedTeamStatus == ITEM_STATUS_NORMAL) {
+                            mRedTeamStatusView.setImageResource(R.drawable.team_red);
+                        } else if (mRedTeamStatus == ITEM_STATUS_STATIC) {
+                            mRedTeamStatusView.setImageResource(R.drawable.team_red_static);
+                        }
+                    } else {
+                        mRedTeamStatusView.setImageResource(R.drawable.team_red_disable);
+                    }
                 }
             });
             mBlueTeamCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -219,6 +240,15 @@ public class PlayGroundFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     mPlayGround.setBlueTeamVisiblity(isChecked);
+                    if (isChecked) {
+                        if (mBlueTeamStatus == ITEM_STATUS_NORMAL) {
+                            mBlueTeamStatusView.setImageResource(R.drawable.team_blue);
+                        } else if (mBlueTeamStatus == ITEM_STATUS_STATIC) {
+                            mBlueTeamStatusView.setImageResource(R.drawable.team_blue_static);
+                        }
+                    } else {
+                        mBlueTeamStatusView.setImageResource(R.drawable.team_blue_disable);
+                    }
                 }
             });
             mBallCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -226,6 +256,15 @@ public class PlayGroundFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     mPlayGround.setBallVisiblity(isChecked);
+                    if (isChecked) {
+                        if (mBallStatus == ITEM_STATUS_NORMAL) {
+                            mBallStatusView.setImageResource(R.drawable.ball);
+                        } else if (mBallStatus == ITEM_STATUS_STATIC) {
+                            mBallStatusView.setImageResource(R.drawable.ball_static);
+                        }
+                    } else {
+                        mBallStatusView.setImageResource(R.drawable.ball_disable);
+                    }
                 }
             });
             mPenCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -233,6 +272,66 @@ public class PlayGroundFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     mPlayGround.setPenVisiblity(isChecked);
+                }
+            });
+            mRedTeamStatusView = (ImageView)mContentView.findViewById(R.id.playground_red_status);
+            mBallStatusView = (ImageView)mContentView.findViewById(R.id.playground_ball_status);
+            mBlueTeamStatusView = (ImageView)mContentView.findViewById(R.id.playground_blue_status);
+            mRedTeamStatusView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(new ContextThemeWrapper(mContext,
+                            android.R.style.Theme_Holo_Light_Dialog))
+                            .setTitle(R.string.setting_item_status)
+                            .setItems(R.array.item_status,
+                                    new android.content.DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            setRedTeamStatus(which);
+                                            dialog.dismiss();
+                                        }
+                                    }).setNegativeButton(R.string.cancel, null).setCancelable(true)
+                            .show();
+                }
+            });
+            mBlueTeamStatusView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(new ContextThemeWrapper(mContext,
+                            android.R.style.Theme_Holo_Light_Dialog))
+                            .setTitle(R.string.setting_item_status)
+                            .setItems(R.array.item_status,
+                                    new android.content.DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            setBlueTeamStatus(which);
+                                            dialog.dismiss();
+                                        }
+                                    }).setNegativeButton(R.string.cancel, null).setCancelable(true)
+                            .show();
+                }
+            });
+            mBallStatusView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(new ContextThemeWrapper(mContext,
+                            android.R.style.Theme_Holo_Light_Dialog))
+                            .setTitle(R.string.setting_item_status)
+                            .setItems(R.array.item_status,
+                                    new android.content.DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            setBallStatus(which);
+                                            dialog.dismiss();
+                                        }
+                                    }).setNegativeButton(R.string.cancel, null).setCancelable(true)
+                            .show();
                 }
             });
             mChangePenColorView = mContentView.findViewById(R.id.pen_color_view);
@@ -297,6 +396,36 @@ public class PlayGroundFragment extends Fragment {
                                     }).setNegativeButton(R.string.cancel, null).show();
                 }
             });
+        }
+    }
+
+    public void setBallStatus(int status) {
+        mBallStatus = status;
+        mPlayGround.setBallStatus(status);
+        if (mBallStatus == ITEM_STATUS_NORMAL) {
+            mBallStatusView.setImageResource(R.drawable.ball);
+        } else if (mBallStatus == ITEM_STATUS_STATIC) {
+            mBallStatusView.setImageResource(R.drawable.ball_static);
+        }
+    }
+
+    public void setRedTeamStatus(int status) {
+        mRedTeamStatus = status;
+        mPlayGround.setRedTeamStatus(status);
+        if (mRedTeamStatus == ITEM_STATUS_NORMAL) {
+            mRedTeamStatusView.setImageResource(R.drawable.team_red);
+        } else if (mRedTeamStatus == ITEM_STATUS_STATIC) {
+            mRedTeamStatusView.setImageResource(R.drawable.team_red_static);
+        }
+    }
+
+    public void setBlueTeamStatus(int status) {
+        mBlueTeamStatus = status;
+        mPlayGround.setBlueTeamStatus(status);
+        if (mBlueTeamStatus == ITEM_STATUS_NORMAL) {
+            mBlueTeamStatusView.setImageResource(R.drawable.team_blue);
+        } else if (mBlueTeamStatus == ITEM_STATUS_STATIC) {
+            mBlueTeamStatusView.setImageResource(R.drawable.team_blue_static);
         }
     }
 

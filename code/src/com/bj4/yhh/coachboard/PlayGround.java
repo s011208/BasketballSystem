@@ -77,6 +77,8 @@ public class PlayGround extends FrameLayout {
 
     private static final int MAX_PLAYER_PER_ROW = 6;
 
+    private int mRedTeamStatus, mBlueTeamStatus, mBallStatus;
+
     private int mPlayerPerTeam;
 
     private Context mContext;
@@ -301,6 +303,7 @@ public class PlayGround extends FrameLayout {
         removeAllViews();
         erasePen();
         mMoveStepsList.clear();
+        mRedTeamStatus = mBlueTeamStatus = mBallStatus = PlayGroundFragment.ITEM_STATUS_NORMAL;
         mTeamBlue = new ArrayList<MovableItem>();
         mTeamRed = new ArrayList<MovableItem>();
         int playerWandH = (int)mContext.getResources().getDimension(R.dimen.movable_item_w_and_h);
@@ -801,6 +804,18 @@ public class PlayGround extends FrameLayout {
 
     }
 
+    public void setBallStatus(int status) {
+        mBallStatus = status;
+    }
+
+    public void setRedTeamStatus(int status) {
+        mRedTeamStatus = status;
+    }
+
+    public void setBlueTeamStatus(int status) {
+        mBlueTeamStatus = status;
+    }
+
     class MoveStep {
         public static final int TAG_TEAM_RED = 0;
 
@@ -859,6 +874,14 @@ public class PlayGround extends FrameLayout {
 
         public boolean onTouchEvent(MotionEvent event) {
             if (mCurrentDrawingMode != DRAWING_MODE_NORMAL)
+                return super.onTouchEvent(event);
+            if (mTag == MoveStep.TAG_BALL && mBallStatus == PlayGroundFragment.ITEM_STATUS_STATIC)
+                return super.onTouchEvent(event);
+            else if (mTag == MoveStep.TAG_TEAM_BLUE
+                    && mBlueTeamStatus == PlayGroundFragment.ITEM_STATUS_STATIC)
+                return super.onTouchEvent(event);
+            else if (mTag == MoveStep.TAG_TEAM_RED
+                    && mRedTeamStatus == PlayGroundFragment.ITEM_STATUS_STATIC)
                 return super.onTouchEvent(event);
             int x = (int)event.getRawX();
             int y = (int)event.getRawY();
