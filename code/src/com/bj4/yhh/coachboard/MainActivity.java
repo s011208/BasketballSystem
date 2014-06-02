@@ -63,8 +63,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener,
 
 	private int mCurrentFragment = TAB_FULLGROUND;
 
-	public static final int SPORT_TYPE_BASKETBALL = 0;
-
 	private static final String INTERSTITIAL_ID = "ca-app-pub-6361389364792908/5697130627";
 
 	private InterstitialAd mInterstitial;

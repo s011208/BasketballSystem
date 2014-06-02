@@ -36,6 +36,9 @@
     <string name="settings_soccer">Soccer</string>
     <string name="settings_tennies">Tennis</string>
     <string name="settings_volleyball">Volleyball</string>
+    <string name="settings_handball">Handball</string>
+    <string name="settings_hockey">Hockey</string>
+    <string name="settings_tchoukball">Tchoukball</string>
     <string name="settings_sport_type">Sports:</string>
     
     <string name="settings_function_backpress">Back key function:</string>

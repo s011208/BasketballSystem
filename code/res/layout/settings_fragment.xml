@@ -75,6 +75,33 @@
                 android:layout_weight="1"
                 android:text="@string/settings_tennies" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/sport_type_hockey"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_hockey" />
+
+            <RadioButton
+                android:id="@+id/sport_type_handball"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_handball" />
+
+            <RadioButton
+                android:id="@+id/sport_type_tchoukball"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_tchoukball" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
