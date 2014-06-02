@@ -283,13 +283,13 @@ containing a value of this type.
         public static final int volleyball_half_ground=0x7f02004a;
     }
     public static final class id {
-        public static final int action_erase=0x7f060024;
-        public static final int action_load=0x7f060027;
-        public static final int action_replay=0x7f060028;
-        public static final int action_reset=0x7f060025;
-        public static final int action_save=0x7f060026;
-        public static final int action_share=0x7f06002a;
-        public static final int action_undo=0x7f060029;
+        public static final int action_erase=0x7f060025;
+        public static final int action_load=0x7f060028;
+        public static final int action_replay=0x7f060029;
+        public static final int action_reset=0x7f060026;
+        public static final int action_save=0x7f060027;
+        public static final int action_share=0x7f06002b;
+        public static final int action_undo=0x7f06002a;
         public static final int adView=0x7f060013;
         public static final int backkey_function_disable=0x7f060022;
         public static final int backkey_function_system=0x7f060021;
@@ -316,6 +316,7 @@ containing a value of this type.
         public static final int saved_data_list_item_title=0x7f060016;
         public static final int saved_data_list_view=0x7f060015;
         public static final int settings_fragment=0x7f060017;
+        public static final int simple_data_widget_listview=0x7f060024;
         public static final int sport_type_baseball=0x7f060019;
         public static final int sport_type_basketball=0x7f060018;
         public static final int sport_type_football=0x7f06001b;
@@ -336,6 +337,7 @@ containing a value of this type.
         public static final int saved_data_list_fragment=0x7f030002;
         public static final int saved_data_list_item=0x7f030003;
         public static final int settings_fragment=0x7f030004;
+        public static final int simple_data_widget=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
