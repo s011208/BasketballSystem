@@ -27,23 +27,23 @@ public class SettingManager {
 
     private static final int SPORT_TYPE_TOTAL_ITEMS = SPORT_TYPE_TCHOUK;
 
-    private static final String FILE_NAME_PREFIX_BASKETBALL = "BASKET_";
+    public static final String FILE_NAME_PREFIX_BASKETBALL = "BASKET_";
 
-    private static final String FILE_NAME_PREFIX_BASEBALL = "BASEB_";
+    public static final String FILE_NAME_PREFIX_BASEBALL = "BASEB_";
 
-    private static final String FILE_NAME_PREFIX_SOCCER = "SOCCER_";
+    public static final String FILE_NAME_PREFIX_SOCCER = "SOCCER_";
 
-    private static final String FILE_NAME_PREFIX_FOOTBALL = "FOOT_";
+    public static final String FILE_NAME_PREFIX_FOOTBALL = "FOOT_";
 
-    private static final String FILE_NAME_PREFIX_TENNIS = "TENNIS_";
+    public static final String FILE_NAME_PREFIX_TENNIS = "TENNIS_";
 
-    private static final String FILE_NAME_PREFIX_VOLLEYBALL = "VOLLEY_";
+    public static final String FILE_NAME_PREFIX_VOLLEYBALL = "VOLLEY_";
 
-    private static final String FILE_NAME_PREFIX_HANDBALL = "HANDBALL_";
+    public static final String FILE_NAME_PREFIX_HANDBALL = "HANDBALL_";
 
-    private static final String FILE_NAME_PREFIX_HOCKEY = "HOCKEY_";
+    public static final String FILE_NAME_PREFIX_HOCKEY = "HOCKEY_";
 
-    private static final String FILE_NAME_PREFIX_TCHOUK = "TCHOUK_";
+    public static final String FILE_NAME_PREFIX_TCHOUK = "TCHOUK_";
 
     private int mCurrentSportType = -1;
 

@@ -50,5 +50,7 @@
         <item>Normal</item>
         <item>Static</item>
     </string-array>
+    
+    <string name="simple_data_widget_title">Tactics list</string>
 
 </resources>

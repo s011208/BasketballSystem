@@ -39,19 +39,19 @@
             </intent-filter>
         </activity>
 
-<!--         <receiver android:name="com.bj4.yhh.coachboard.SimpleDataWidget" > -->
-<!--             <intent-filter> -->
-<!--                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" /> -->
-<!--             </intent-filter> -->
+        <receiver android:name="com.bj4.yhh.coachboard.SimpleDataWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-<!--             <meta-data -->
-<!--                 android:name="android.appwidget.provider" -->
-<!--                 android:resource="@xml/simple_data_widget" /> -->
-<!--         </receiver> -->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/simple_data_widget" />
+        </receiver>
 
-<!--         <service -->
-<!--             android:name="com.bj4.yhh.coachboard.SimpleDataWidgetService" -->
-<!--             android:permission="android.permission.BIND_REMOTEVIEWS" /> -->
+        <service
+            android:name="com.bj4.yhh.coachboard.SimpleDataWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

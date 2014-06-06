@@ -43,5 +43,13 @@
     <string name="settings_function_backpress">返回鍵功能：</string>
     <string name="settings_function_backpress_system">系統</string>
     <string name="settings_function_backpress_disable">屏蔽</string>
+    <string name="setting_item_status">設定球員狀態</string>
+
+    <string-array name="item_status">
+        <item>一般</item>
+        <item>固定</item>
+    </string-array>
+
+    <string name="simple_data_widget_title">戰術列表</string>
 
 </resources>

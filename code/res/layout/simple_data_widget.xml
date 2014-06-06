@@ -3,7 +3,17 @@
     android:id="@+id/settings_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#33000000"
     android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:background="#ff992266"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/simple_data_widget_title"
+        android:textColor="#fff"
+        android:textSize="30sp" />
 
     <ListView
         android:id="@+id/simple_data_widget_listview"
