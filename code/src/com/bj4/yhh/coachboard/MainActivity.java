@@ -142,6 +142,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         final String dataFileName = intent
                 .getStringExtra(SimpleDataWidgetService.SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM_FILENAME);
         if (data != null && "".equals(data) == false) {
+            getActionBar().setSelectedNavigationItem(0);
             if (getCurrentFragment() instanceof PlayGroundFragment) {
                 final PlayGroundFragment playGroundFragment = (PlayGroundFragment)getCurrentFragment();
 
@@ -334,9 +335,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        int position = tab.getPosition();
+    private void switchTab(int position, FragmentTransaction fragmentTransaction) {
         int sportType = mSettingManager.getSportType();
         if (sportType == SettingManager.SPORT_TYPE_BASEBALL && position > TAB_FULLGROUND)
             ++position;
@@ -356,6 +355,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
         }
         mCurrentFragment = position;
         invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        int position = tab.getPosition();
+        switchTab(position, fragmentTransaction);
     }
 
     @Override
