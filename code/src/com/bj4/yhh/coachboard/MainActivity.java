@@ -26,6 +26,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -56,6 +57,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
     private SaveDataListFragment mSaveDataListFragment;
 
     private SettingsFragment mSettingsFragment;
+
+    private Handler mHandler = new Handler();
 
     private static final int TAB_FULLGROUND = 0;
 
@@ -132,16 +135,50 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mai
 
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        String data = intent
-                .getStringExtra(SimpleDataWidgetService.SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM);
-        if (data != null) {
+        if (intent == null)
+            return; // wtf?
+        final String data = intent
+                .getStringExtra(SimpleDataWidgetService.SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM_DATA);
+        final String dataFileName = intent
+                .getStringExtra(SimpleDataWidgetService.SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM_FILENAME);
+        if (data != null && "".equals(data) == false) {
             if (getCurrentFragment() instanceof PlayGroundFragment) {
-                PlayGroundFragment playGroundFragment = (PlayGroundFragment)getCurrentFragment();
-                try {
-                    playGroundFragment.restoreData(new JSONObject(data));
-                } catch (JSONException e) {
-                    Log.w(TAG, "failed in onNewIntent", e);
+                final PlayGroundFragment playGroundFragment = (PlayGroundFragment)getCurrentFragment();
+
+                if (dataFileName != null && "".equals(dataFileName) == false) {
+                    if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_BASEBALL)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_BASEBALL);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_BASKETBALL)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_BASKETBALL);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_FOOTBALL)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_FOOTBALL);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_HANDBALL)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_HANDBALL);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_HOCKEY)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_HOCKEY);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_SOCCER)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_SOCCER);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_TCHOUK)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_TCHOUK);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_TENNIS)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_TENNIS);
+                    } else if (dataFileName.startsWith(SettingManager.FILE_NAME_PREFIX_VOLLEYBALL)) {
+                        mSettingManager.setSportType(SettingManager.SPORT_TYPE_VOLLEYBALL);
+                    }
+                    onSportTypeChanged();
                 }
+                mHandler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            playGroundFragment.restoreData(new JSONObject(data));
+                        } catch (JSONException e) {
+                            Log.w(TAG, "failed in onNewIntent", e);
+                        }
+                    }
+                }, 1000);
+
             }
         }
     }

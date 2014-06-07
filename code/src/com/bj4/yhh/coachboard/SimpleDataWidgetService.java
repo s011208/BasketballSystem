@@ -16,12 +16,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 public class SimpleDataWidgetService extends RemoteViewsService {
-    public static final String SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM = "com.bj4.yhh.coachboard.SimpleDataWidgetService.clickedItem";
+    public static final String SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM_DATA = "com.bj4.yhh.coachboard.SimpleDataWidgetService.clickedItemData";
+
+    public static final String SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM_FILENAME = "com.bj4.yhh.coachboard.SimpleDataWidgetService.clickedItemFileName";
 
     static class SimpleDataWidgetServiceRemoteView implements RemoteViewsService.RemoteViewsFactory {
         static class DataStru {
@@ -67,7 +70,6 @@ public class SimpleDataWidgetService extends RemoteViewsService {
             mContext = ctxt;
             mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
-            refreshFileContent();
         }
 
         private void refreshFileContent() {
@@ -135,12 +137,12 @@ public class SimpleDataWidgetService extends RemoteViewsService {
 
         @Override
         public void onCreate() {
-            // no-op
+            refreshFileContent();
         }
 
         @Override
         public void onDestroy() {
-            // no-op
+            mContext = null;
         }
 
         @Override
@@ -150,8 +152,6 @@ public class SimpleDataWidgetService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
-            if (position >= getCount())
-                return null;
             DataStru data = mData.get(position);
             RemoteViews row = new RemoteViews(mContext.getPackageName(),
                     R.layout.simple_data_widget_list_item);
@@ -159,13 +159,16 @@ public class SimpleDataWidgetService extends RemoteViewsService {
                 row.setTextViewText(R.id.simple_data_widget_listview_item_text, data.mTacticName);
                 Intent i = new Intent();
                 Bundle extras = new Bundle();
-                extras.putString(SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM, data.mTacticData);
+                extras.putString(SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM_DATA, data.mTacticData);
+                extras.putString(SIMPLE_DATA_WIDGET_SERVICE_CLICKED_ITEM_FILENAME, data.mFileName);
                 i.putExtras(extras);
                 row.setOnClickFillInIntent(R.id.simple_data_widget_listview_item_text, i);
                 row.setViewVisibility(R.id.simple_data_widget_listview_item_title, View.GONE);
+                row.setViewVisibility(R.id.simple_data_widget_listview_item_text, View.VISIBLE);
             } else {
+                row.setViewVisibility(R.id.simple_data_widget_listview_item_title, View.VISIBLE);
                 row.setViewVisibility(R.id.simple_data_widget_listview_item_text, View.GONE);
-                String titleName = "";
+                String titleName = data.mFileName;
                 if (data.mFileName.equals(SettingManager.FILE_NAME_PREFIX_BASEBALL)) {
                     titleName = mContext.getString(R.string.settings_baseball);
                 } else if (data.mFileName.equals(SettingManager.FILE_NAME_PREFIX_BASKETBALL)) {
@@ -213,7 +216,6 @@ public class SimpleDataWidgetService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             refreshFileContent();
-            // no-op
         }
     }
 

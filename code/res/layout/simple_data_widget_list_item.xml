@@ -2,18 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_fragment_item_row"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/simple_data_widget_listview_item_text"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="#fff"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/simple_data_widget_listview_item_title"

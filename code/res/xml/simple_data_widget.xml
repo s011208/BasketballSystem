@@ -3,7 +3,7 @@
     android:initialLayout="@layout/saved_data_list_item"
     android:minHeight="72dp"
     android:minWidth="294dp"
-    android:previewImage="@drawable/ic_launcher"
+    android:previewImage="@drawable/simple_data_widget_preview"
     android:resizeMode="horizontal|vertical" >
 
 </appwidget-provider>
